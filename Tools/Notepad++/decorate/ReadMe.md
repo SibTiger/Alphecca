@@ -17,5 +17,5 @@ This plugin allows the ability to support ZDoom's DECORATE syntax.
 <i>Blue Shadow</i> and the <i>ZDoom Community</i>
 
 ## Resources
-[GitHub Repository](https://github.com/Blue-Shadow/nc-shc "Project's Repository")
-[ZDoom Forum Topic](https://forum.zdoom.org/viewtopic.php?p=782836#p782836 "Syntax highlighting for Notepad++ and TextPad")
+ * [GitHub Repository](https://github.com/Blue-Shadow/nc-shc "Project's Repository")
+ * [ZDoom Forum Topic](https://forum.zdoom.org/viewtopic.php?p=782836#p782836 "Syntax highlighting for Notepad++ and TextPad")
