@@ -1,0 +1,5 @@
+Cooperative | Single Player
+==================
+EPISODE 1 MAP[01-10]
+    E1M1 = Atlas
+    E1M2 = Rasala
