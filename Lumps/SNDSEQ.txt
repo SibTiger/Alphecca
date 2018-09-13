@@ -1,0 +1,5 @@
+:PolyDoorSwing
+    door 1
+    PlayUntilDone DoorSwing_Standard
+    Attenuation normal
+end
