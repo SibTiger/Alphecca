@@ -1,0 +1,56 @@
+# ================================
+#    (GZ)Doombuilder Specifics
+# ================================
+
+# Auto-Generated WAD backup files
+*.wad.backup[1-9]
+
+# Auto-Generated WAD Settings Configuration's
+*.dbs
+
+
+
+# ================================
+#    WAD Editing Tool Specifics
+# ================================
+
+# [SLADE] Backup Files
+*.wad.bak
+
+
+
+# ================================
+#        Assets data file
+# ================================
+
+Morgenstern_assets.pk[3|7]
+TGRDM3_assets.pk[3|7]
+
+
+
+# ================================
+#    miscellaneous
+# ================================
+
+# Bootless Star [Compiler]
+Tools/Compiler\ \[Bootless Star\]/TGRDM3.bat
+
+
+
+
+# Standard GitIgnore:
+# ---------------------
+
+#############
+## Windows detritus
+#############
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
