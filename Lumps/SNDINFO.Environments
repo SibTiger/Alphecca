@@ -1,1 +1,2 @@
-DoorSwing_Standard      STNMOV
+DoorSwing_InMotion      STNMOV
+DoorSwing_Stop          PSTOP

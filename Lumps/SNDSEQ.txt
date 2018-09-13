@@ -1,5 +1,6 @@
 :PolyDoorSwing
     door 1
-    PlayUntilDone DoorSwing_Standard
+    PlayUntilDone    DoorSwing_InMotion
+    StopSound        DoorSwing_Stop
     Attenuation normal
 end
