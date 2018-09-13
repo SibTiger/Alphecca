@@ -11,6 +11,8 @@ Website:
                         -------------
 Map Name: 
 Creation Date: 
+Finished Date: 
+Map Size: 
 Game Mode: 
 Map Comments: 
 
