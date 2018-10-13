@@ -9,7 +9,7 @@ function main()
     PSVersion;
 
     # Determine if the PowerShell process is executed in a 64bit environment or 32bit environment
-    PSProcessWidth;
+    PSProcessWidthDisplay $(PSProcessWidthDetection);
 
     # Prevent destroying the window process before the user sees the results
     Read-Host -Prompt "Press Enter to close"
@@ -34,27 +34,42 @@ function PSVersion()
 
 
 
+# PowerShell 32/64 Bit-Width Detection
+# --------------------------
+# Documentation
+#    This function will detect the instance Word-Width
+# --------------------------
+# Return [Bool]
+#    True
+#        64bit Process
+#    False
+#        32bit Process (assumed)
+function PSProcessWidthDetection()
+{
+    return [Environment]::Is64BitProcess 
+} # PSProcessWidthDetection()
 
-# PowerShell 32/64 Bit-Width
+
+
+
+# PowerShell 32/64 Bit-Width Detection
 # --------------------------
 # Documentation
 #    This function will display the PowerShell's process
 #    word-width.  This could be important later on, depending
 #    on specialized operations.
 # --------------------------
-function PSProcessWidth()
+function PSProcessWidthDisplay([Bool]$psWordWidth)
 {
     # Declarations and Initializations
     # -----------------------------------
-    # Detect the current environment.
-    Set-Variable -Name "detectedProcess" -Value [Environment]::Is64BitProcess;
     # Used for displaying the results nicely to the user.
     Set-Variable -Name "detectedProcessNice"
     # -----------------------------------
     
     # With the environment detected, determine the process environment
     #  and prepare to show the results to the user.
-    if ($detectedProcess)
+    if ($psWordWidth)
     {
         Set-Variable -Name "detectedProcessNice" -Value "64bit"
     }
