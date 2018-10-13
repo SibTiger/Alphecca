@@ -1,4 +1,24 @@
-﻿# Program Entry Point (Spine)
+﻿<#
+.SYNOPSIS
+    Displays the PowerShell version and the instance's word-width.
+
+.DESCRIPTION
+    This debug script is designed to display what PowerShell (.NET Foundation) is present in the user's host system.  In addition, this script will also display if the PowerShell is being executed in a 32bit or 64bit environment.
+
+.NOTES
+    This script does not accept arguments in order to be invoked.
+
+.EXAMPLE
+    ./PSVersion.ps1
+
+.LINK
+    https://github.com/SibTiger/Alphecca
+#>
+
+
+
+
+# Program Entry Point (Spine)
 # --------------------------
 # Documentation:
 #     This is the main spine of the program.
