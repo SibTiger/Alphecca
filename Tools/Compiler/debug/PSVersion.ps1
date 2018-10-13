@@ -59,6 +59,10 @@ function PSProcessWidthDetection()
 #    word-width.  This could be important later on, depending
 #    on specialized operations.
 # --------------------------
+# Parameters
+#    psWordWidth [Bool]
+#        Contains a value of a Bool type determining the
+#        word-width of the process's instance.
 function PSProcessWidthDisplay([Bool]$psWordWidth)
 {
     # Declarations and Initializations
@@ -78,10 +82,10 @@ function PSProcessWidthDisplay([Bool]$psWordWidth)
         Set-Variable -Name "detectedProcessNice" -Value "32bit"
     }
 
-
+    # Display the results to the user's terminal
     Write-Host "This PowerShell instance is running under a" `
                $detectedProcessNice "environment"
-} # PSProcessWidth()
+} # PSProcessWidthDisplay()
 
 
 
