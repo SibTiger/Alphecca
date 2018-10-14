@@ -56,7 +56,7 @@ function main()
 # --------------------------
 function PSVersion()
 {
-    Write-Host "Power Shell Version: " -NoNewLine;
+    Write-Host "PowerShell Version: " -NoNewLine;
     Write-Host $PSVersionTable.PSVersion;
 } # PSVersion()
 
