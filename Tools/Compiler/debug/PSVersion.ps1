@@ -41,7 +41,7 @@ function main()
     PSProcessWidthDisplay $(PSProcessWidthDetection);
 
     # Prevent destroying the window process before the user sees the results
-    Read-Host -Prompt "Press Enter to close"
+    Read-Host -Prompt "Press Enter to close";
 } # main()
 
 
@@ -75,7 +75,7 @@ function PSVersion()
 #        32bit Process (assumed)
 function PSProcessWidthDetection()
 {
-    return [Environment]::Is64BitProcess 
+    return [Environment]::Is64BitProcess;
 } # PSProcessWidthDetection()
 
 
@@ -97,30 +97,30 @@ function PSProcessWidthDisplay([Bool]$psWordWidth)
     # Declarations and Initializations
     # -----------------------------------
     # Used for displaying the results nicely to the user.
-    Set-Variable -Name "detectedProcessNice"
+    Set-Variable -Name "detectedProcessNice";
     # -----------------------------------
     
     # With the environment detected, determine the process environment
     #  and prepare to show the results to the user.
     if ($psWordWidth)
     {
-        Set-Variable -Name "detectedProcessNice" -Value "64bit"
+        Set-Variable -Name "detectedProcessNice" -Value "64bit";
     }
     else
     {
-        Set-Variable -Name "detectedProcessNice" -Value "32bit"
+        Set-Variable -Name "detectedProcessNice" -Value "32bit";
     }
 
     # Display the results to the user's terminal
     Write-Host "This PowerShell instance is running under a" `
-               $detectedProcessNice "environment"
+               $detectedProcessNice "environment";
 } # PSProcessWidthDisplay()
 
 
 
 
 # Execute the main
-main
+main;
 
 # Exit
-Exit
+Exit;

@@ -10,11 +10,11 @@ function FetchUserInput()
 {
     # Because I love Python's input prompt, we will emulate it here.
     #  I find this to be easier on the user to unify an action from the end-user.
-    Write-Host ">>>>> " -NoNewline
+    Write-Host ">>>>> " -NoNewline;
 
     # Get input from the user.
-    Set-Variable -Name "stdInput" -Value $Host.UI.ReadLine()
+    Set-Variable -Name "stdInput" -Value $Host.UI.ReadLine();
 
     # Return the value as a string
-    return [string]$stdInput
+    return [string]$stdInput;
 } # FetchUserInput()
