@@ -3,10 +3,19 @@
     Displays the PowerShell version and the instance's word-width.
 
 .DESCRIPTION
-    This debug script is designed to display what PowerShell (.NET Foundation) is present in the user's host system.  In addition, this script will also display if the PowerShell is being executed in a 32bit or 64bit environment.
+    This debug script is designed to display what PowerShell (.NET Foundation) is present in the user's host system.
+    In addition, this script will also display if the PowerShell is being executed in a 32bit or 64bit environment.
 
 .NOTES
-    This script does not accept arguments in order to be invoked.
+    Author: Nicholas Gautier
+    Email: Nicholas.Gautier.Tiger@GMail.com
+    Project Website: https://github.com/SibTiger/Alphecca
+
+.INPUTS
+    Nothing is to be given or to be provided from a command\pipe.
+
+.OUTPUTS
+    Nothing is to be returned or to be sent to the pipe.
 
 .EXAMPLE
     ./PSVersion.ps1
