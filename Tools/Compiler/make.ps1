@@ -50,3 +50,29 @@ function CreateNewScriptFile()
         return 1;
     } # Error
 } # CreateNewScriptFile()
+
+
+
+
+# Expunge Old Script File
+# --------------------------
+# Documentation
+#    This function will delete the old script file that was previously compiled.
+# --------------------------
+# Return [int]
+#    0 = Deleted file successfully
+#    1 = Error occurred; vague
+# --------------------------
+function ExpungeOldScriptFile()
+{
+    # Try to delete the file, if we are unable to - then return with an error signal.
+    try
+    {
+        Remove-Item -Path "$($SCRIPTPATH)\$($SCRIPTFILENAME)" -ErrorAction Stop;
+        return 0;
+    } # Try
+    catch
+    {
+        return 1;
+    } # Error
+} # ExpungeOldScriptFile()
