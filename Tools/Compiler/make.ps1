@@ -27,5 +27,5 @@ function MakeCompiler()
 function CreateNewScriptFile()
 {
     New-Item -Path $SCRIPTPATH -Name $SCRIPTFILENAME -ItemType "File" `
-        -Value "# $($PROJECTNAME) Compiler was generated on: $(Get-Date)";
+        -Value "# $($PROJECTNAME) Compiler was generated on: $(Get-Date)`r`n`r`n";
 } # CreateNewScriptFile()
