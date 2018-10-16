@@ -17,7 +17,7 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 # Make Compiler
 # --------------------------
 # Documentation
-#    This function will display the main menu to the user.
+#    This function will combine all of the sub-scripts into one script.
 # --------------------------
 function MakeCompiler()
 {
