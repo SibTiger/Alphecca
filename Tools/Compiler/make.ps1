@@ -24,6 +24,14 @@ function MakeCompiler()
 } # MakeCompiler()
 
 
+
+
+# Create New Script File
+# --------------------------
+# Documentation
+#    This function merely creates the new script file that will hold all of the
+#     sub-scripts into one script file.
+# --------------------------
 function CreateNewScriptFile()
 {
     New-Item -Path $SCRIPTPATH -Name $SCRIPTFILENAME -ItemType "File" `
