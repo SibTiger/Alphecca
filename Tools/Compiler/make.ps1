@@ -21,6 +21,30 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 # --------------------------
 function MakeCompiler()
 {
+    # Declarations and Initializations
+    # -----------------------------------
+    # Combine the path and file name into one string variable
+    Set-Variable -Name "ScriptFile" -Value "$($SCRIPTPATH)\$($SCRIPTFILENAME)" `
+        -Scope Local;
+    # -----------------------------------
+
+    # Help Documentation
+    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTPATH)\scripts\help.ps1");
+
+    # Initializations
+    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTPATH)\scripts\Initializations.ps1");
+
+    # Common
+    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTPATH)\scripts\common.ps1");
+
+    # Compiler
+    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTPATH)\scripts\Compiler.ps1");
+
+    # Main Menu
+    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTPATH)\scripts\MainMenu.ps1");
+
+    # Main (entry point)
+    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTPATH)\scripts\main.ps1");
 } # MakeCompiler()
 
 
