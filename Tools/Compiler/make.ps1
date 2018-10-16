@@ -1,9 +1,11 @@
 ﻿# Global Variables
 # --------------------------
 # Script Absolute Script Path
-Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot -Scope Global -Force -ErrorAction SilentlyContinue;
+Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
+    -Scope Global -Force -ErrorAction SilentlyContinue;
 # Compiler Script File Name
-Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" -Scope Global -Force -ErrorAction SilentlyContinue;
+Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
+    -Scope Global -Force -ErrorAction SilentlyContinue;
 # --------------------------
 
 
