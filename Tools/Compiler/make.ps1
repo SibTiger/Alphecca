@@ -6,6 +6,9 @@ Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
 # Compiler Script File Name
 Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
+# Project Name
+Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
+    -Scope Global -Force -ErrorAction SilentlyContinue;
 # --------------------------
 
 
@@ -23,5 +26,6 @@ function MakeCompiler()
 
 function CreateNewScriptFile()
 {
-    New-Item -Path $SCRIPTPATH -Name $SCRIPTFILENAME -ItemType "File";
+    New-Item -Path $SCRIPTPATH -Name $SCRIPTFILENAME -ItemType "File" `
+        -Value "# $($PROJECTNAME) Compiler was generated on: $(Get-Date)";
 } # CreateNewScriptFile()
