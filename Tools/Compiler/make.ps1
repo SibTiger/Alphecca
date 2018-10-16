@@ -100,3 +100,29 @@ function ExpungeOldScriptFile()
         return 1;
     } # Error
 } # ExpungeOldScriptFile()
+
+
+
+
+# Main [Entry Point]
+# --------------------------
+# Documentation
+#    This function is our main program entry point.
+# --------------------------
+function main()
+{
+    # Delete the script
+    ExpungeOldScriptFile;
+
+    # Create the script
+    CreateNewScriptFile;
+
+    # Generate the script
+    MakeCompiler;
+} # main()
+
+
+
+
+# Start the program
+main;
