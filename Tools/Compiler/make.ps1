@@ -130,6 +130,33 @@ function DetectExistingScriptFile()
 
 
 
+# Existing File Protocol
+# --------------------------
+# Documentation
+#    This function will perform the protocol in assuring that the older script file is removed properly.
+# --------------------------
+# Return [int]
+#    0 = Operation was successful
+#    1 = Operation failed; vague
+# --------------------------
+function ExistingFileProtocol()
+{
+    if(DetectExistingScriptFile)
+    {
+        if (ExpungeOldScriptFile)
+        {
+            return 1;
+        } # Expunge failure
+    } # Check existing script
+    else
+    {
+        return 0;
+    }
+} # ExistingFileProtocol()
+
+
+
+
 # Main [Entry Point]
 # --------------------------
 # Documentation
@@ -137,11 +164,12 @@ function DetectExistingScriptFile()
 # --------------------------
 function main()
 {
-    # Check if the script file already exists
-    DetectExistingScriptFile;
-
-    # Delete the script
-    ExpungeOldScriptFile;
+    # First, check if the script file already exists
+    if(ExistingFileProtocol)
+    {
+        Write-Host "Unable to successfully delete the old compile script";
+        return 1;
+    } # Check existing script
 
     # Create the script
     CreateNewScriptFile;
