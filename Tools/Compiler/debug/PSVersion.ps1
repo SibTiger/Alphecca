@@ -18,7 +18,7 @@
     Nothing is to be returned or to be sent to the pipe.
 
 .EXAMPLE
-    ./PSVersion.ps1
+    .\PSVersion.ps1
 
 .LINK
     https://github.com/SibTiger/Alphecca
