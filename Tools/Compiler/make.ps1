@@ -171,11 +171,19 @@ function main()
         return 1;
     } # Check existing script
 
-    # Create the script
-    CreateNewScriptFile;
+    # Second, create a new script file
+    if(CreateNewScriptFile)
+    {
+        Write-Host "Failure to create the script file";
+        return 1;
+    } # Create the script
 
-    # Generate the script
-    MakeCompiler;
+    # Third, append all of the sub-scripts into one script file
+    if(MakeCompiler)
+    {
+        Write-Host "Failure to generate the script file";
+        return 1;
+    } # Generate the script
 } # main()
 
 
