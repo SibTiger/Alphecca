@@ -1,13 +1,36 @@
-﻿# Lock Compile Program
-# =========================
-# This program is designed to lock the compile shellscript.
-#  This is intended for debugging with the make shellscript.
-#  The error that should be provided from the make program
-#   will relate to the inability to delete or write to the
-#   file.  Without this, I have to fiddle around with the ACL.
-#   Locking the file is much easier and less time consuming.
-# =========================
+﻿<#
+.SYNOPSIS
+    Temporarily locks the compile script from any modifications;
+    only read-access is allowed.
 
+.DESCRIPTION
+    This program is designed to temporarily lock the compile
+    shellscript.  This is intended for debugging with the
+    make shellscript.  The error that should be provided
+    from the make program will relate to the inability to
+    delete or write to the file.  Without this script, I
+    have to fiddle around with the ACL.  Locking the file
+    is much easier and less time consuming.
+
+.NOTES
+    Author: Nicholas Gautier
+    Email: Nicholas.Gautier.Tiger@GMail.com
+    Project Website: https://github.com/SibTiger/Alphecca
+
+.INPUTS
+    Nothing is to be given or to be provided from a command\pipe.
+
+.OUTPUTS
+    Exit Codes:
+        0 = Program finished successfully
+        1 = Program finished with errors
+
+.EXAMPLE
+    .\LockCompile.ps1
+
+.LINK
+    https://github.com/SibTiger/Alphecca
+#>
 
 
 
