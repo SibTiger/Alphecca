@@ -7,10 +7,10 @@ Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
 Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
 # Subscripts Directory
-Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\"
+Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
 # Output Compiler Directory
-Set-Variable -Name "OUTPUTDIRECTORY" -Value "..\..\"
+Set-Variable -Name "OUTPUTDIRECTORY" -Value "..\..\" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
