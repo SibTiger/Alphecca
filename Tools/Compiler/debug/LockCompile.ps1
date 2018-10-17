@@ -1,4 +1,17 @@
-﻿# Main [Entry Point]
+﻿# Lock Compile Program
+# =========================
+# This program is designed to lock the compile shellscript.
+#  This is intended for debugging with the make shellscript.
+#  The error that should be provided from the make program
+#   will relate to the unability to delete or write to the
+#   file.  Without this, I have to fiddle around with the ACL.
+#   Locking the file is much easier and less time consuming.
+# =========================
+
+
+
+
+# Main [Entry Point]
 # --------------------------
 # Documentation
 #    This function is our main program entry point.
