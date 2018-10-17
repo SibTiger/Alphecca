@@ -184,10 +184,16 @@ function main()
         Write-Host "Failure to generate the script file";
         return 1;
     } # Generate the script
+
+    # Successful operation
+    return 0;
 } # main()
 
 
 
 
 # Start the program
-main;
+$errorSignal = $(main);
+
+# Terminate the program and provide the Error Code to the OS
+exit $errorSignal;
