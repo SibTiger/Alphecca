@@ -12,6 +12,9 @@ Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\" `
 # Output Compiler Directory
 Set-Variable -Name "OUTPUTDIRECTORY" -Value "..\..\" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
+# Output Script File
+Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" `
+    -Scope Global -Force -ErrorAction SilentlyContinue;
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
@@ -28,22 +31,22 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 function MakeCompiler()
 {
     # Help Documentation
-    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)help.ps1");
+    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)help.ps1");
 
     # Initializations
-    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)Initializations.ps1");
+    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)Initializations.ps1");
 
     # Common
-    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)common.ps1");
+    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)common.ps1");
 
     # Compiler
-    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)Compiler.ps1");
+    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)Compiler.ps1");
 
     # Main Menu
-    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)MainMenu.ps1");
+    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)MainMenu.ps1");
 
     # Main (entry point)
-    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)main.ps1");
+    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)main.ps1");
 } # MakeCompiler()
 
 
@@ -91,7 +94,7 @@ function ExpungeOldScriptFile()
     # Try to delete the file, if we are unable to - then return with an error signal.
     try
     {
-        Remove-Item -Path "$($SCRIPTPATH)\$($SCRIPTFILENAME)" -ErrorAction Stop;
+        Remove-Item -Path $OUTPUTFILE -ErrorAction Stop;
         return 0;
     } # Try
     catch
