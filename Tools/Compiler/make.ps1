@@ -106,6 +106,30 @@ function ExpungeOldScriptFile()
 
 
 
+# Detect Existing Script File
+# --------------------------
+# Documentation
+#    This function will check for an existing compile script.
+# --------------------------
+# Return [int]
+#    0 = File does not exist
+#    1 = File exist
+# --------------------------
+function DetectExistingScriptFile()
+{
+    if(Test-Path -Path $OUTPUTFILE)
+    {
+        return 1;
+    } # if:File Exists
+    else
+    {
+        return 0;
+    } # else: File does not exist
+} # DetectExistingScriptFile()
+
+
+
+
 # Main [Entry Point]
 # --------------------------
 # Documentation
@@ -113,6 +137,9 @@ function ExpungeOldScriptFile()
 # --------------------------
 function main()
 {
+    # Check if the script file already exists
+    DetectExistingScriptFile;
+
     # Delete the script
     ExpungeOldScriptFile;
 
