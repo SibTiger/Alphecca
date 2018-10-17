@@ -8,10 +8,10 @@ Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
 # Subscripts Directory
 Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\"
-    -Scobe Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -ErrorAction SilentlyContinue;
 # Output Compiler Directory
 Set-Variable -Name "OUTPUTDIRECTORY" -Value "..\..\"
-    -Scobe Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -ErrorAction SilentlyContinue;
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
     -Scope Global -Force -ErrorAction SilentlyContinue;
