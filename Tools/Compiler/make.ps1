@@ -28,22 +28,22 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 function MakeCompiler()
 {
     # Help Documentation
-    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTSDIRECTORY)help.ps1");
+    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)help.ps1");
 
     # Initializations
-    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTSDIRECTORY)Initializations.ps1");
+    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)Initializations.ps1");
 
     # Common
-    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTSDIRECTORY)common.ps1");
+    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)common.ps1");
 
     # Compiler
-    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTSDIRECTORY)Compiler.ps1");
+    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)Compiler.ps1");
 
     # Main Menu
-    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTSDIRECTORY)MainMenu.ps1");
+    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)MainMenu.ps1");
 
     # Main (entry point)
-    Add-Content -Path $ScriptFile -Value (Get-Content "$($SCRIPTSDIRECTORY)main.ps1");
+    Add-Content -Path "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" -Value (Get-Content "$($SCRIPTSDIRECTORY)main.ps1");
 } # MakeCompiler()
 
 
@@ -64,7 +64,7 @@ function CreateNewScriptFile()
     # Try to create the file; if we are unable to - then return with an error signal.
     try
     {
-        New-Item -Path $SCRIPTPATH -Name $SCRIPTFILENAME -ItemType "File" `
+        New-Item -Path $OUTPUTDIRECTORY -Name $SCRIPTFILENAME -ItemType "File" `
             -Value "# $($PROJECTNAME) Compiler was generated on: $(Get-Date)`r`n`r`n" -ErrorAction Stop | Out-Null;
         return 0;
     } # Try
