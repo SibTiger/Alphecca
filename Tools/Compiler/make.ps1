@@ -67,24 +67,107 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 # --------------------------
 function MakeCompiler()
 {
+    # Declarations and Initializations
+    # ----------------------------------
+    # Sub-Script File (with path)
+    Set-Variable -Name "scriptFile" -Scope Local;
+    # ----------------------------------
+
+
     # Help Documentation
-    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)help.ps1");
+    $scriptFile = "$($SCRIPTSDIRECTORY)help.ps1";
+    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
+    {
+        Write-Host "Unable to include file: help.ps1";
+    } # If : File does not exist
+
+
+    # =========================
+
 
     # Initializations
-    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)Initializations.ps1");
+    $scriptFile = "$($SCRIPTSDIRECTORY)Initializations.ps1";
+    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
+    {
+        Write-Host "Unable to include file: Initializations.ps1";
+    } # If : File does not exist
+
+
+    # =========================
+
 
     # Common
-    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)common.ps1");
+    $scriptFile = "$($SCRIPTSDIRECTORY)common.ps1";
+    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
+    {
+        Write-Host "Unable to include file: common.ps1";
+    } # If : File does not exist
+
+
+    # =========================
+
 
     # Compiler
-    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)Compiler.ps1");
+    $scriptFile = "$($SCRIPTSDIRECTORY)Compiler.ps1";
+    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
+    {
+        Write-Host "Unable to include file: Compiler.ps1";
+    } # If : File does not exist
+
+
+    # =========================
+
 
     # Main Menu
-    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)MainMenu.ps1");
+    $scriptFile = "$($SCRIPTSDIRECTORY)MainMenu.ps1";
+    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
+    {
+        Write-Host "Unable to include file: MainMenu.ps1";
+    } # If : File does not exist
 
-    # Main (entry point)
-    Add-Content -Path $OUTPUTFILE -Value (Get-Content "$($SCRIPTSDIRECTORY)main.ps1");
+
+    # =========================
+
+
+    # Main
+    $scriptFile = "$($SCRIPTSDIRECTORY)main.ps1";
+    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
+    {
+        Write-Host "Unable to include file: main.ps1";
+    } # If : File does not exist
 } # MakeCompiler()
+
+
+
+
+# Append Content to File
+# --------------------------
+# Documentation
+#    This function will append information provided from
+#     a specific file and append the data to the destination file.
+# --------------------------
+# Parameters
+#    outputFile [string]
+#     The destination file that the data will be appended.
+#    targetFile [string]
+#     The target file that contains the data that we want
+#      to mirror to another file.
+# --------------------------
+# Return [int]
+#    0 = Operation was successful
+#    1 = Operation failed
+# --------------------------
+function AppendContent([string] $outputFile, [string] $targetFile)
+{
+    if((Add-Content -Path $outputFile -Value (Get-Content $targetFile) -ErrorAction SilentlyContinue))
+    {
+        return 0;
+    } # If:Successful
+    else
+    {
+        return 1;
+    } # Else:Failure
+} # AppendContent()
 
 
 
