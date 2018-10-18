@@ -143,26 +143,31 @@ function ExpungeOldScriptFile()
 
 
 
-# Detect Existing Script File
+# Detect if File Exists
 # --------------------------
 # Documentation
-#    This function will check for an existing compile script.
+#    This function will check if a specific file exists
+#     with the provided path and file.
+# --------------------------
+# Parameters
+#    target [string]
+#     The path and filename
 # --------------------------
 # Return [int]
 #    0 = File does not exist
 #    1 = File exist
 # --------------------------
-function DetectExistingScriptFile()
+function FileDetection([string]$path)
 {
-    if(Test-Path -Path $OUTPUTFILE)
+    if(Test-Path -Path $path)
     {
         return 1;
-    } # if:File Exists
+    } # if : File Exists
     else
     {
         return 0;
-    } # else: File does not exist
-} # DetectExistingScriptFile()
+    } # else : File does not exist
+} # FileDetection()
 
 
 
@@ -170,7 +175,8 @@ function DetectExistingScriptFile()
 # Existing File Protocol
 # --------------------------
 # Documentation
-#    This function will perform the protocol in assuring that the older script file is removed properly.
+#    This function will perform the protocol in assuring that
+#     the older script file is removed properly.
 # --------------------------
 # Return [int]
 #    0 = Operation was successful
@@ -178,7 +184,7 @@ function DetectExistingScriptFile()
 # --------------------------
 function ExistingFileProtocol()
 {
-    if(DetectExistingScriptFile)
+    if($(FileDetection($OUTPUTFILE)))
     {
         if (ExpungeOldScriptFile)
         {
