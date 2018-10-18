@@ -401,6 +401,11 @@ function main()
         return 1;
     } # Generate the script
 
+    # Display a message that the build has been generated
+    Printf 1 "$($SCRIPTFILENAME) has been successfully created!";
+    Printf 1 "You may find the $($SCRIPTFILENAME) in this path:";
+    Printf 1 "$(Resolve-Path $OUTPUTFILE | select -ExpandProperty Path)";
+
     # Successful operation
     return 0;
 } # main()
