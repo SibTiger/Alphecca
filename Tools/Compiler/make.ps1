@@ -65,6 +65,10 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 # Documentation
 #    This function will combine all of the sub-scripts into one script.
 # --------------------------
+# Return [int]
+#    0 = Operation was successful
+#    1 = Operation failed
+# --------------------------
 function MakeCompiler()
 {
     # Declarations and Initializations
@@ -79,6 +83,7 @@ function MakeCompiler()
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
         Write-Host "Unable to include file: help.ps1";
+        return 1;
     } # If : File does not exist
 
 
@@ -90,6 +95,7 @@ function MakeCompiler()
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
         Write-Host "Unable to include file: Initializations.ps1";
+        return 1;
     } # If : File does not exist
 
 
@@ -101,6 +107,7 @@ function MakeCompiler()
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
         Write-Host "Unable to include file: common.ps1";
+        return 1;
     } # If : File does not exist
 
 
@@ -112,6 +119,7 @@ function MakeCompiler()
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
         Write-Host "Unable to include file: Compiler.ps1";
+        return 1;
     } # If : File does not exist
 
 
@@ -123,6 +131,7 @@ function MakeCompiler()
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
         Write-Host "Unable to include file: MainMenu.ps1";
+        return 1;
     } # If : File does not exist
 
 
@@ -134,7 +143,13 @@ function MakeCompiler()
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
         Write-Host "Unable to include file: main.ps1";
+        return 1;
     } # If : File does not exist
+
+
+
+    # Operation was successful
+    return 0;
 } # MakeCompiler()
 
 
