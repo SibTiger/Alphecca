@@ -39,22 +39,22 @@
 # --------------------------
 # Script Absolute Script Path
 Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
-    -Scope Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Compiler Script File Name
 Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
-    -Scope Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Subscripts Directory
 Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\" `
-    -Scope Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Compiler Directory
 Set-Variable -Name "OUTPUTDIRECTORY" -Value "..\..\" `
-    -Scope Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Script File
 Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" `
-    -Scope Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
-    -Scope Global -Force -ErrorAction SilentlyContinue;
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # --------------------------
 
 
