@@ -1,4 +1,41 @@
-﻿# Global Variables
+﻿<#
+.SYNOPSIS
+    Generates the compile program for this project.
+
+.DESCRIPTION
+    This program is designed to create the project compiler.
+    In order to play this project with GZDoom or its children
+    ports, this project's source hierarchy must meet with the
+    ZDoom PK3 and PK7 standards.  The compiler, which this
+    program generates, will allow the user to easily create
+    a build of the project and is readable to the GZDoom
+    engine.
+
+.NOTES
+    Author: Nicholas Gautier
+    Email: Nicholas.Gautier.Tiger@GMail.com
+    Project Website: https://github.com/SibTiger/Alphecca
+
+.INPUTS
+    Nothing is to be given or to be provided from a command\pipe.
+
+.OUTPUTS
+    Exit Codes:
+        0 = Program finished successfully
+        1 = Program finished with errors
+
+.EXAMPLE
+    .\make.ps1
+
+.LINK
+    https://github.com/SibTiger/Alphecca
+    https://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement
+#>
+
+
+
+
+# Global Variables
 # --------------------------
 # Script Absolute Script Path
 Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
