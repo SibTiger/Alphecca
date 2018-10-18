@@ -60,6 +60,81 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 
 
 
+# Print with Formatting
+# --------------------------
+# Documentation
+#    This function display text with the necessary formatting.
+#    With the formatting, the messages will be much easier to
+#     signify to the user between a successful, warning, and
+#     error message.
+# --------------------------
+# Parameters
+#    msgLevel [int]
+#     The level of the message to be formatted:
+#      0 = Normal
+#      1 = Successful
+#      2 = Error
+#    msgString [string]
+#     The message to display on the terminal buffer.
+# --------------------------
+function Printf([int] $msgLevel, [string] $msgString)
+{
+    # Declarations and Initializations
+    # ----------------------------------
+    # Sub-Script File (with path)
+    Set-Variable -Name "msgBackColor" -Scope Local;
+    Set-Variable -Name "msgForeColor" -Scope Local;
+    # ----------------------------------
+
+    # Determine the formatting of the message
+    switch($msgLevel)
+    {
+        # Normal
+        0
+        {
+            $msgBackColor = "Black";
+            $msgForeColor = "White";
+            Break;
+        } # Normal
+
+        # --------------
+
+        # Successfull
+        1
+        {
+            $msgBackColor = "Black";
+            $msgForeColor = "Green";
+            Break;
+        } # Successfull
+        
+        # --------------
+
+        # Error
+        2
+        {
+            $msgBackColor = "Black";
+            $msgForeColor = "Red";
+            Break;
+        } # Error
+
+        # --------------
+
+        # Default (Bad Key)
+        default
+        {
+            $msgBackColor = "Black";
+            $msgForeColor = "Gray";
+            Break;
+        } # Default (Bad key)
+    } # Switch : Message Level
+
+    # Display the message with the formatting
+    Write-Host $msgString -BackgroundColor $msgBackColor -ForegroundColor $msgForeColor;
+} # Printf()
+
+
+
+
 # Make Compiler
 # --------------------------
 # Documentation
@@ -82,7 +157,7 @@ function MakeCompiler()
     $scriptFile = "$($SCRIPTSDIRECTORY)help.ps1";
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
-        Write-Host "Unable to include file: help.ps1";
+        Printf 2 "Unable to include file: help.ps1";
         return 1;
     } # If : File does not exist
 
@@ -94,7 +169,7 @@ function MakeCompiler()
     $scriptFile = "$($SCRIPTSDIRECTORY)Initializations.ps1";
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
-        Write-Host "Unable to include file: Initializations.ps1";
+        Printf 2 "Unable to include file: Initializations.ps1";
         return 1;
     } # If : File does not exist
 
@@ -106,7 +181,7 @@ function MakeCompiler()
     $scriptFile = "$($SCRIPTSDIRECTORY)common.ps1";
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
-        Write-Host "Unable to include file: common.ps1";
+        Printf 2 "Unable to include file: common.ps1";
         return 1;
     } # If : File does not exist
 
@@ -118,7 +193,7 @@ function MakeCompiler()
     $scriptFile = "$($SCRIPTSDIRECTORY)Compiler.ps1";
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
-        Write-Host "Unable to include file: Compiler.ps1";
+        Printf 2 "Unable to include file: Compiler.ps1";
         return 1;
     } # If : File does not exist
 
@@ -130,7 +205,7 @@ function MakeCompiler()
     $scriptFile = "$($SCRIPTSDIRECTORY)MainMenu.ps1";
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
-        Write-Host "Unable to include file: MainMenu.ps1";
+        Printf 2 "Unable to include file: MainMenu.ps1";
         return 1;
     } # If : File does not exist
 
@@ -142,7 +217,7 @@ function MakeCompiler()
     $scriptFile = "$($SCRIPTSDIRECTORY)main.ps1";
     if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
     {
-        Write-Host "Unable to include file: main.ps1";
+        Printf 2 "Unable to include file: main.ps1";
         return 1;
     } # If : File does not exist
 
@@ -308,21 +383,21 @@ function main()
     # First, check if the script file already exists
     if(ExistingFileProtocol)
     {
-        Write-Host "Unable to successfully delete the old compile script";
+        Printf 2 "Unable to successfully delete the old compile script";
         return 1;
     } # Check existing script
 
     # Second, create a new script file
     if(CreateNewScriptFile)
     {
-        Write-Host "Failure to create the script file";
+        Printf 2 "Failure to create the script file";
         return 1;
     } # Create the script
 
     # Third, append all of the sub-scripts into one script file
     if(MakeCompiler)
     {
-        Write-Host "Failure to generate the script file";
+        Printf 2 "Failure to generate the script file";
         return 1;
     } # Generate the script
 
