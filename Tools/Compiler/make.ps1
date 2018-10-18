@@ -55,6 +55,9 @@ Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" 
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+# DEBUG MODE [Verbose Mode]
+Set-Variable -Name "DEBUGMODE" -Value $false `
+    -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # --------------------------
 
 
@@ -74,6 +77,7 @@ Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
 #      0 = Normal
 #      1 = Successful
 #      2 = Error
+#      3 = DEBUG MODE
 #    msgString [string]
 #     The message to display on the terminal buffer.
 # --------------------------
@@ -116,6 +120,15 @@ function Printf([int] $msgLevel, [string] $msgString)
             $msgForeColor = "Red";
             Break;
         } # Error
+
+        # --------------
+
+        # DEBUG MODE
+        3
+        {
+            $msgBackColor = "Black";
+            $msgForeColor = "Yellow";
+        } # DEBUG MODE
 
         # --------------
 
@@ -373,6 +386,28 @@ function ExistingFileProtocol()
 
 
 
+# Inspector
+# --------------------------
+# Documentation
+#    DEBUG MODE ONLY
+#    This function displays all of the global variables.
+# --------------------------
+function Inspector()
+{
+    Printf 3 "GLOBAL VARIABLES";
+    Printf 3 "==========================================";
+    Printf 3 "SCRIPTPATH = $($SCRIPTPATH)";
+    Printf 3 "SCRIPTFILENAME = $($SCRIPTFILENAME)";
+    Printf 3 "SCRIPTSDIRECTORY = $($SCRIPTSDIRECTORY)";
+    Printf 3 "OUTPUTDIRECTORY = $($OUTPUTDIRECTORY)";
+    Printf 3 "OUTPUTFILE = $($OUTPUTFILE)";
+    Printf 3 "PROJECTNAME = $($PROJECTNAME)";
+    Printf 3 "==========================================`n`n";
+} # Inspector()
+
+
+
+
 # Main [Entry Point]
 # --------------------------
 # Documentation
@@ -380,6 +415,12 @@ function ExistingFileProtocol()
 # --------------------------
 function main()
 {
+    # Output all of the Global Variables [DEBUG MODE]
+    if($DEBUGMODE)
+    {
+        Inspector;
+    } # Inspect Global Vars
+
     # First, check if the script file already exists
     if(ExistingFileProtocol)
     {
