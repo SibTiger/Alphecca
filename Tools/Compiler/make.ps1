@@ -213,7 +213,12 @@ function MakeCompilerDriver()
     # ----------------------------------
 
     # Sub-Script Array
-    $scriptFileName = @("help.ps1", "Initializations.ps1", "common.ps1", "Compiler.ps1", "MainMenu.ps1", "main.ps1");
+    $scriptFileName = @("help.ps1", `
+                        "Initializations.ps1", `
+                        "common.ps1", `
+                        "Compiler.ps1", `
+                        "MainMenu.ps1", `
+                        "main.ps1");
 
     # Loop through each index in the array
     foreach ($index in $scriptFileName)
