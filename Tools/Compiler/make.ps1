@@ -417,6 +417,28 @@ function Inspector()
 
 
 
+# Wait for User Input [Program Termination]
+# --------------------------
+# Documentation
+#    This function merelys halts the program allowing
+#     the user to view the output before the Terminal
+#     is terminated.  Without this, the terminal will
+#     automatically be destroyed once EXIT has been
+#     reached.  This is only true, however, if the
+#     user 'double-clicks' on the script file.  If
+#     the terminal session has been active before
+#     the script was executed, than this function
+#     is redundant - as the terminal will not close
+#     once EXIT has been reached.
+# --------------------------
+function WaitUserInput()
+{
+    Read-Host -Prompt "Press the Enter key to close this program`n";
+} # WaitUserInput()
+
+
+
+
 # Main [Entry Point]
 # --------------------------
 # Documentation
@@ -465,6 +487,9 @@ function main()
 
 # Start the program
 $errorSignal = $(main);
+
+# Wait for the user to view the results
+WaitUserInput;
 
 # Terminate the program and provide the Error Code to the OS
 exit $errorSignal;
