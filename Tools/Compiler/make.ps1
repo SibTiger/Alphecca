@@ -128,6 +128,7 @@ function Printf([int] $msgLevel, [string] $msgString)
         {
             $msgBackColor = "Black";
             $msgForeColor = "Yellow";
+            Break;
         } # DEBUG MODE
 
         # --------------
