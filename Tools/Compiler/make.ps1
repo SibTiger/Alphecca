@@ -153,92 +153,88 @@ function Printf([int] $msgLevel, [string] $msgString)
 # Documentation
 #    This function will combine all of the sub-scripts into one script.
 # --------------------------
+# Parameters
+#    fileName [string]
+#     The file name of the file
+#    filePath [string]
+#     The file path of the script
+# --------------------------
 # Return [int]
 #    0 = Operation was successful
 #    1 = Operation failed
 # --------------------------
-function MakeCompiler()
+function MakeCompiler([string] $fileName, [string] $filePath)
+{
+    # If Debug Mode is enabled, display the operation
+    if ($DEBUGMODE)
+    {
+        Printf 3 "Including File: $($fileName). . .";
+        Printf 3 " >> LOCATION:";
+        Printf 3 "    $($filePath)";
+    } # DEBUGMODE - Starting Task Msg
+
+    # Append the file and assure it was successful
+    if (!($(FileDetection $filePath) -and $(AppendContent $OUTPUTFILE $filePath)))
+    {
+        # An error occurred
+        return 1;
+    } # If : File does not exist
+
+    # If Debug Mode is enabled, display the operation passed
+    if ($DEBUGMODE)
+    {
+        Printf 3 "Added File: $($fileName) successfully!";
+    } # DEBUGMODE - Finished Task Msg
+
+    # return successful code
+    return 0;
+} # MakeCompiler()
+
+
+
+
+# Make Compiler
+# --------------------------
+# Documentation
+#    This function will organize how the file should be included into the compiler script.
+# --------------------------
+# Return [int]
+#    0 = Operation was successful
+#    1 = Operation failed
+# --------------------------
+function MakeCompilerDriver()
 {
     # Declarations and Initializations
     # ----------------------------------
     # Sub-Script File (with path)
     Set-Variable -Name "scriptFile" -Scope Local;
+    # Sub-Script Filename
+    Set-Variable -Name "scriptFileName" -Scope Local;
     # ----------------------------------
 
 
-    # Help Documentation
-    $scriptFile = "$($SCRIPTSDIRECTORY)help.ps1";
-    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
+    $scriptFileName = @("help.ps1", "Initializations.ps1", "common.ps1", "Compiler.ps1", "MainMenu.ps1", "main.ps1");
+
+    # Loop through each index in the array
+    foreach ($index in $scriptFileName)
     {
-        Printf 2 "Unable to include file: help.ps1";
-        return 1;
-    } # If : File does not exist
+        # Update target script
+        $scriptFile = "$($SCRIPTSDIRECTORY)$($index)";
 
+        # Try to append the target script to the destination file
+        if ($(MakeCompiler $index $scriptFile))
+        {
+            # An error occurred
+            Printf 2 "Unable to include file: $($scriptFile)";
 
-    # =========================
-
-
-    # Initializations
-    $scriptFile = "$($SCRIPTSDIRECTORY)Initializations.ps1";
-    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
-    {
-        Printf 2 "Unable to include file: Initializations.ps1";
-        return 1;
-    } # If : File does not exist
-
-
-    # =========================
-
-
-    # Common
-    $scriptFile = "$($SCRIPTSDIRECTORY)common.ps1";
-    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
-    {
-        Printf 2 "Unable to include file: common.ps1";
-        return 1;
-    } # If : File does not exist
-
-
-    # =========================
-
-
-    # Compiler
-    $scriptFile = "$($SCRIPTSDIRECTORY)Compiler.ps1";
-    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
-    {
-        Printf 2 "Unable to include file: Compiler.ps1";
-        return 1;
-    } # If : File does not exist
-
-
-    # =========================
-
-
-    # Main Menu
-    $scriptFile = "$($SCRIPTSDIRECTORY)MainMenu.ps1";
-    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
-    {
-        Printf 2 "Unable to include file: MainMenu.ps1";
-        return 1;
-    } # If : File does not exist
-
-
-    # =========================
-
-
-    # Main
-    $scriptFile = "$($SCRIPTSDIRECTORY)main.ps1";
-    if (!($(FileDetection $scriptFile) -and $(AppendContent $OUTPUTFILE $scriptFile)))
-    {
-        Printf 2 "Unable to include file: main.ps1";
-        return 1;
-    } # If : File does not exist
-
-
+            # Return error code
+            return 1;
+        } # If Operation was Successful
+    } #foreach
 
     # Operation was successful
     return 0;
-} # MakeCompiler()
+} # MakeCompilerDriver()
 
 
 
@@ -449,7 +445,7 @@ function main()
     } # Create the script
 
     # Third, append all of the sub-scripts into one script file
-    if(MakeCompiler)
+    if(MakeCompilerDriver)
     {
         Printf 2 "Failure to generate the script file";
         return 1;
