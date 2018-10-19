@@ -103,13 +103,13 @@ function Printf([int] $msgLevel, [string] $msgString)
 
         # --------------
 
-        # Successfull
+        # Successful
         1
         {
             $msgBackColor = "Black";
             $msgForeColor = "Green";
             Break;
-        } # Successfull
+        } # Successful
         
         # --------------
 
@@ -425,7 +425,7 @@ function Inspector()
 # Wait for User Input [Program Termination]
 # --------------------------
 # Documentation
-#    This function merelys halts the program allowing
+#    This function merely halts the program allowing
 #     the user to view the output before the Terminal
 #     is terminated.  Without this, the terminal will
 #     automatically be destroyed once EXIT has been
