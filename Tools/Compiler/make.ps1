@@ -305,6 +305,7 @@ function AppendSeparation([string] $outputFile)
       -Scope Local;
     # ----------------------------------
 
+    # Append the separation to the script
     if((Add-Content -Path $outputFile -Value $($scriptSeparator) -ErrorAction SilentlyContinue))
     {
         return 0;
