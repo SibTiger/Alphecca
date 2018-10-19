@@ -395,6 +395,12 @@ function ExistingFileProtocol()
 # --------------------------
 function Inspector()
 {
+    # Declarations and Initializations
+    # ----------------------------------
+    # Inspector Table
+    Set-Variable -Name "inspectorTable" -Scope Local;
+    # ----------------------------------
+
     # Create a Hash Table to display the contents; nicer output
     $inspectorTable = @{}
 
