@@ -50,7 +50,7 @@ Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\" `
 Set-Variable -Name "OUTPUTDIRECTORY" -Value "..\..\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Script File
-Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)\$($SCRIPTFILENAME)" `
+Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Project Name
 Set-Variable -Name "PROJECTNAME" -Value "Alphecca" `
