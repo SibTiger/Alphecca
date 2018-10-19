@@ -174,7 +174,7 @@ function MakeCompiler([string] $fileName, [string] $filePath)
     } # DEBUGMODE - Starting Task Msg
 
     # Append the file and assure it was successful
-    if (!($(FileDetection $filePath) -and $(AppendContent $OUTPUTFILE $filePath)))
+    if (!($(FileDetection $filePath) -and $(AppendContent $OUTPUTFILE $filePath) -and $(AppendSeparation $OUTPUTFILE)))
     {
         # An error occurred
         return 1;
@@ -272,6 +272,48 @@ function AppendContent([string] $outputFile, [string] $targetFile)
         return 1;
     } # Else:Failure
 } # AppendContent()
+
+
+
+
+# Append Separation to File
+# --------------------------
+# Documentation
+#    This function will append seperation, such as borders and whitespacing,
+#     to the destination file.  This should make viewing the output
+#     script a bit easier.
+# --------------------------
+# Parameters
+#    outputFile [string]
+#     The destination file that the data will be appended.
+# --------------------------
+# Return [int]
+#    0 = Operation was successful
+#    1 = Operation failed
+# --------------------------
+function AppendSeparation([string] $outputFile)
+{
+    # Declarations and Initializations
+    # ----------------------------------
+    # Border; useful to separate the scripts
+    Set-Variable -Name "scriptSeparatorBorder" -Value "# =====================================================" -Scope Local;
+    # White Spacing; helpful to provide spacing between scripts
+    Set-Variable -Name "scriptSeparatorWhiteSpace" -Value "`r`n`r`n`r`n`r`n" -Scope Local;
+    # Combined separating structure; border and white-spacing between each script.
+    Set-Variable -Name "scriptSeparator" -Value `
+     "$($scriptSeparatorWhiteSpace)$($scriptSeparatorBorder)`r`n$($scriptSeparatorBorder)`r`n$($scriptSeparatorBorder)$($scriptSeparatorWhiteSpace)" `
+      -Scope Local;
+    # ----------------------------------
+
+    if((Add-Content -Path $outputFile -Value $($scriptSeparator) -ErrorAction SilentlyContinue))
+    {
+        return 0;
+    } # If:Successful
+    else
+    {
+        return 1;
+    } # Else:Failure
+} # AppendSeparation()
 
 
 
