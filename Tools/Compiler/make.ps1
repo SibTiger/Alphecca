@@ -279,7 +279,7 @@ function AppendContent([string] $outputFile, [string] $targetFile)
 # Append Separation to File
 # --------------------------
 # Documentation
-#    This function will append seperation, such as borders and whitespacing,
+#    This function will append separation, such as borders and white-spacing,
 #     to the destination file.  This should make viewing the output
 #     script a bit easier.
 # --------------------------
