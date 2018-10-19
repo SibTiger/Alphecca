@@ -394,15 +394,28 @@ function ExistingFileProtocol()
 # --------------------------
 function Inspector()
 {
-    Printf 3 "GLOBAL VARIABLES";
-    Printf 3 "==========================================";
-    Printf 3 "SCRIPTPATH = $($SCRIPTPATH)";
-    Printf 3 "SCRIPTFILENAME = $($SCRIPTFILENAME)";
-    Printf 3 "SCRIPTSDIRECTORY = $($SCRIPTSDIRECTORY)";
-    Printf 3 "OUTPUTDIRECTORY = $($OUTPUTDIRECTORY)";
-    Printf 3 "OUTPUTFILE = $($OUTPUTFILE)";
-    Printf 3 "PROJECTNAME = $($PROJECTNAME)";
-    Printf 3 "==========================================`n`n";
+    # Create a Hash Table to display the contents; nicer output
+    $inspectorTable = @{}
+
+    # Add in the Global Vars. to our HashTable
+    $inspectorTable.Add("SCRIPTPATH", "$($SCRIPTPATH)");
+    $inspectorTable.Add("SCRIPTFILENAME", "$($SCRIPTFILENAME)");
+    $inspectorTable.Add("SCRIPTSDIRECTORY", "$($SCRIPTSDIRECTORY)");
+    $inspectorTable.Add("OUTPUTDIRECTORY", "$($OUTPUTDIRECTORY)");
+    $inspectorTable.Add("OUTPUTFILE", "$($OUTPUTFILE)");
+    $inspectorTable.Add("PROJECTNAME", "$($PROJECTNAME)");
+
+    # Display the Table Header
+    Printf 3 "GLOBAL VARIABLE TABLE";
+
+    # Display our table
+    Printf 3 ($inspectorTable|Format-Table -AutoSize|Out-String);
+    
+    # Tell the user how many Global Vars exists
+    Printf 3 "Global Variables in used: $($inspectorTable.Count)";
+
+    # Add some extra spacing to make the output nicer -- separating data
+    Printf 0 "`n`n";
 } # Inspector()
 
 
