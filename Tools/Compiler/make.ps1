@@ -507,6 +507,9 @@ function main()
         Inspector;
     } # Inspect Global Vars
 
+    # Tell the user that the program is preparing to generate the script
+    Printf 0 "Creating the $($SCRIPTFILENAME) script file. . .";
+
     # First, check if the script file already exists
     if(ExistingFileProtocol)
     {
