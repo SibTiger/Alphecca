@@ -531,7 +531,7 @@ function main()
     # Display a message that the build has been generated
     Printf 1 "$($SCRIPTFILENAME) has been successfully created!";
     Printf 1 "You may find the $($SCRIPTFILENAME) in this path:";
-    Printf 1 "$($OUTPUTFILE)";
+    Printf 1 "  $($OUTPUTFILE)";
 
     # Successful operation
     return 0;
