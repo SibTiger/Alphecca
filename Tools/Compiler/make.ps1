@@ -47,7 +47,7 @@ Set-Variable -Name "SCRIPTFILENAME" -Value "compile.ps1" `
 Set-Variable -Name "SCRIPTSDIRECTORY" -Value "$($SCRIPTPATH)\Scripts\" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Compiler Directory
-Set-Variable -Name "OUTPUTDIRECTORY" -Value "..\..\" `
+Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\..\..\" | select -ExpandProperty Path)" `
     -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 # Output Script File
 Set-Variable -Name "OUTPUTFILE" -Value "$($OUTPUTDIRECTORY)$($SCRIPTFILENAME)" `
@@ -531,7 +531,7 @@ function main()
     # Display a message that the build has been generated
     Printf 1 "$($SCRIPTFILENAME) has been successfully created!";
     Printf 1 "You may find the $($SCRIPTFILENAME) in this path:";
-    Printf 1 "$(Resolve-Path $OUTPUTFILE | select -ExpandProperty Path)";
+    Printf 1 "$($OUTPUTFILE)";
 
     # Successful operation
     return 0;
