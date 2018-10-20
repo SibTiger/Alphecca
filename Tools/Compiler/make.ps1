@@ -510,26 +510,75 @@ function main()
     # Tell the user that the program is preparing to generate the script
     Printf 0 "Creating the $($SCRIPTFILENAME) script file. . .";
 
+
+    # ===============================================
+    # ===============================================
     # First, check if the script file already exists
+
+    if($DEBUGMODE)
+    {
+        Printf 3 "Checking for existing $($SCRIPTFILENAME) and thrashing it. . .";
+    } # DEBUG MODE
+    
+    # Check for existing script and delete it - if it exists
     if(ExistingFileProtocol)
     {
         Printf 2 "Unable to successfully delete the old compile script";
         return 1;
     } # Check existing script
 
+    if($DEBUGMODE)
+    {
+        Printf 3 "  Done!";
+    } # DEBUG MODE
+
+
+    # ===============================================
+    # ===============================================
     # Second, create a new script file
+
+    if($DEBUGMODE)
+    {
+        Printf 3 "Creating a new empty $($SCRIPTFILENAME) file. . .";
+    } # DEBUG MODE
+
+    # Create the script
     if(CreateNewScriptFile)
     {
         Printf 2 "Failure to create the script file";
         return 1;
     } # Create the script
 
+    if($DEBUGMODE)
+    {
+        Printf 3 "  Done!";
+    } # DEBUG MODE
+
+
+    # ===============================================
+    # ===============================================
     # Third, append all of the sub-scripts into one script file
+
+    if($DEBUGMODE)
+    {
+        Printf 3 "Building $($SCRIPTFILENAME) script file. . .";
+    } # DEBUG MODE
+
+    # Append the sub-scripts to the main script
     if(MakeCompilerDriver)
     {
         Printf 2 "Failure to generate the script file";
         return 1;
     } # Generate the script
+
+    if($DEBUGMODE)
+    {
+        Printf 3 "  Done!";
+    } # DEBUG MODE
+
+
+    # ===============================================
+    # ===============================================
 
     # Display a message that the build has been generated
     Printf 1 "$($SCRIPTFILENAME) has been successfully created!";
