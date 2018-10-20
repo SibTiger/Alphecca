@@ -463,7 +463,7 @@ function Inspector()
     Printf 3 ($inspectorTable|Format-Table -AutoSize|Out-String);
     
     # Tell the user how many Global Vars exists
-    Printf 3 "Global Variables in used: $($inspectorTable.Count)";
+    Printf 3 "Global Variables in use: $($inspectorTable.Count)";
 
     # Add some extra spacing to make the output nicer -- separating data
     Printf 0 "`n`n";
