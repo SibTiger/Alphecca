@@ -8,6 +8,9 @@ function Initializations()
 {
     # Project Information
     InitializationsProjectData;
+
+    # Directory Locations
+    InitializationsDirectory;
 } # Initializations()
 
 
@@ -44,3 +47,18 @@ function InitializationsProjectData()
     Set-Variable -Name "PROJECTHELP" -Value "https://github.com/SibTiger/Alphecca/wiki" `
         -Option Constant -Scope Global -ErrorAction SilentlyContinue;
 } # InitializationsProjectData()
+
+
+
+
+# Initialization Directory Paths
+# --------------------------
+# Documentation
+#     Directory locations
+# --------------------------
+function InitializationsDirectory()
+{
+    # Script Absolute Script Path
+    Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+} # InitializationsDirectory()
