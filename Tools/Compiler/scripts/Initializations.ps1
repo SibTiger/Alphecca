@@ -62,3 +62,22 @@ function InitializationsDirectory()
     Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitializationsDirectory()
+
+
+
+
+# Initialization Build Output
+# --------------------------
+# Documentation
+#     Build Output
+# --------------------------
+function InitializationsOutput()
+{
+    # Output Directory Name
+    Set-Variable -Name "OUTPUTDIRECTORYNAME" -Value "BUILDS" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+            
+    # Build Output Path
+    Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\BUILDS" | select -ExpandProperty Path)" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+} # InitializationsOutput()
