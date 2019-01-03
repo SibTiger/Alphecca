@@ -82,9 +82,9 @@ function InitalizationDirectory()
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
-    # Output Debug Directory Path
+    # Output Development Directory Path
     # ---------------
-    # The directory that holds the 'Debug' builds.
-    Set-Variable -Name "DIRECTORYOUTPUTDEBUG_" -Value "$(_DIRECTORYOUTPUTROOT_)\Debug" `
+    # The directory that holds the 'Development' builds.
+    Set-Variable -Name "DIRECTORYOUTPUTDEV_" -Value "$(_DIRECTORYOUTPUTROOT_)\Development" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
