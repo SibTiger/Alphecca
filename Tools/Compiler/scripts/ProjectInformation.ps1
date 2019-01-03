@@ -19,6 +19,7 @@ class ProjectInformation
     # =================================================
     # PRIVATE (emulated)
 
+
     # Project's Name
     # ---------------
     # The formal name of the project.
@@ -68,7 +69,105 @@ class ProjectInformation
     Hidden [String] $__urlSource;
     
 
+
+
     # Member Functions :: Methods
     # =================================================
     # =================================================
+    # PUBLIC
+
+
+    # Get Project Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Project Name variable.
+    # -------------------------------
+    # Return:
+    #  Project Name [String]
+    #   The name of the project.
+    # -------------------------------
+    [String] GetProjectName()
+    {
+        return $this.__projectName;
+    } # GetProjectName()
+
+
+
+    # Get Project's Code Name
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Code Name variable.
+    # -------------------------------
+    # Return:
+    #  Project's Code Name [String]
+    #   The code name of the project or version.
+    # -------------------------------
+    [String] GetCodeName()
+    {
+        return $this.__codeName;
+    } # GetCodeName()
+
+
+
+    # Get Filename
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the filename variable.
+    # -------------------------------
+    # Return:
+    #  Archive datafile filename [String]
+    #   The filename to be used for the archive datafile.
+    # -------------------------------
+    [String] GetFilename()
+    {
+        return $this.__fileName;
+    } # GetFilename()
+
+
+
+    # Get Project's Official Website
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Website variable.
+    # -------------------------------
+    # Return:
+    #  Project's Website [String]
+    #   The project's official website.
+    # -------------------------------
+    [String] GetProjectWebsite()
+    {
+        return $this.__urlWebsite;
+    } # GetProjectWebsite()
+
+
+
+    # Get Project's Official Documentation
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Wiki\Documentation variable.
+    # -------------------------------
+    # Return:
+    #  Project's Wikipedia [String]
+    #   The project's official wikipedia\documentation webpage.
+    # -------------------------------
+    [String] GetProjectWiki()
+    {
+        return $this.__urlWiki;
+    } # GetProjectWiki()
+
+
+
+    # Get Project's Official Repository
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Source variable.
+    # -------------------------------
+    # Return:
+    #  Project's Repository [String]
+    #   The project's official repository (web view) path.
+    # -------------------------------
+    [String] GetProjectSource()
+    {
+        return $this.__urlSource;
+    } # GetProjectSource()
 } # ProjectInformation
