@@ -12,7 +12,7 @@ function Initializations()
     InitalizationProgramData;
 
     # Directory Locations
-    InitializationsDirectory;
+    InitalizationDirectory;
 } # Initializations()
 
 
@@ -49,32 +49,42 @@ function InitalizationProgramData()
 
 
 # Initialization Directory Paths
-# --------------------------
+# -------------------------------
 # Documentation
-#     Directory locations
-# --------------------------
-function InitializationsDirectory()
+#  This function will setup the directory paths that will be used
+#   when handling files within this program.
+# -------------------------------
+function InitalizationDirectory()
 {
     # Script Absolute Script Path
-    Set-Variable -Name "SCRIPTPATH" -Value $PSScriptRoot `
+    # ---------------
+    # The path that this script currently resides from.
+    #  Highly useful for 'absolute' paths.
+    # BUG POSSIBLE: If the path has been disrupted at program's runtime,
+    #  then it is possible that this path will be broken - thus causing
+    #  problems when trying to throw or recall files from specific directories
+    #  from an absolute directory.
+    Set-Variable -Name "_SCRIPTPATH_" -Value $PSScriptRoot `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
-} # InitializationsDirectory()
 
 
-
-
-# Initialization Build Output
-# --------------------------
-# Documentation
-#     Build Output
-# --------------------------
-function InitializationsOutput()
-{
-    # Output Directory Name
-    Set-Variable -Name "OUTPUTDIRECTORYNAME" -Value "BUILDS" `
+    # Output Parent Directory Path
+    # ---------------
+    # The root directory that the builds reside.
+    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$(_SCRIPTPATH_)\Builds" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
-            
-    # Build Output Path
-    Set-Variable -Name "OUTPUTDIRECTORY" -Value "$(Resolve-Path "$($PSScriptRoot)\BUILDS" | select -ExpandProperty Path)" `
+
+
+    # Output Release Directory Path
+    # ---------------
+    # The directory that holds the 'Release' builds.
+    Set-Variable -Name "_DIRECTORYOUTPUTRELEASE_" -Value "$(_DIRECTORYOUTPUTROOT_)\Release" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
-} # InitializationsOutput()
+
+
+    # Output Debug Directory Path
+    # ---------------
+    # The directory that holds the 'Debug' builds.
+    Set-Variable -Name "DIRECTORYOUTPUTDEBUG_" -Value "$(_DIRECTORYOUTPUTROOT_)\Debug" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+} # InitalizationDirectory()
