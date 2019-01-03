@@ -87,4 +87,12 @@ function InitalizationDirectory()
     # The directory that holds the 'Development' builds.
     Set-Variable -Name "DIRECTORYOUTPUTDEV_" -Value "$(_DIRECTORYOUTPUTROOT_)\Development" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+
+    # Log Directory Path
+    # ---------------
+    # The directory that will contain the log-files regarding this program and some special
+    #  operations.
+    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$(_SCRIPTPATH_)\Logs" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
