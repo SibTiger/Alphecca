@@ -1,9 +1,11 @@
-﻿# Initializations
-# --------------------------
-# Documentation
-#     This function will declare and initialize all global variables that will be available
-#     within this program.
-# --------------------------
+﻿# Initializations Driver
+# -------------------------------
+# Documentation:
+#  This function is essentially the driver to setting up the declarations and
+#   initializations for the heart of the program.  Most of the declarations
+#   housed within this script are global but constant, thus the variables can
+#   be used anywhere within this program but not mutable once initialized.
+# -------------------------------
 function Initializations()
 {
     # Program Information
