@@ -15,7 +15,7 @@ function Initializations()
 
 
 
-# Initialiation Program Data
+# Initialization Program Data
 # -------------------------------
 # Documentation:
 #  This function will initialize all variables related to the program.
