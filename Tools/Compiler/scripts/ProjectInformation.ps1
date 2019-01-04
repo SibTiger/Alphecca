@@ -82,8 +82,8 @@ class ProjectInformation
     # Documentation:
     #  Returns the value of the Project Name variable.
     # -------------------------------
-    # Return:
-    #  Project Name [String]
+    # Output:
+    #  [string] Project Name
     #   The name of the project.
     # -------------------------------
     [String] GetProjectName()
@@ -98,8 +98,8 @@ class ProjectInformation
     # Documentation:
     #  Returns the value of the Code Name variable.
     # -------------------------------
-    # Return:
-    #  Project's Code Name [String]
+    # Output:
+    #  [string] Project's Code Name
     #   The code name of the project or version.
     # -------------------------------
     [String] GetCodeName()
@@ -114,8 +114,8 @@ class ProjectInformation
     # Documentation:
     #  Returns the value of the filename variable.
     # -------------------------------
-    # Return:
-    #  Archive datafile filename [String]
+    # Output:
+    #  [string] Archive datafile filename
     #   The filename to be used for the archive datafile.
     # -------------------------------
     [String] GetFilename()
@@ -130,8 +130,8 @@ class ProjectInformation
     # Documentation:
     #  Returns the value of the Website variable.
     # -------------------------------
-    # Return:
-    #  Project's Website [String]
+    # Output:
+    #  [string] Project's Website
     #   The project's official website.
     # -------------------------------
     [String] GetProjectWebsite()
@@ -146,8 +146,8 @@ class ProjectInformation
     # Documentation:
     #  Returns the value of the Wiki\Documentation variable.
     # -------------------------------
-    # Return:
-    #  Project's Wikipedia [String]
+    # Output:
+    #  [string] Project's Wikipedia
     #   The project's official wikipedia\documentation webpage.
     # -------------------------------
     [String] GetProjectWiki()
@@ -162,8 +162,8 @@ class ProjectInformation
     # Documentation:
     #  Returns the value of the Source variable.
     # -------------------------------
-    # Return:
-    #  Project's Repository [String]
+    # Output:
+    #  [string] Project's Repository
     #   The project's official repository (web view) path.
     # -------------------------------
     [String] GetProjectSource()
