@@ -76,21 +76,21 @@ function InitalizationDirectory()
     # Output Parent Directory Path
     # ---------------
     # The root directory that the builds reside.
-    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$(FetchPathUserDocuments)\$(_PROGRAMNAME_)\Builds" `
+    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)\Builds" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # Output Release Directory Path
     # ---------------
     # The directory that holds the 'Release' builds.
-    Set-Variable -Name "_DIRECTORYOUTPUTRELEASE_" -Value "$(_DIRECTORYOUTPUTROOT_)\Release" `
+    Set-Variable -Name "_DIRECTORYOUTPUTRELEASE_" -Value "$($_DIRECTORYOUTPUTROOT_)\Release" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # Output Development Directory Path
     # ---------------
     # The directory that holds the 'Development' builds.
-    Set-Variable -Name "DIRECTORYOUTPUTDEV_" -Value "$(_DIRECTORYOUTPUTROOT_)\Development" `
+    Set-Variable -Name "DIRECTORYOUTPUTDEV_" -Value "$($_DIRECTORYOUTPUTROOT_)\Development" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
@@ -98,14 +98,14 @@ function InitalizationDirectory()
     # ---------------
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
-    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$(FetchPathAppDataLocal)\$(_PROGRAMNAME_)\Logs" `
+    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # User Data (Configuration)
     # ---------------
     # This directory will hold the user's configurations.
-    Set-Variable -Name "_DIRECTORYUSERDATA_" -Value "$(FetchPathAppDataRoaming)\$(_PROGRAMNAME_)\Configs" `
+    Set-Variable -Name "_DIRECTORYUSERDATA_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
 
