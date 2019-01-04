@@ -95,4 +95,11 @@ function InitalizationDirectory()
     #  operations.
     Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$(_SCRIPTPATH_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+
+    # User Data (Configuration)
+    # ---------------
+    # This directory will hold the user's configurations.
+    Set-Variable -Name "_DIRECTORYUSERDATA_" -Value "$(_SCRIPTPATH_)\Configs" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
