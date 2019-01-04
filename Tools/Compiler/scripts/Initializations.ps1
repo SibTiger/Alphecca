@@ -55,7 +55,7 @@ function InitalizationProgramData()
 
 # Initialization Directory Paths
 # -------------------------------
-# Documentation
+# Documentation:
 #  This function will setup the directory paths that will be used
 #   when handling files within this program.
 # -------------------------------
@@ -111,19 +111,57 @@ function InitalizationDirectory()
 
 
 
+
+# Fetch Path: AppData Local Directory
+# -------------------------------
+# Documentation:
+#  This function will find the currently logged-in user's
+#   AppData Local absolute path and return the value to the
+#   respected caller.
+# -------------------------------
+# Output:
+#  [string] Local AppData Absolute Path
+#   The current user's Local AppData directory.
+# -------------------------------
 function FetchPathAppDataLocal()
 {
     return "$($env:LOCALAPPDATA)";
-} # FetchLocalAppData()
+} # FetchPathAppDataLocal()
 
 
+
+
+# Fetch Path: AppData Roaming Directory
+# -------------------------------
+# Documentation:
+#  This function will find the currently logged-in user's
+#   AppData Roaming absolute path and return the value to the
+#   respected caller.
+# -------------------------------
+# Output:
+#  [string] Roaming AppData Absolute Path
+#   The current user's Roaming AppData directory.
+# -------------------------------
 function FetchPathAppDataRoaming()
 {
     return "$($env:APPDATA)";
-} # FetchAppDataRoaming()
+} # FetchPathAppDataRoaming()
 
 
+
+
+# Fetch Path: User's Document Directory
+# -------------------------------
+# Documentation:
+#  This function will find the currently logged-in user's
+#   Document's absolute path and return the value to the
+#   respected caller.
+# -------------------------------
+# Output:
+#  [string] User's 'My Documents' Absolute Path
+#   The current user's Documents directory.
+# -------------------------------
 function FetchPathUserDocuments()
 {
     return "$($env:HOMEPATH)\Documents"
-} # FetchUserProfile()
+} # FetchPathUserDocuments()
