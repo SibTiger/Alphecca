@@ -24,6 +24,12 @@ class GitControl
     Hidden [bool] $__updateSource;
 
 
+    # Length Commit ID
+    # ---------------
+    # Set how long the commit ID should be when retrieving it.
+    Hidden [GitCommitLength] $__lengthCommitID;
+
+
     # Fetch Latest Commit ID
     # ---------------
     # When true, try to fetch the latest commit ID.
@@ -75,3 +81,17 @@ class GitControl
     #  has been generated.
     Hidden [string] $__reportPath;
 } # GitControl
+
+
+
+
+# GIT Commit Type [ENUM]
+# -------------------------------
+# Associated with what type of commit ID the end-user
+#  prefers when retrieving the Commit ID.
+# -------------------------------
+enum GitCommitLength
+{
+    short = 0;   # usually contains seven chars.
+    long = 1;    # usually about fourty-one chars. [Lunacy!]
+} # GitCommitType
