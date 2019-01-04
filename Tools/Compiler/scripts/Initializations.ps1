@@ -17,6 +17,7 @@ function Initializations()
 
 
 
+
 # Initialization Program Data
 # -------------------------------
 # Documentation:
@@ -75,7 +76,7 @@ function InitalizationDirectory()
     # Output Parent Directory Path
     # ---------------
     # The root directory that the builds reside.
-    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$(_SCRIPTPATH_)\Builds" `
+    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$(FetchPathUserDocuments)\$(_PROGRAMNAME_)\Builds" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
@@ -97,13 +98,32 @@ function InitalizationDirectory()
     # ---------------
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
-    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$(_SCRIPTPATH_)\Logs" `
+    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$(FetchPathAppDataLocal)\$(_PROGRAMNAME_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # User Data (Configuration)
     # ---------------
     # This directory will hold the user's configurations.
-    Set-Variable -Name "_DIRECTORYUSERDATA_" -Value "$(_SCRIPTPATH_)\Configs" `
+    Set-Variable -Name "_DIRECTORYUSERDATA_" -Value "$(FetchPathAppDataRoaming)\$(_PROGRAMNAME_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
+
+
+
+function FetchPathAppDataLocal()
+{
+    return "$($env:LOCALAPPDATA)";
+} # FetchLocalAppData()
+
+
+function FetchPathAppDataRoaming()
+{
+    return "$($env:APPDATA)";
+} # FetchAppDataRoaming()
+
+
+function FetchPathUserDocuments()
+{
+    return "$($env:HOMEPATH)\Documents"
+} # FetchUserProfile()
