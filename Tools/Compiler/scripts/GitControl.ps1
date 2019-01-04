@@ -93,5 +93,5 @@ class GitControl
 enum GitCommitLength
 {
     short = 0;   # usually contains seven chars.
-    long = 1;    # usually about fourty-one chars. [Lunacy!]
+    long = 1;    # usually about forty-one chars. [Lunacy!]
 } # GitCommitType
