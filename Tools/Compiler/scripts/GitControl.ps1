@@ -387,7 +387,7 @@ class GitControl
             #  use it.  It must be a zero or non-negative
             #  value.
             return $true;
-        }
+        } # IF : Negative Value
 
         # Legal number, we can use it.
         $this.__changelogLimit = $newVal;
