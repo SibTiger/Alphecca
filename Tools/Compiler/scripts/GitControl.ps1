@@ -16,9 +16,9 @@ class GitControl
     # Member Variables :: Properties
     # =================================================
     # =================================================
-    # PRIVATE (emulated)
 
-    #region Private Variables
+
+    #region Private Variables (emulated)
 
     # Update Source
     # ---------------
@@ -89,7 +89,6 @@ class GitControl
     # Member Functions :: Methods
     # =================================================
     # =================================================
-    # PUBLIC
 
 
     #region Getter Functions
@@ -532,7 +531,7 @@ class GitControl
 
 
 
-# GIT Commit Type [ENUM]
+# Git Commit Type [ENUM]
 # -------------------------------
 # Associated with what type of commit ID the end-user
 #  prefers when retrieving the Commit ID.
