@@ -23,20 +23,20 @@ class ProjectInformation
     # Project's Name
     # ---------------
     # The formal name of the project.
-    Hidden [String] $__projectName;
+    Hidden [string] $__projectName;
 
 
     # Project's Code Name (or Version Code Name)
     # ---------------
     # The code name of the project or of that version.
-    Hidden [String] $__codeName;
+    Hidden [string] $__codeName;
 
 
     # Output Filename
     # ---------------
     # The filename of the archive data file in which this program
     # will create as requested by the end-user.
-    Hidden [String] $__fileName;
+    Hidden [string] $__fileName;
 
 
     # Project's Website
@@ -45,7 +45,7 @@ class ProjectInformation
     # end-user by request.  This can be helpful to the user, in-which
     # they may check out the project's latest public announcements
     # and insights regarding the project.
-    Hidden [String] $__urlWebsite;
+    Hidden [string] $__urlWebsite;
 
 
     # Project's Help Documentation
@@ -56,7 +56,7 @@ class ProjectInformation
     # reasons but not limited to using this very tool.
     #  NOTE: Wiki's are usually provided in some Developer\Repo
     #  Web-Services, such as GitHub.
-    Hidden [String] $__urlWiki;
+    Hidden [string] $__urlWiki;
 
 
     # Project's Repository
@@ -66,7 +66,7 @@ class ProjectInformation
     # source code via their preferred web-browser.
     # Prime example of Repositories:
     #  GitHub, SourceForge, BitBucket, GitLab, and many more.
-    Hidden [String] $__urlSource;
+    Hidden [string] $__urlSource;
     
 
 
@@ -86,7 +86,7 @@ class ProjectInformation
     #  [string] Project Name
     #   The name of the project.
     # -------------------------------
-    [String] GetProjectName()
+    [string] GetProjectName()
     {
         return $this.__projectName;
     } # GetProjectName()
@@ -102,7 +102,7 @@ class ProjectInformation
     #  [string] Project's Code Name
     #   The code name of the project or version.
     # -------------------------------
-    [String] GetCodeName()
+    [string] GetCodeName()
     {
         return $this.__codeName;
     } # GetCodeName()
@@ -118,7 +118,7 @@ class ProjectInformation
     #  [string] Archive datafile filename
     #   The filename to be used for the archive datafile.
     # -------------------------------
-    [String] GetFilename()
+    [string] GetFilename()
     {
         return $this.__fileName;
     } # GetFilename()
@@ -134,7 +134,7 @@ class ProjectInformation
     #  [string] Project's Website
     #   The project's official website.
     # -------------------------------
-    [String] GetProjectWebsite()
+    [string] GetProjectWebsite()
     {
         return $this.__urlWebsite;
     } # GetProjectWebsite()
@@ -150,7 +150,7 @@ class ProjectInformation
     #  [string] Project's Wikipedia
     #   The project's official wikipedia\documentation webpage.
     # -------------------------------
-    [String] GetProjectWiki()
+    [string] GetProjectWiki()
     {
         return $this.__urlWiki;
     } # GetProjectWiki()
@@ -166,7 +166,7 @@ class ProjectInformation
     #  [string] Project's Repository
     #   The project's official repository (web view) path.
     # -------------------------------
-    [String] GetProjectSource()
+    [string] GetProjectSource()
     {
         return $this.__urlSource;
     } # GetProjectSource()
