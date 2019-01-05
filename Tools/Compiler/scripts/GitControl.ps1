@@ -84,7 +84,7 @@ class GitControl
     Hidden [string] $__reportPath;
     #endregion
 
-
+    
 
     # Member Functions :: Methods
     # =================================================
@@ -261,6 +261,271 @@ class GitControl
         return $this.__reportPath;
     } # GetReportPath()
 
+    #endregion
+
+
+
+    #region Setter Functions
+
+    # Set Update Source Flag
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Update Source variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetUpdateSource([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__updateSource = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetUpdateSource()
+
+
+
+
+    # Set Git Commit Length
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Git Commit Length variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetLengthCommitID([GitCommitLength] $newVal)
+    {
+        # Because the value must fit within the 'GitCommitLength'
+        #  datatype, there really is no point in checking if the
+        #  new requested value is 'legal'.  Thus, we are going
+        #  to trust the value and automatically return success.
+        $this.__lengthCommitID = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetLengthCommitID()
+
+
+
+
+    # Set Fetch Commit ID
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Fetch Commit ID variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetFetchCommitID([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__fetchCommitID = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetFetchCommitID()
+
+
+
+
+    # Set Fetch Changelog
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Fetch Changelog variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetFetchChangelog([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__fetchChangelog = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetFetchChangelog()
+
+
+
+
+    # Set Changelog Limit
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Changelog Limit variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetChangelogLimit([int] $newVal)
+    {
+        # Make sure the requested change is actually legal.
+        #  Prevent negative numbers
+        if ($newVal -lt 0)
+        {
+            # The request was a negative number, we can not
+            #  use it.  It must be a zero or non-negative
+            #  value.
+            return $true;
+        }
+
+        # Legal number, we can use it.
+        $this.__changelogLimit = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetChangelogLimit()
+
+
+
+
+    # Set Source Branch
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Source Branch variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetSourceBranch([string] $newVal)
+    {
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # TODO - This requires further validation that I
+        #  cannot properly setup right now.
+        #  Blindly accept it for now, regardless if the
+        #  branch exists within the project.
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        $this.__sourceBranch = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetSourceBranch()
+
+
+
+
+    # Set Fetch Contributors
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Fetch Contributors variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetFetchContributors([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__fetchContributors = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetFetchContributors()
+
+
+
+
+    # Set Fetch Stats
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Fetch Stats variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetFetchStats([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__fetchStats = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetFetchStats()
+
+
+
+
+    # Set Generate Report
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Generate Report variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetGenerateReport([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__generateReport = $newVal;
+
+        # Successfully updated.
+        return $false;
+    } # SetGenerateReport()
+
+
+
+
+    # Set Report Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Report Path variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Failure; could not set a new value.
+    #   false = Success; value has been changed.
+    # -------------------------------
+    [bool] SetReportPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__reportPath = $newVal;
+            return $false;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $true;
+    } # SetReportPath()
     #endregion
 } # GitControl
 
