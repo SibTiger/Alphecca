@@ -143,6 +143,7 @@ enum SevenZipAlgorithm7Zip
 enum SevenCompressionLevel
 {
     Store = 0;    # Store [No Compression] {0}
-    Normal = 1;   # Standard compression   {5}
-    Maximum = 2;  # Maximum compression    {9}
+    Minimal = 1;  # Minimal compression    {3}
+    Normal = 2;   # Standard compression   {5}
+    Maximum = 3;  # Maximum compression    {9}
 } # DefaultCompressionLevel
