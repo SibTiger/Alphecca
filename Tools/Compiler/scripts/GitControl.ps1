@@ -18,6 +18,8 @@ class GitControl
     # =================================================
     # PRIVATE (emulated)
 
+    #region Private Variables
+
     # Update Source
     # ---------------
     # When true, try to update the source when possible.
@@ -80,7 +82,7 @@ class GitControl
     # The absolute path to store the reports that
     #  has been generated.
     Hidden [string] $__reportPath;
-
+    #endregion
 
 
 
@@ -90,6 +92,7 @@ class GitControl
     # PUBLIC
 
 
+    #region Getter Functions
 
     # Get Update Source Flag
     # -------------------------------
@@ -257,6 +260,8 @@ class GitControl
     {
         return $this.__reportPath;
     } # GetReportPath()
+
+    #endregion
 } # GitControl
 
 
