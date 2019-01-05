@@ -17,8 +17,9 @@ class ProjectInformation
     # Member Variables :: Properties
     # =================================================
     # =================================================
-    # PRIVATE (emulated)
 
+
+    #region Private Variables (emulated)
 
     # Project's Name
     # ---------------
@@ -68,14 +69,16 @@ class ProjectInformation
     #  GitHub, SourceForge, BitBucket, GitLab, and many more.
     Hidden [string] $__urlSource;
     
+    #endregion
 
 
 
     # Member Functions :: Methods
     # =================================================
     # =================================================
-    # PUBLIC
 
+
+    #region Getter Functions
 
     # Get Project Name
     # -------------------------------
@@ -170,4 +173,6 @@ class ProjectInformation
     {
         return $this.__urlSource;
     } # GetProjectSource()
+
+    #endregion
 } # ProjectInformation

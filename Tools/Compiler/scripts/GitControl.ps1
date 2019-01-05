@@ -82,6 +82,7 @@ class GitControl
     # The absolute path to store the reports that
     #  has been generated.
     Hidden [string] $__reportPath;
+
     #endregion
 
     
@@ -525,6 +526,7 @@ class GitControl
         # Failure; Path does not exist.
         return $true;
     } # SetReportPath()
+
     #endregion
 } # GitControl
 
