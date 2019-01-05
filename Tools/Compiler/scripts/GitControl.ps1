@@ -188,7 +188,7 @@ class GitControl
     #  [string] Source Branch
     #   the value of the Source Branch.
     # -------------------------------
-    [int] GetSourceBranch()
+    [string] GetSourceBranch()
     {
         return $this.__sourceBranch;
     } # GetSourceBranch()
