@@ -11,6 +11,8 @@
 #  binary is not available - than nothing is used.
 
 
+
+
 class GitControl
 {
     # Member Variables :: Properties
