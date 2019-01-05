@@ -80,6 +80,183 @@ class GitControl
     # The absolute path to store the reports that
     #  has been generated.
     Hidden [string] $__reportPath;
+
+
+
+
+    # Member Functions :: Methods
+    # =================================================
+    # =================================================
+    # PUBLIC
+
+
+
+    # Get Update Source Flag
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Update Source variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Update Source
+    #   the value of the Update Source.
+    # -------------------------------
+    [bool] GetUpdateSource()
+    {
+        return $this.__updateSource;
+    } # GetUpdateSource()
+
+
+
+
+    # Get Git Commit Length
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Git Commit Length variable.
+    # -------------------------------
+    # Output:
+    #  [GitCommitLength] Git Commit Length
+    #   the value of the Git Commit Length.
+    # -------------------------------
+    [GitCommitLength] GetLengthCommitID()
+    {
+        return $this.__lengthCommitID;
+    } # GetLengthCommitID()
+
+
+
+
+    # Get Fetch Commit ID
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Fetch Commit ID variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Fetch Commit ID
+    #   the value of the Fetch Commit ID.
+    # -------------------------------
+    [bool] GetFetchCommitID()
+    {
+        return $this.__fetchCommitID;
+    } # GetFetchCommitID()
+
+
+
+
+    # Get Fetch Changelog
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Fetch Changelog variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Fetch Changelog
+    #   the value of the Fetch Changelog.
+    # -------------------------------
+    [bool] GetFetchChangelog()
+    {
+        return $this.__fetchChangelog;
+    } # GetFetchChangelog()
+
+
+
+
+    # Get Changelog Limit
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Changelog Limit variable.
+    # -------------------------------
+    # Output:
+    #  [int] Changelog Limit
+    #   the value of the Changelog Limit.
+    # -------------------------------
+    [int] GetChangelogLimit()
+    {
+        return $this.__changelogLimit;
+    } # GetChangelogLimit()
+
+
+
+
+    # Get Source Branch
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Source Branch variable.
+    # -------------------------------
+    # Output:
+    #  [string] Source Branch
+    #   the value of the Source Branch.
+    # -------------------------------
+    [int] GetSourceBranch()
+    {
+        return $this.__sourceBranch;
+    } # GetSourceBranch()
+
+
+
+
+    # Get Fetch Contributors
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Fetch Contributors variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Fetch Contributors
+    #   the value of the Fetch Contributors.
+    # -------------------------------
+    [bool] GetFetchContributors()
+    {
+        return $this.__fetchContributors;
+    } # GetFetchContributors()
+
+
+
+
+    # Get Fetch Stats
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Fetch Stats variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Fetch Stats
+    #   the value of the Fetch Stats.
+    # -------------------------------
+    [bool] GetFetchStats()
+    {
+        return $this.__fetchStats;
+    } # GetFetchStats()
+
+
+
+
+    # Get Generate Report
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Generate Report variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Generate Report
+    #   the value of the Generate Report.
+    # -------------------------------
+    [bool] GetGenerateReport()
+    {
+        return $this.__generateReport;
+    } # GetGenerateReport()
+
+
+
+
+    # Get Report Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Report Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Report Path
+    #   the value of the Report Path.
+    # -------------------------------
+    [string] GetReportPath()
+    {
+        return $this.__reportPath;
+    } # GetReportPath()
 } # GitControl
 
 
