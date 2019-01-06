@@ -27,10 +27,10 @@ class SevenZip
 
     #region Private Variables (emulated)
 
-    # Method
+    # Compression Method
     # ---------------
     # The method in which to compact the archive datafile.
-    Hidden [SevenZipCompressionMethod] $__Method;
+    Hidden [SevenZipCompressionMethod] $__compressionMethod;
 
 
     # Algorithm [PK3|Zip]
@@ -104,7 +104,7 @@ class SevenZip
     # -------------------------------
     [SevenZipCompressionMethod] GetCompressionMethod()
     {
-        return $this.__Method;
+        return $this.__compressionMethod;
     } # GetCompressionMethod()
 
 
