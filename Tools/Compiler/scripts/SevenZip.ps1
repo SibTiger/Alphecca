@@ -83,6 +83,167 @@ class SevenZip
     Hidden [string] $__reportPath;
 
     #endregion
+
+
+
+    # Member Functions :: Methods
+    # =================================================
+    # =================================================
+
+
+    #region Getter Functions
+
+    # Get Compression Method
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Compression Method variable.
+    # -------------------------------
+    # Output:
+    #  [SevenZipCompressionMethod] Compression Method
+    #   the value of the Compression Method.
+    # -------------------------------
+    [SevenZipCompressionMethod] GetCompressionMethod()
+    {
+        return $this.__Method;
+    } # GetCompressionMethod()
+
+
+
+
+    # Get Algorithm [PK3|Zip]
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Algorithm variable.
+    # -------------------------------
+    # Output:
+    #  [SevenZipAlgorithmZip] Algorithm [ZIP]
+    #   the value of the Compression Algorithm.
+    # -------------------------------
+    [SevenZipAlgorithmZip] GetAlgorithmZip()
+    {
+        return $this.__algorithmZip;
+    } # GetAlgorithmZip()
+
+
+
+
+    # Get Algorithm [PK7|7Zip]
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Algorithm variable.
+    # -------------------------------
+    # Output:
+    #  [SevenZipAlgorithmZip] Algorithm [7Zip]
+    #   the value of the Compression Algorithm.
+    # -------------------------------
+    [SevenZipAlgorithmZip] GetAlgorithm7Zip()
+    {
+        return $this.__algorithm7Zip;
+    } # GetAlgorithm7Zip()
+
+
+
+
+    # Get Use Multithread
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Use Multithread variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Use Multithread
+    #   the value of the Use Multithread.
+    # -------------------------------
+    [bool] GetUseMultithread()
+    {
+        return $this.__useMultithread;
+    } # GetUseMultithread()
+
+
+
+
+    # Get Compression Level
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Compression Level variable.
+    # -------------------------------
+    # Output:
+    #  [SevenCompressionLevel] Compression Level
+    #   the value of the Compression Level.
+    # -------------------------------
+    [SevenCompressionLevel] GetCompressionLevel()
+    {
+        return $this.__compressionLevel;
+    } # GetCompressionLevel()
+
+
+
+
+    # Get Provide Hash
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Provide Hash variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Provide Hash
+    #   the value of the Provide Hash.
+    # -------------------------------
+    [bool] GetProvideHash()
+    {
+        return $this.__provideHash;
+    } # GetProvideHash()
+
+
+
+
+    # Get Verify Build
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Verify Build variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Verify Build
+    #   the value of the Verify Build.
+    # -------------------------------
+    [bool] GetVerifyBuild()
+    {
+        return $this.__verifyBuild;
+    } # GetVerifyBuild()
+
+
+
+
+    # Get Generate Report
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Generate Report variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Generate Report
+    #   the value of the Generate Report.
+    # -------------------------------
+    [bool] GetVerifyBuild()
+    {
+        return $this.__generateReport;
+    } # GetVerifyBuild()
+
+
+
+
+    # Get Report Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Report Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Report Path
+    #   the value of the Report Path.
+    # -------------------------------
+    [string] GetReportPath()
+    {
+        return $this.__reportPath;
+    } # GetReportPath()
+
+    #endregion
 } # SevenZip
 
 
