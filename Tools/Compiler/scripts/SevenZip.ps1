@@ -221,10 +221,10 @@ class SevenZip
     #  [bool] Generate Report
     #   the value of the Generate Report.
     # -------------------------------
-    [bool] GetVerifyBuild()
+    [bool] GetGenerateReport()
     {
         return $this.__generateReport;
-    } # GetVerifyBuild()
+    } # GetGenerateReport()
 
 
 
