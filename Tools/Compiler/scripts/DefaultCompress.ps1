@@ -160,8 +160,8 @@ class DefaultCompress
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetCompressionLevel([DefaultCompressionLevel] $newVal)
     {
@@ -173,7 +173,7 @@ class DefaultCompress
         $this.__compressionLevel = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetCompressionLevel()
 
 
@@ -186,8 +186,8 @@ class DefaultCompress
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetProvideHash([bool] $newVal)
     {
@@ -198,7 +198,7 @@ class DefaultCompress
         $this.__provideHash = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetProvideHash()
 
 
@@ -211,8 +211,8 @@ class DefaultCompress
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetVerifyBuild([bool] $newVal)
     {
@@ -223,7 +223,7 @@ class DefaultCompress
         $this.__verifyBuild = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetVerifyBuild()
 
 
@@ -236,8 +236,8 @@ class DefaultCompress
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetGenerateReport([bool] $newVal)
     {
@@ -248,7 +248,7 @@ class DefaultCompress
         $this.__generateReport = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetGenerateReport()
 
 
@@ -261,8 +261,8 @@ class DefaultCompress
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetReportPath([string] $newVal)
     {
@@ -271,11 +271,11 @@ class DefaultCompress
         {
             # Path exists; use it as requested
             $this.__reportPath = $newVal;
-            return $false;
+            return $true;
         } # IF: Path Exists
 
         # Failure; Path does not exist.
-        return $true;
+        return $false;
     } # SetReportPath()
 
     #endregion

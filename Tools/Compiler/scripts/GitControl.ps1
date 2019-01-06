@@ -276,8 +276,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetUpdateSource([bool] $newVal)
     {
@@ -288,7 +288,7 @@ class GitControl
         $this.__updateSource = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetUpdateSource()
 
 
@@ -301,8 +301,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetLengthCommitID([GitCommitLength] $newVal)
     {
@@ -313,7 +313,7 @@ class GitControl
         $this.__lengthCommitID = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetLengthCommitID()
 
 
@@ -326,8 +326,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetFetchCommitID([bool] $newVal)
     {
@@ -338,7 +338,7 @@ class GitControl
         $this.__fetchCommitID = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetFetchCommitID()
 
 
@@ -351,8 +351,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetFetchChangelog([bool] $newVal)
     {
@@ -363,7 +363,7 @@ class GitControl
         $this.__fetchChangelog = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetFetchChangelog()
 
 
@@ -376,8 +376,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetChangelogLimit([int] $newVal)
     {
@@ -388,14 +388,14 @@ class GitControl
             # The request was a negative number, we can not
             #  use it.  It must be a zero or non-negative
             #  value.
-            return $true;
+            return $false;
         } # IF : Negative Value
 
         # Legal number, we can use it.
         $this.__changelogLimit = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetChangelogLimit()
 
 
@@ -408,8 +408,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetSourceBranch([string] $newVal)
     {
@@ -424,7 +424,7 @@ class GitControl
         $this.__sourceBranch = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetSourceBranch()
 
 
@@ -437,8 +437,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetFetchContributors([bool] $newVal)
     {
@@ -449,7 +449,7 @@ class GitControl
         $this.__fetchContributors = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetFetchContributors()
 
 
@@ -462,8 +462,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetFetchStats([bool] $newVal)
     {
@@ -474,7 +474,7 @@ class GitControl
         $this.__fetchStats = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetFetchStats()
 
 
@@ -487,8 +487,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetGenerateReport([bool] $newVal)
     {
@@ -499,7 +499,7 @@ class GitControl
         $this.__generateReport = $newVal;
 
         # Successfully updated.
-        return $false;
+        return $true;
     } # SetGenerateReport()
 
 
@@ -512,8 +512,8 @@ class GitControl
     # -------------------------------
     # Output:
     #  [bool] Status
-    #   true = Failure; could not set a new value.
-    #   false = Success; value has been changed.
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
     # -------------------------------
     [bool] SetReportPath([string] $newVal)
     {
@@ -522,11 +522,11 @@ class GitControl
         {
             # Path exists; use it as requested
             $this.__reportPath = $newVal;
-            return $false;
+            return $true;
         } # IF: Path Exists
 
         # Failure; Path does not exist.
-        return $true;
+        return $false;
     } # SetReportPath()
 
     #endregion
