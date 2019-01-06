@@ -42,7 +42,7 @@ class SevenZip
     # Algorithm [PK7|7Zip]
     # ---------------
     # The algorithm to use when using the 7Zip Method
-    Hidden [SevenZipAlgorithmZip] $__algorithm7Zip;
+    Hidden [SevenZipAlgorithm7Zip] $__algorithm7Zip;
 
 
     # Use Multithread
@@ -133,10 +133,10 @@ class SevenZip
     #  Returns the value of the Algorithm variable.
     # -------------------------------
     # Output:
-    #  [SevenZipAlgorithmZip] Algorithm [7Zip]
+    #  [SevenZipAlgorithm7Zip] Algorithm [7Zip]
     #   the value of the Compression Algorithm.
     # -------------------------------
-    [SevenZipAlgorithmZip] GetAlgorithm7Zip()
+    [SevenZipAlgorithm7Zip] GetAlgorithm7Zip()
     {
         return $this.__algorithm7Zip;
     } # GetAlgorithm7Zip()
