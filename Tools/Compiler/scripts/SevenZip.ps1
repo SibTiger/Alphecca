@@ -244,6 +244,240 @@ class SevenZip
     } # GetReportPath()
 
     #endregion
+
+
+
+    #region Setter Functions
+
+    # Set Compression Method
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Compression Method variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetCompressionMethod([SevenZipCompressionMethod] $newVal)
+    {
+        # Because the value must fit within the
+        #  'SevenZipCompressionMethod' datatype, there really is
+        #  no point in checking if the new requested value is
+        #  'legal'.  Thus, we are going to trust the value and
+        #  automatically return success.
+        $this.__compressionMethod = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetCompressionMethod()
+
+
+
+
+    # Set Algorithm [PK3|Zip]
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Algorithm variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetAlgorithmZip([SevenZipAlgorithmZip] $newVal)
+    {
+        # Because the value must fit within the
+        #  'SevenZipAlgorithmZip' datatype, there really is
+        #  no point in checking if the new requested value is
+        #  'legal'.  Thus, we are going to trust the value and
+        #  automatically return success.
+        $this.__algorithmZip = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetAlgorithmZip()
+
+
+
+
+    # Set Algorithm [PK7|7Zip]
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Algorithm variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetAlgorithm7Zip([SevenZipAlgorithm7Zip] $newVal)
+    {
+        # Because the value must fit within the
+        #  'SevenZipAlgorithm7Zip' datatype, there really is
+        #  no point in checking if the new requested value is
+        #  'legal'.  Thus, we are going to trust the value and
+        #  automatically return success.
+        $this.__algorithm7Zip = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetAlgorithm7Zip()
+
+
+
+
+    # Set Use Multithread
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Use Multithread variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetUseMultithread([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__useMultithread = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetUseMultithread()
+
+
+
+
+    # Set Compression Level
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Compression Level variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetCompressionLevel([SevenCompressionLevel] $newVal)
+    {
+        # Because the value must fit within the
+        #  'SevenCompressionLevel' datatype, there really is
+        #  no point in checking if the new requested value is
+        #  'legal'.  Thus, we are going to trust the value and
+        #  automatically return success.
+        $this.__compressionLevel = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetCompressionLevel()
+
+
+
+
+    # Set Provide Hash
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Provide Hash variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetProvideHash([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__provideHash = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetProvideHash()
+
+
+
+
+    # Set Verify Build
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Verify Build variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetVerifyBuild([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__verifyBuild = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetVerifyBuild()
+
+
+
+
+    # Set Generate Report
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Generate Report variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetGenerateReport([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__generateReport = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetGenerateReport()
+
+
+
+
+    # Set Report Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Report Path variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetReportPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__reportPath = $newVal;
+            return $true;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $false;
+    } # SetReportPath()
+
+    #endregion
 } # SevenZip
 
 
