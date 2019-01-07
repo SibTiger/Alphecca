@@ -19,7 +19,6 @@
 
 
 
-
 class UserPreferences
 {
     # Member Variables :: Properties
