@@ -43,7 +43,7 @@ class UserPreferences
     # Project Builds Path
     # ---------------
     # The builds output path.
-    Hidden [string] $__outputBuilds;
+    Hidden [string] $__outputBuildsPath;
 
 
     # Use Git Features
