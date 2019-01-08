@@ -83,6 +83,358 @@ class UserPreferences
     Hidden [UserPreferencesEventAlarm] $__NotificationType;
 
     #endregion
+
+
+
+    # Member Functions :: Methods
+    # =================================================
+    # =================================================
+
+
+    #region Getter Functions
+
+    # Get Compression Tool Choice
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Compression Tool Choice variable.
+    # -------------------------------
+    # Output:
+    #  [UserPreferencesCompressTool] Compression Tool Choice
+    #   the value of the Compression Tool Choice.
+    # -------------------------------
+    [UserPreferencesCompressTool] GetCompressionTool()
+    {
+        return $this.__compressionTool;
+    } # GetCompressionTool()
+
+
+
+
+    # Get Project Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Project Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Project Path
+    #   the value of the Project Path.
+    # -------------------------------
+    [string] GetProjectPath()
+    {
+        return $this.__projectPath;
+    } # GetProjectPath()
+
+
+
+
+    # Get Project Builds Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Project Builds Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Project Builds Path
+    #   the value of the Project Builds Path.
+    # -------------------------------
+    [string] GetProjectBuildsPath()
+    {
+        return $this.__outputBuildsPath;
+    } # GetProjectBuildsPath()
+
+
+
+
+    # Get Use Git Features
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Use Git Features variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Use Git Features
+    #   the value of the Use Git Features.
+    # -------------------------------
+    [bool] GetUseGitFeatures()
+    {
+        return $this.__useGitFeatures;
+    } # GetUseGitFeatures()
+
+
+
+
+    # Get Use Windows Explorer
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Use Windows Explorer variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Use Windows Explorer
+    #   the value of the Use Windows Explorer.
+    # -------------------------------
+    [bool] GetUseWindowsExplorer()
+    {
+        return $this.__useWindowsExplorer;
+    } # GetUseWindowsExplorer()
+
+
+
+
+    # Get Logging
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Logging variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Logging
+    #   the value of the Logging.
+    # -------------------------------
+    [bool] GetLogging()
+    {
+        return $this.__logging;
+    } # GetLogging()
+
+
+
+
+    # Get Use Bell
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Use Bell variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Use Bell
+    #   the value of the Use Bell.
+    # -------------------------------
+    [bool] GetUseBell()
+    {
+        return $this.__ringMyDingaling;
+    } # GetUseBell()
+
+
+
+    # Get Bell Events
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Bell Events variable.
+    # -------------------------------
+    # Output:
+    #  [UserPreferencesEventAlarm] Bell Events
+    #   the value of the Bell Events.
+    # -------------------------------
+    [UserPreferencesEventAlarm] GetBellEvents()
+    {
+        return $this.__NotificationType;
+    } # GetBellEvents()
+
+    #endregion
+
+
+
+    #region Setter Functions
+
+    # Set Compression Tool Choice
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Compression Tool Choice variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetCompressionTool([UserPreferencesCompressTool] $newVal)
+    {
+        # Because the value must fit within the
+        #  'UserPreferencesCompressTool' datatype, there really is
+        #  no point in checking if the new requested value is
+        #  'legal'.  Thus, we are going to trust the value and
+        #  automatically return success.
+        $this.__compressionTool = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetCompressionTool()
+
+
+
+
+    # Set Project Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Project Path variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetProjectPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__projectPath = $newVal;
+            return $true;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $false;
+    } # SetProjectPath()
+
+
+
+
+    # Set Project Builds Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Project Builds Path variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetProjectBuildsPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__outputBuildsPath = $newVal;
+            return $true;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $false;
+    } # SetProjectBuildsPath()
+
+
+
+
+    # Set Use Git Features
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Use Git Features variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetUseGitFeatures([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__useGitFeatures = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetUseGitFeatures()
+
+
+
+
+    # Set Use Windows Explorer
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Use Windows Explorer variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetUseWindowsExplorer([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__useWindowsExplorer = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetUseWindowsExplorer()
+
+
+
+
+    # Set Logging
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Logging variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetLogging([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__logging = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetLogging()
+
+
+
+
+    # Set Use Bell
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Use Bell variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetUseBell([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__ringMyDingaling = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetUseBell()
+
+
+
+
+    # Set Bell Events
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Bell Events variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetBellEvents([UserPreferencesEventAlarm] $newVal)
+    {
+        # Because the value must fit within the
+        #  'UserPreferencesEventAlarm' datatype, there really is
+        #  no point in checking if the new requested value is
+        #  'legal'.  Thus, we are going to trust the value and
+        #  automatically return success.
+        $this.__NotificationType = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetBellEvents()
+
+    #endregion
 } # UserPreferences
 
 
