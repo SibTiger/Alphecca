@@ -79,7 +79,7 @@ class UserPreferences
     # Bell Events
     # ---------------
     # The user can be able to pick which event is giving with an
-    #  audiable notification.
+    #  audible notification.
     Hidden [UserPreferencesEventAlarm] $__NotificationType;
 
     #endregion
@@ -105,8 +105,8 @@ enum UserPreferencesCompressTool
 
 # User Preferences Event Alarm [ENUM]
 # -------------------------------
-# Associated with what type of audiable notification
-#  the user wishes to recieve.  These notifications
+# Associated with what type of audible notification
+#  the user wishes to receive.  These notifications
 #  are based on certain events that can occur during
 #  the program's run-time.
 # -------------------------------
