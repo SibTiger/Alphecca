@@ -80,7 +80,7 @@ class UserPreferences
     # ---------------
     # The user can be able to pick which event is giving with an
     #  audible notification.
-    Hidden [UserPreferencesEventAlarm] $__NotificationType;
+    Hidden [UserPreferencesEventAlarm] $__notificationType;
 
     #endregion
 
@@ -222,7 +222,7 @@ class UserPreferences
     # -------------------------------
     [UserPreferencesEventAlarm] GetBellEvents()
     {
-        return $this.__NotificationType;
+        return $this.__notificationType;
     } # GetBellEvents()
 
     #endregion
@@ -428,7 +428,7 @@ class UserPreferences
         #  no point in checking if the new requested value is
         #  'legal'.  Thus, we are going to trust the value and
         #  automatically return success.
-        $this.__NotificationType = $newVal;
+        $this.__notificationType = $newVal;
 
         # Successfully updated.
         return $true;
