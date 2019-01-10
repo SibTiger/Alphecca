@@ -78,6 +78,35 @@ class ProjectInformation
     # =================================================
 
 
+    #region Constructor Functions
+    
+    # Default Constructor
+    ProjectInformation()
+    {
+        # Project name
+        $this.__projectName = "Alphecca";
+
+        # Code name (Version name)
+        $this.__codeName = "Apostasy";
+
+        # File name (Archive datafile name)
+        #  NOTE: Remember that /idgames has an 8char limit
+        $this.__fileName = "alphecca";
+
+        # Project's Website URL
+        $this.__urlWebsite = "https://github.com/SibTiger/Alphecca";
+
+        # Project's Wiki URL
+        $this.__urlWiki = "https://github.com/SibTiger/Alphecca/wiki";
+
+        # Project's Source (Repo) URL
+        $this.__urlSource = "https://github.com/SibTiger/Alphecca";
+    } # Default Constructor
+
+    #endregion
+
+
+
     #region Getter Functions
 
     # Get Project Name
