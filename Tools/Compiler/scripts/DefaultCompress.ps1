@@ -63,6 +63,57 @@ class DefaultCompress
     # =================================================
 
 
+    
+    #region Constructor Functions
+    
+    # Default Constructor
+    DefaultCompress()
+    {
+        # Compression Level
+        $this.__compressionLevel = 0;
+
+        # Provide Hash
+        $this.__provideHash = $false;
+
+        # Verify Build
+        $this.__verifyBuild = $true;
+
+        # Generate report
+        $this.__generateReport = $false;
+
+        # Report Path
+        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\dotNET_Compression";
+    } # Default Constructor
+
+
+
+
+    # User Preference : On-Load
+    DefaultCompress([DefaultCompressionLevel] $compressionLevel,
+                    [bool] $provideHash,
+                    [bool] $verifyBuild,
+                    [bool] $generateReport)
+    {
+        # Compression Level
+        $this.__compressionLevel = $compressionLevel;
+
+        # Provide Hash
+        $this.__provideHash = $provideHash;
+
+        # Verify Build
+        $this.__verifyBuild = $verifyBuild;
+
+        # Generate report
+        $this.__generateReport = $generateReport;
+
+        # Report Path
+        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\dotNET_Compression";
+    } # Default Constructor
+
+    #endregion
+
+
+
     #region Getter Functions
 
     # Get Compression Level
