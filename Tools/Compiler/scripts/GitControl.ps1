@@ -92,6 +92,92 @@ class GitControl
     # Member Functions :: Methods
     # =================================================
     # =================================================
+    
+
+    #region Constructor Functions
+    
+    # Default Constructor
+    GitControl()
+    {
+        # Update Source
+        $this.__updateSource = $true;
+
+        # Length Commit ID
+        $this.__lengthCommitID = 0;
+
+        # Fetch Commit ID
+        $this.__fetchCommitID = $true;
+
+        # Fetch changelog
+        $this.__fetchChangelog = $true;
+
+        # Changelog history limits
+        $this.__changelogLimit = 50;
+
+        # Repository Branch
+        $this.__sourceBranch = "master";
+
+        # Fetch all contributors
+        $this.__fetchContributors = $false;
+
+        # Fetch project's statistics
+        $this.__fetchStats = $false;
+
+        # Generate a report
+        $this.__generateReport = $false;
+
+        # Report Path
+        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\git";
+
+    } # Default Constructor
+
+
+
+
+    # User Preference : On-Load
+    GitControl([bool]$updateSource,
+                [GitCommitLength]$lengthCommitID,
+                [bool]$fetchCommitID,
+                [bool]$fetchChangelog,
+                [int]$changelogLimit,
+                [string]$sourceBranch,
+                [bool]$fetchContributors,
+                [bool]$fetchStats,
+                [bool]$generateReport)
+    {
+        # Update Source
+        $this.__updateSource = $updateSource;
+
+        # Length of the Commit ID
+        $this.__lengthCommitID = $lengthCommitID;
+
+        # Fetch the Commit ID
+        $this.__fetchCommitID = $fetchCommitID;
+
+        # Fetch the Changelog History
+        $this.__fetchChangelog = $fetchChangelog;
+
+        # Changelog Limit
+        $this.__changelogLimit = $changelogLimit;
+
+        # Repo Branch
+        $this.__sourceBranch = $sourceBranch;
+
+        # Fetch contributors
+        $this.__fetchContributors = $fetchContributors;
+
+        # Fetch Repo Stats
+        $this.__fetchStats = $fetchStats;
+
+        # Generate statistical report
+        $this.__generateReport = $generateReport;
+
+        # Report Path
+        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\git";
+    } # User Preference : On-Load
+
+    #endregion
+
 
 
     #region Getter Functions
