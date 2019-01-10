@@ -91,6 +91,84 @@ class SevenZip
     # =================================================
 
 
+    #region Constructor Functions
+    
+    # Default Constructor
+    SevenZip()
+    {
+        # Compression Method
+        $this.__compressionMethod = 0;
+
+        # Algorithm [Zip]
+        $this.__algorithmZip = 0;
+
+        # Algorithm [7Zip]
+        $this.__algorithm7Zip = 0;
+
+        # Multithread
+        $this.__useMultithread = $true;
+
+        # Compress Level
+        $this.__compressionLevel = 2;
+
+        # Provide Hash
+        $this.__provideHash = $false;
+
+        # Verify Build
+        $this.__verifyBuild = $true;
+
+        # Generate Report
+        $this.__generateReport = $false;
+
+        # Report Path
+        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\7Zip";
+    } # Default Constructor
+
+
+
+
+    # User Preference : On-Load
+    SevenZip([SevenZipCompressionMethod] $compressionMethod,
+            [SevenZipAlgorithmZip] $algorithmZip,
+            [SevenZipAlgorithm7Zip] $algorithm7Zip,
+            [bool] $useMultithread,
+            [SevenCompressionLevel] $compressionLevel,
+            [bool] $provideHash,
+            [bool] $verifyBuild,
+            [bool] $generateReport)
+    {
+        # Compression Method
+        $this.__compressionMethod = $compressionMethod;
+
+        # Algorithm [Zip]
+        $this.__algorithmZip = $algorithmZip;
+
+        # Algorithm [7Zip]
+        $this.__algorithm7Zip = $algorithm7Zip;
+
+        # Multithread
+        $this.__useMultithread = $useMultithread;
+
+        # Compress Level
+        $this.__compressionLevel = $compressionLevel;
+
+        # Provide Hash
+        $this.__provideHash = $provideHash;
+
+        # Verify Build
+        $this.__verifyBuild = $verifyBuild;
+
+        # Generate Report
+        $this.__generateReport = $generateReport;
+
+        # Report Path
+        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\7Zip";
+    } # User Preference : On-Load
+
+    #endregion
+
+
+
     #region Getter Functions
 
     # Get Compression Method
