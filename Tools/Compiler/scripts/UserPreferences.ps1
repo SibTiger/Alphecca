@@ -91,6 +91,78 @@ class UserPreferences
     # =================================================
 
 
+    #region Constructor Functions
+    
+    # Default Constructor
+    UserPreferences()
+    {
+        # Compression Tool
+        $this.__compressionTool = 0;
+
+        # Project Path
+        $this.__projectPath = ".\";
+
+        # Output Build Path
+        $this.__outputBuildsPath = "$($_DIRECTORYOUTPUTROOT_)";
+
+        # Use Git Features
+        $this.__useGitFeatures = $true;
+
+        # Use Windows Explorer
+        $this.__useWindowsExplorer = $true;
+
+        # Logging
+        $this.__logging = $true;
+
+        # Use Bell
+        $this.__ringMyDingaling = $true;
+
+        # Bell Events
+        $this.__notificationType = 0;
+    } # Default Constructor
+
+
+
+
+    # User Preference : On-Load
+    UserPreferences([UserPreferencesCompressTool] $compressionTool,
+                    [string] $projectPath,
+                    [string] $outputBuildsPath,
+                    [bool] $useGitFeatures,
+                    [bool] $useWindowsExplorer,
+                    [bool] $logging,
+                    [bool] $useBell,
+                    [UserPreferencesEventAlarm] $notificationType)
+    {
+        # Compression Tool
+        $this.__compressionTool = $compressionTool;
+
+        # Project Path
+        $this.__projectPath = $projectPath;
+
+        # Output Build Path
+        $this.__outputBuildsPath = $outputBuildsPath;
+
+        # Use Git Features
+        $this.__useGitFeatures = $useGitFeatures;
+
+        # Use Windows Explorer
+        $this.__useWindowsExplorer = $useWindowsExplorer;
+
+        # Logging
+        $this.__logging = $logging;
+
+        # Use Bell
+        $this.__ringMyDingaling = $useBell;
+
+        # Bell Events
+        $this.__notificationType = $notificationType;
+    } # User Preference : On-Load
+
+    #endregion
+
+
+
     #region Getter Functions
 
     # Get Compression Tool Choice
