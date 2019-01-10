@@ -217,8 +217,11 @@ function MakeCompilerDriver()
     $scriptFileName = @("help.ps1", `
                         "Initializations.ps1", `
                         "common.ps1", `
-                        "Compiler.ps1", `
-                        "MainMenu.ps1", `
+                        "DefaultCompress.ps1", `
+                        "GitControl.ps1", `
+                        "ProjectInformation.ps1", `
+                        "SevenZip.ps1", `
+                        "UserPreferences.ps1", `
                         "main.ps1");
 
     # Loop through each index in the array
