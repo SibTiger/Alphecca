@@ -103,7 +103,7 @@ class UserPreferences
         $this.__projectPath = ".\";
 
         # Output Build Path
-        $this.__outputBuildsPath = "$($_DIRECTORYOUTPUTROOT_)";
+        $this.__outputBuildsPath = "$($global:_DIRECTORYOUTPUTROOT_)";
 
         # Use Git Features
         $this.__useGitFeatures = $true;

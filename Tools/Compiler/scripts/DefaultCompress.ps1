@@ -82,7 +82,7 @@ class DefaultCompress
         $this.__generateReport = $false;
 
         # Report Path
-        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\dotNET_Compression";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\dotNET_Compression";
     } # Default Constructor
 
 
@@ -107,7 +107,7 @@ class DefaultCompress
         $this.__generateReport = $generateReport;
 
         # Report Path
-        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\dotNET_Compression";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\dotNET_Compression";
     } # Default Constructor
 
     #endregion

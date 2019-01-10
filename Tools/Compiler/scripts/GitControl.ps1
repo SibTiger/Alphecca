@@ -127,7 +127,7 @@ class GitControl
         $this.__generateReport = $false;
 
         # Report Path
-        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\git";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git";
 
     } # Default Constructor
 
@@ -173,7 +173,7 @@ class GitControl
         $this.__generateReport = $generateReport;
 
         # Report Path
-        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\git";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git";
     } # User Preference : On-Load
 
     #endregion

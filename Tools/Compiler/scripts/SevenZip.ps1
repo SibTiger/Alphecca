@@ -121,7 +121,7 @@ class SevenZip
         $this.__generateReport = $false;
 
         # Report Path
-        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\7Zip";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\7Zip";
     } # Default Constructor
 
 
@@ -162,7 +162,7 @@ class SevenZip
         $this.__generateReport = $generateReport;
 
         # Report Path
-        $this.__reportPath = "$($_DIRECTORYLOGROOT_)\7Zip";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\7Zip";
     } # User Preference : On-Load
 
     #endregion
