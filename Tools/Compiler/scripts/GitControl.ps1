@@ -616,6 +616,35 @@ class GitControl
     } # SetReportPath()
 
     #endregion
+
+
+    #region Public Functions
+
+    # Update Local Working Copy
+    # -------------------------------
+    # Documentation:
+    #  This function will essentually update the user's
+    #  local working copy of the source code.  This is
+    #  essentially done by using git.exe and pulling all
+    #  updates from the centralized repository server.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    # -------------------------------
+    [void] UpdateLocalWorkingCopy([string] $projectPath)
+    {
+        # Call the git executable and update the LWC.
+        git -C $projectPath pull;
+    } # UpdateLocalWorkingCopy()
+
+
+
+
+    #endregion
 } # GitControl
 
 
