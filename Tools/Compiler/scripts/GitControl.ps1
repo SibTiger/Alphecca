@@ -642,10 +642,13 @@ class GitControl
     # -------------------------------
     Hidden [int] __ExecuteGit([string] $arguments)
     {
-        [string] $executable = "git.exe";
-        [string] $executableArgument = $arguments;
-        [string] $workingDirectory = ".\";
-        [string] $executionVerb = "Open";
+        # Declarations and Initalizations
+        # ----------------------------------------
+        [string] $executable = "git.exe";          # Executable file name
+        [string] $executableArgument = $arguments; # Executable Parameters
+        [string] $workingDirectory = ".\";         # Working Directory
+        [string] $executionVerb = "Open";          # Verb; Start-Process requirement.
+        # ----------------------------------------
 
         $returnCode = Start-Process -FilePath $($executable) `
                                     -ArgumentList $($executableArgument) `
