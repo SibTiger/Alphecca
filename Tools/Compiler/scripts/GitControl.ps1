@@ -650,14 +650,13 @@ class GitControl
         [string] $executionVerb = "Open";          # Verb; Start-Process requirement.
         # ----------------------------------------
 
-        $returnCode = Start-Process -FilePath $($executable) `
-                                    -ArgumentList $($executableArgument) `
-                                    -WorkingDirectory $($workingDirectory) `
+        $returnCode = Start-Process -FilePath "$($executable)" `
+                                    -ArgumentList "$($executableArgument)" `
+                                    -WorkingDirectory "$($workingDirectory)" `
                                     -NoNewWindow `
                                     -Wait `
-                                    -UseNewEnvironment `
-                                    -Verb $($executionVerb);
-        
+                                    -UseNewEnvironment;
+
         return $returnCode.ExitCode;
     } # __ExecuteGit()
 
