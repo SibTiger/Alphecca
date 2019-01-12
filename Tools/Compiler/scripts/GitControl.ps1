@@ -618,6 +618,50 @@ class GitControl
     #endregion
 
 
+
+    #region Private Functions
+
+
+    # Execute Git
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the executable to run with the
+    #   required parameters.  With centralizing the execution,
+    #   this will avoid code duplication and assure the proper
+    #   procedure before and after calling the external command.
+    # -------------------------------
+    # Inputs:
+    #  [string] Arguments
+    #   Arguments to be used when executing the binary.
+    # -------------------------------
+    # Output:
+    #  [int] Exit Code
+    #   The error code provided from the executable.
+    #   This can be helpful to diagnose if the external command
+    #    reached an error or was successful.
+    # -------------------------------
+    [int] __ExecuteGit([string] $arguments)
+    {
+        [string] $executable = "git.exe";
+        [string] $executableArgument = $arguments;
+        [string] $workingDirectory = ".\";
+        [string] $executionVerb = "Open";
+
+        $returnCode = Start-Process -FilePath $($executable) `
+                                    -ArgumentList $($executableArgument) `
+                                    -WorkingDirectory $($workingDirectory) `
+                                    -NoNewWindow `
+                                    -Wait `
+                                    -UseNewEnvironment `
+                                    -Verb $($executionVerb);
+        
+        return $returnCode.ExitCode;
+    } # __ExecuteGit()
+
+    #endregion
+
+
+
     #region Public Functions
 
     # Update Local Working Copy
