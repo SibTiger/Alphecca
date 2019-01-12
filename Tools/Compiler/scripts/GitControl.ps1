@@ -633,6 +633,8 @@ class GitControl
     # Inputs:
     #  [string] Arguments
     #   Arguments to be used when executing the binary.
+    #  [string] Project Path
+    #   The absolute path of the project directory.
     # -------------------------------
     # Output:
     #  [int] Exit Code
@@ -640,13 +642,13 @@ class GitControl
     #   This can be helpful to diagnose if the external command
     #    reached an error or was successful.
     # -------------------------------
-    Hidden [int] __ExecuteGit([string] $arguments)
+    Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath)
     {
         # Declarations and Initalizations
         # ----------------------------------------
-        [string] $executable = "git.exe";                        # Executable file name
-        [string] $executableArgument = $arguments;               # Executable Parameters
-        [string] $workingDirectory = "$($global:__projectPath)"; # Working Directory
+        [string] $executable = "git.exe";               # Executable file name
+        [string] $executableArgument = $arguments;      # Executable Parameters
+        [string] $workingDirectory = "$($projectPath)"; # Working Directory
         # ----------------------------------------
 
         $returnCode = Start-Process -FilePath "$($executable)" `
