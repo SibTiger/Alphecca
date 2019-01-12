@@ -640,7 +640,7 @@ class GitControl
     #   This can be helpful to diagnose if the external command
     #    reached an error or was successful.
     # -------------------------------
-    [int] __ExecuteGit([string] $arguments)
+    Hidden [int] __ExecuteGit([string] $arguments)
     {
         [string] $executable = "git.exe";
         [string] $executableArgument = $arguments;
