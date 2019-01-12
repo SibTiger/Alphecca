@@ -644,10 +644,9 @@ class GitControl
     {
         # Declarations and Initalizations
         # ----------------------------------------
-        [string] $executable = "git.exe";          # Executable file name
-        [string] $executableArgument = $arguments; # Executable Parameters
-        [string] $workingDirectory = ".\";         # Working Directory
-        [string] $executionVerb = "Open";          # Verb; Start-Process requirement.
+        [string] $executable = "git.exe";                        # Executable file name
+        [string] $executableArgument = $arguments;               # Executable Parameters
+        [string] $workingDirectory = "$($global:__projectPath)"; # Working Directory
         # ----------------------------------------
 
         $returnCode = Start-Process -FilePath "$($executable)" `
