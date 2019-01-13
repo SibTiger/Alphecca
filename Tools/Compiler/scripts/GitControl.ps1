@@ -85,6 +85,16 @@ class GitControl
     #  has been generated.
     Hidden [string] $__reportPath;
 
+
+    # Log Root Path
+    # ---------------
+    # The absolute path to place the logs from the
+    #  executable.
+    Hidden [string] $__logPath;
+
+
+
+
     #endregion
 
     
@@ -127,8 +137,10 @@ class GitControl
         $this.__generateReport = $false;
 
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git\reports";
 
+        # Log Path
+        $this.__logPath = "$($global:_DIRECTORYLOGROOT_)\git\logs";
     } # Default Constructor
 
 
@@ -173,7 +185,10 @@ class GitControl
         $this.__generateReport = $generateReport;
 
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git";
+        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git\reports";
+
+        # Log Path
+        $this.__logPath = "$($global:_DIRECTORYLOGROOT_)\git\logs";
     } # User Preference : On-Load
 
     #endregion
@@ -348,6 +363,23 @@ class GitControl
     {
         return $this.__reportPath;
     } # GetReportPath()
+
+
+
+
+    # Get Report Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Log Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Log Path
+    #   the value of the Log Path.
+    # -------------------------------
+    [string] GetLogPath()
+    {
+        return $this.__logPath;
+    } # GetLogPath()
 
     #endregion
 
@@ -635,6 +667,8 @@ class GitControl
     #   Arguments to be used when executing the binary.
     #  [string] Project Path
     #   The absolute path of the project directory.
+    #  [string] Log Path
+    #   The absolute path of the log directory.
     # -------------------------------
     # Output:
     #  [int] Exit Code
@@ -642,13 +676,15 @@ class GitControl
     #   This can be helpful to diagnose if the external command
     #    reached an error or was successful.
     # -------------------------------
-    Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath)
+    Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath, [string] $logPath)
     {
         # Declarations and Initalizations
         # ----------------------------------------
         [string] $executable = "git.exe";               # Executable file name
         [string] $executableArgument = $arguments;      # Executable Parameters
         [string] $workingDirectory = "$($projectPath)"; # Working Directory
+        [string] $logStdErr = "$($Global:_DIRECTORYLOGROOT_)\";
+        [string] $logStdOut = "$($Global:_DIRECTORYLOGROOT_)";
         # ----------------------------------------
 
         $returnCode = Start-Process -FilePath "$($executable)" `
