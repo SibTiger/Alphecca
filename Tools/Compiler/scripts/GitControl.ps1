@@ -688,7 +688,7 @@ class GitControl
         [string] $logStdErr = "$($this.__logPath)\$($runTime).err";   # Log file: Standard Error
         [string] $logStdOut = "$($this.__logPath)\$($runTime).out";   # Log file: Standard Output
         [string] $logReport = "$($this.__reportPath)\$($runTime).txt";# Report File: Information regarding the repo.
-        [string] $fileOutput = if ($isReport -eq $true)
+        [string] $fileOutput = if ($isReport -eq $true) `             # Check if the output is a log or a report.
                             {"$($logReport)"} else {"$($LogStdOut)"};
         # ----------------------------------------
 
