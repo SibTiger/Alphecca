@@ -79,6 +79,12 @@ class GitControl
     Hidden [bool] $__generateReport;
 
 
+    # Log Root
+    # ---------------
+    # The main root of the log directories.
+    Hidden [string] $__rootLogPath;
+
+
     # Report Path
     # ---------------
     # The absolute path to store the reports that
@@ -91,8 +97,6 @@ class GitControl
     # The absolute path to place the logs from the
     #  executable.
     Hidden [string] $__logPath;
-
-
 
 
     #endregion
@@ -136,11 +140,14 @@ class GitControl
         # Generate a report
         $this.__generateReport = $false;
 
+        # Log Root Directory
+        $this.__rootLogPath = "$($global:_DIRECTORYLOGROOT_)\git";
+
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git\reports";
+        $this.__reportPath = "$($this.__rootLogPath)\reports";
 
         # Log Path
-        $this.__logPath = "$($global:_DIRECTORYLOGROOT_)\git\logs";
+        $this.__logPath = "$($this.__rootLogPath)\logs";
     } # Default Constructor
 
 
@@ -184,11 +191,14 @@ class GitControl
         # Generate statistical report
         $this.__generateReport = $generateReport;
 
+        # Log Root Directory
+        $this.__rootLogPath = "$($global:_DIRECTORYLOGROOT_)\git";
+
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\git\reports";
+        $this.__reportPath = "$($this.__rootLogPath)\reports";
 
         # Log Path
-        $this.__logPath = "$($global:_DIRECTORYLOGROOT_)\git\logs";
+        $this.__logPath = "$($this.__rootLogPath)\logs";
     } # User Preference : On-Load
 
     #endregion
@@ -380,6 +390,24 @@ class GitControl
     {
         return $this.__logPath;
     } # GetLogPath()
+
+
+
+
+    # Get Root Log Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Root Log Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Root Log Path
+    #   the value of the Log Root Path.
+    # -------------------------------
+    [string] GetRootLogPath()
+    {
+        return $this.__rootLogPath;
+    } # GetRootLogPath()
+
 
     #endregion
 
@@ -652,6 +680,164 @@ class GitControl
 
 
     #region Private Functions
+
+
+    # Check Required Directories
+    # -------------------------------
+    # Documentation:
+    #  This function was created to check the directories
+    #   that this class requires.
+    #
+    # ----
+    #
+    #  Directories to Check:
+    #   - \git
+    #   - \git\logs
+    #   - \git\reports
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = One or more directories does not exist.
+    #    $true = Directories exist
+    # -------------------------------
+    Hidden [bool] __CheckRequiredDirectories()
+    {
+        # Check Root Log Directory
+        if (($(Test-Path -LiteralPath "$($this.__rootLogPath)") -eq $true) -and `
+
+        # Check Report Path
+        ($(Test-Path -LiteralPath "$($this.__reportPath)") -eq $true) -and `
+
+        # Check Log Path
+        ($(Test-Path -LiteralPath "$($this.__logPath)") -eq $true))
+        {
+            # All of the directories exists
+            return $true;
+        } # If : Check Directories Exists
+
+        else
+        {
+            # Directories does not exist.
+            return $false;
+        } # Else : Directories does not exist
+    } # __CheckRequiredDirectories()
+
+
+
+
+    # Create Directories
+    # -------------------------------
+    # Documentation:
+    #  This function will create the necessary directories
+    #   required for this class to operate successfully.
+    #  If the directories do not exist, then the directories
+    #   are to be created on the user's filesystem.
+    #  If the directories does exist, then nothing will be
+    #   created nor changed.
+    #
+    # ----
+    #
+    #  Directories to be created:
+    #   - \git
+    #   - \git\logs
+    #   - \git\reports
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failure creating the new directories.
+    #    $true  = Successfully created the new directories
+    #             OR
+    #             Directories already existed, nothing to do.
+    # -------------------------------
+    Hidden [bool] __CreateDirectories()
+    {
+        # First, check if the directories already exist?
+        if(($this.__CheckRequiredDirectories())-eq $true)
+        {
+            # The directories exist, no action is required.
+            return $true;
+        } # IF : Check if Directories Exists
+
+
+        # ----
+
+
+        # Because one or all of the directories does not exist, we must first
+        #  check which directory does not exist and then try to create it.
+
+        # Root Log Directory
+        if($(Test-Path -LiteralPath "$($this.__rootLogPath)") -eq $false)
+        {
+            # Root Log Directory does not exist, try to create it.
+            try
+            {
+                # Try to create the directory; if failure - stop.
+                New-Item -Path "$($this.__rootLogPath)" -ItemType Directory -ErrorAction Stop;
+            } # try : Create directory.
+            catch
+            {
+                # Failure occurred.
+                return $false;
+            } # Catch : Failed to Create Directory
+        } # Root Log Directory
+
+
+        # ----
+
+
+        # Report Directory
+        if($(Test-Path -LiteralPath "$($this.__reportPath)") -eq $false)
+        {
+            # Report Directory does not exist, try to create it.
+            try
+            {
+                # Try to create the directory; if failure - stop.
+                New-Item -Path "$($this.__reportPath)" -ItemType Directory -ErrorAction Stop;
+            } # try : Create directory.
+            catch
+            {
+                # Failure occurred.
+                return $false;
+            } # Catch : Failed to Create Directory
+        } # Report Directory
+
+
+        # ----
+
+
+        # Log Directory
+        if($(Test-Path -LiteralPath "$($this.__logPath)") -eq $false)
+        {
+            # Log Directory does not exist, try to create it.
+            try
+            {
+                # Try to create the directory; if failure - stop.
+                New-Item -Path "$($this.__logPath)" -ItemType Directory -ErrorAction Stop;
+            } # try : Create directory.
+            catch
+            {
+                # Failure occurred.
+                return $false;
+            } # Catch : Failed to Create Directory
+        } # Log Directory
+
+
+        # ----
+
+
+        # Failsafe; final assurance that the directories have been created successfully.
+        if(($this.__CheckRequiredDirectories())-eq $true)
+        {
+            # The directories exist
+            return $true;
+        } # IF : Check if Directories Exists
+
+        
+        # A general error occured, the directories could not be created.
+        return $false;
+    } # __CreateDirectories()
+
+
 
 
     # Execute Git
