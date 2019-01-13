@@ -667,8 +667,9 @@ class GitControl
     #   Arguments to be used when executing the binary.
     #  [string] Project Path
     #   The absolute path of the project directory.
-    #  [string] Log Path
-    #   The absolute path of the log directory.
+    #  [bool] Is Report
+    #   When true, this will assure that the information
+    #    is logged as a report.
     # -------------------------------
     # Output:
     #  [int] Exit Code
@@ -676,20 +677,28 @@ class GitControl
     #   This can be helpful to diagnose if the external command
     #    reached an error or was successful.
     # -------------------------------
-    Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath, [string] $logPath)
+    Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath, [bool] $isReport)
     {
         # Declarations and Initalizations
         # ----------------------------------------
-        [string] $executable = "git.exe";               # Executable file name
-        [string] $executableArgument = $arguments;      # Executable Parameters
-        [string] $workingDirectory = "$($projectPath)"; # Working Directory
-        [string] $logStdErr = "$($Global:_DIRECTORYLOGROOT_)\";
-        [string] $logStdOut = "$($Global:_DIRECTORYLOGROOT_)";
+        [string] $executable = "git.exe";                             # Executable file name
+        [string] $executableArgument = $arguments;                    # Executable Parameters
+        [string] $workingDirectory = "$($projectPath)";               # Working Directory
+        [string] $runTime = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
+        [string] $logStdErr = "$($this.__logPath)\$($runTime).err";   # Log file: Standard Error
+        [string] $logStdOut = "$($this.__logPath)\$($runTime).out";   # Log file: Standard Output
+        [string] $logReport = "$($this.__reportPath)\$($runTime).txt";# Report File: Information regarding the repo.
+        [string] $fileOutput = if ($isReport -eq $true)
+                            {"$($logReport)"} else {"$($LogStdOut)"};
         # ----------------------------------------
 
+        Write-Host "Var: $($Global:_DIRECTORYLOGROOT_)";
+        Write-Host "File: $($fileOutput)";
         $returnCode = Start-Process -FilePath "$($executable)" `
                                     -ArgumentList "$($executableArgument)" `
                                     -WorkingDirectory "$($workingDirectory)" `
+                                    -RedirectStandardOutput "$($fileOutput)" `
+                                    -RedirectStandardError "$($logStdErr)" `
                                     -NoNewWindow `
                                     -Wait `
                                     -UseNewEnvironment;
