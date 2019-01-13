@@ -676,6 +676,12 @@ class GitControl
     #   The error code provided from the executable.
     #   This can be helpful to diagnose if the external command
     #    reached an error or was successful.
+    #   ERROR VALUES
+    #   -255
+    #    The executable could not execute; may not exist.
+    #   -256
+    #    Default value; should never happen unless something
+    #     went horribly wrong.  Mainly here to keep ISE quiet.
     # -------------------------------
     Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath, [bool] $isReport)
     {
@@ -690,18 +696,37 @@ class GitControl
         [string] $logReport = "$($this.__reportPath)\$($runTime).txt";# Report File: Information regarding the repo.
         [string] $fileOutput = if ($isReport -eq $true) `             # Check if the output is a log or a report.
                             {"$($logReport)"} else {"$($LogStdOut)"};
+        [int] $exitCode = -256;                                       # The exit code that will be returned from
+                                                                      #  this function. 
         # ----------------------------------------
 
-        $returnCode = Start-Process -FilePath "$($executable)" `
-                                    -ArgumentList "$($executableArgument)" `
-                                    -WorkingDirectory "$($workingDirectory)" `
-                                    -RedirectStandardOutput "$($fileOutput)" `
-                                    -RedirectStandardError "$($logStdErr)" `
-                                    -NoNewWindow `
-                                    -Wait `
-                                    -UseNewEnvironment;
+        # Execute the binary
+        try
+        {
+            # Execute the command
+            $returnCode = Start-Process -FilePath "$($executable)" `
+                                        -ArgumentList "$($executableArgument)" `
+                                        -WorkingDirectory "$($workingDirectory)" `
+                                        -RedirectStandardOutput "$($fileOutput)" `
+                                        -RedirectStandardError "$($logStdErr)" `
+                                        -NoNewWindow `
+                                        -Wait `
+                                        -UseNewEnvironment;
 
-        return $returnCode.ExitCode;
+            # Capture the exit status from the command.
+            $exitCode = $returnCode.ExitCode;
+        } # Try : Executing Git
+
+        # An error occurred while trying to execute the command
+        catch
+        {
+            # The command failed to be executed
+            $exitCode = -255;
+        } # Catch : Failed Executing Git
+
+
+        # Return the exit code
+        return $exitCode;
     } # __ExecuteGit()
 
     #endregion
