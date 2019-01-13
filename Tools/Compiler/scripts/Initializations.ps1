@@ -73,10 +73,21 @@ function InitalizationDirectory()
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
+    # ----
+    # User Data
+
+
+    # User-Data Parent Directory Path
+    # ---------------
+    # The root directory where user-data will be stored.
+    Set-Variable -Name "_DIRECTORYUSERDATAROOT_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+
     # Output Parent Directory Path
     # ---------------
     # The root directory that the builds reside.
-    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)\Builds" `
+    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$($_DIRECTORYUSERDATAROOT_)\Builds" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
@@ -94,18 +105,29 @@ function InitalizationDirectory()
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
+    # ----
+    # Program Data
+
+
+    # Program-Data Parent Directory Path
+    # ---------------
+    # The root directory where program-data will be stored.
+    Set-Variable -Name "_DIRECTORYPROGDATAROOT_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+
     # Log Directory Path
     # ---------------
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
-    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)\Logs" `
+    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$($_DIRECTORYPROGDATAROOT_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # User Data (Configuration)
     # ---------------
     # This directory will hold the user's configurations.
-    Set-Variable -Name "_DIRECTORYUSERDATA_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)\Configs" `
+    Set-Variable -Name "_DIRECTORYUSERCONFIGS_" -Value "$($_DIRECTORYPROGDATAROOT_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
 
