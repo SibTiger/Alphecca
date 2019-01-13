@@ -871,7 +871,7 @@ class GitControl
     # -------------------------------
     Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath, [bool] $isReport)
     {
-        # Declarations and Initalizations
+        # Declarations and Initializations
         # ----------------------------------------
         [string] $executable = "git.exe";                             # Executable file name
         [string] $executableArgument = $arguments;                    # Executable Parameters
@@ -924,7 +924,7 @@ class GitControl
     # Update Local Working Copy
     # -------------------------------
     # Documentation:
-    #  This function will essentually update the user's
+    #  This function will essentially update the user's
     #  local working copy of the source code.  This is
     #  essentially done by using git.exe and pulling all
     #  updates from the centralized repository server.
