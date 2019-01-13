@@ -692,8 +692,6 @@ class GitControl
                             {"$($logReport)"} else {"$($LogStdOut)"};
         # ----------------------------------------
 
-        Write-Host "Var: $($Global:_DIRECTORYLOGROOT_)";
-        Write-Host "File: $($fileOutput)";
         $returnCode = Start-Process -FilePath "$($executable)" `
                                     -ArgumentList "$($executableArgument)" `
                                     -WorkingDirectory "$($workingDirectory)" `
