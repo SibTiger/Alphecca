@@ -120,7 +120,7 @@ function InitalizationDirectory()
     # ---------------
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
-    Set-Variable -Name "_DIRECTORYLOGROOT_" -Value "$($_DIRECTORYPROGDATAROOT_)\Logs" `
+    Set-Variable -Name "_DIRECTORYPROGLOGS_" -Value "$($_DIRECTORYPROGDATAROOT_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
