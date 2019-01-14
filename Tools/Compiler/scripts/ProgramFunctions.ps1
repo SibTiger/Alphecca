@@ -67,8 +67,8 @@ function CreateDirectories()
     #  we must find it and create them.
 
 
-
     # User-Data Directories
+    # ++++++++++++++++++++++++++
     # ++++++++++++++++++++++++++
 
 
@@ -110,6 +110,7 @@ function CreateDirectories()
 
     # Program-Data Directories
     # ++++++++++++++++++++++++++
+    # ++++++++++++++++++++++++++
 
 
     # Program Data Root [Local]
@@ -142,66 +143,6 @@ function CreateDirectories()
     # Return the Exit status if successful
     return $true;
 } # CreateDirectories()
-
-
-
-
-# Make a New Directory
-# -------------------------------
-# Documentation:
-#  This function will make a new directory with the
-#   absolute path provided.
-# -------------------------------
-# Input:
-#  [string] Absolute Path
-#   The absolute path of a directory that is to be
-#   created by request.
-# -------------------------------
-# Output:
-#  [bool] Exit code
-#    $false = Failure to create the directory.
-#    $true = Successfully created the directory.
-#            OR
-#            Directory already exists; nothing to do.
-# -------------------------------
-function MakeDirectory()
-{
-    # Parameters for this function
-    Param
-    (
-        [Parameter(Mandatory=$true, Position=0)]
-        [string] $path
-    );
-
-
-    # Declarations and Initializations
-    # ----------------------------------------
-    [bool] $exitCode = $true;    # Exit code that will be returned.
-    # ----------------------------------------
-
-
-    # Check to see if the path already exists;
-    #  if it already exists - then nothing to do.
-    #  If it does not exist, then try to create it.
-    if ((CheckPathExists "$($path)") -eq $false)
-    {
-        # The requested path does not exist, try to create it.
-        try
-        {
-            # Try to create the directory; if failure - stop.
-            New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
-        } # try : Create directory.
-        catch
-        {
-            # Failure occurred.
-            $exitCode = $false;
-        } # Catch : Failed to Create Directory
-    } # If : Directory does not exist
-
-
-    # Return the exit code
-    return $exitCode;
-} # MakeDirectory()
 
 
 
@@ -249,7 +190,7 @@ function CheckProgramDirectories()
     else
     {
         # The directories does not exist.
-        #  Because onr or more directories does not exist,
+        #  Because one or more directories does not exist,
         #  return an error signal.
         return $false;
     } # Else : Directories not exist
@@ -274,7 +215,7 @@ function CheckProgramDirectories()
     else
     {
         # The directories does not exist.
-        #  Because onr or more directories does not exist,
+        #  Because one or more directories does not exist,
         #  return an error signal.
         return $false;
     } # Else : Directories not exist
@@ -354,6 +295,65 @@ function CheckSpecialDirectories()
     return $true;
 } # CheckSpecialDirectories()
 
+
+
+
+# Make a New Directory
+# -------------------------------
+# Documentation:
+#  This function will make a new directory with the
+#   absolute path provided.
+# -------------------------------
+# Input:
+#  [string] Absolute Path
+#   The absolute path of a directory that is to be
+#   created by request.
+# -------------------------------
+# Output:
+#  [bool] Exit code
+#    $false = Failure to create the directory.
+#    $true = Successfully created the directory.
+#            OR
+#            Directory already exists; nothing to do.
+# -------------------------------
+function MakeDirectory()
+{
+    # Parameters for this function
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [string] $path
+    );
+
+
+    # Declarations and Initializations
+    # ----------------------------------------
+    [bool] $exitCode = $true;    # Exit code that will be returned.
+    # ----------------------------------------
+
+
+    # Check to see if the path already exists;
+    #  if it already exists - then nothing to do.
+    #  If it does not exist, then try to create it.
+    if ((CheckPathExists "$($path)") -eq $false)
+    {
+        # The requested path does not exist, try to create it.
+        try
+        {
+            # Try to create the directory; if failure - stop.
+            New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
+        } # try : Create directory.
+        catch
+        {
+            # Failure occurred.
+            $exitCode = $false;
+        } # Catch : Failed to Create Directory
+    } # If : Directory does not exist
+
+
+    # Return the exit code
+    return $exitCode;
+} # MakeDirectory()
 
 
 
