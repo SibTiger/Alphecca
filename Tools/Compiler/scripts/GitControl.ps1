@@ -786,13 +786,13 @@ class GitControl
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Check Root Log Directory
-        if (($(Test-Path -LiteralPath "$($this.__rootLogPath)") -eq $true) -and `
+        if ((($this.__CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
 
         # Check Report Path
-        ($(Test-Path -LiteralPath "$($this.__reportPath)") -eq $true) -and `
+        (($this.__CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
 
         # Check Log Path
-        ($(Test-Path -LiteralPath "$($this.__logPath)") -eq $true))
+        (($this.__CheckPathExists("$($this.__logPath)") -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -849,66 +849,51 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if($(Test-Path -LiteralPath "$($this.__rootLogPath)") -eq $false)
+        if(($this.__CheckPathExists("$($this.__rootLogPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            try
-            {
-                # Try to create the directory; if failure - stop.
-                New-Item -Path "$($this.__rootLogPath)" -ItemType Directory -ErrorAction Stop;
-            } # try : Create directory.
-            catch
+            if (($this.__MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
-            } # Catch : Failed to Create Directory
+            } # If : Failed to Create Directory
         } # Root Log Directory
 
 
         # ----
 
 
-        # Report Directory
-        if($(Test-Path -LiteralPath "$($this.__reportPath)") -eq $false)
-        {
-            # Report Directory does not exist, try to create it.
-            try
-            {
-                # Try to create the directory; if failure - stop.
-                New-Item -Path "$($this.__reportPath)" -ItemType Directory -ErrorAction Stop;
-            } # try : Create directory.
-            catch
-            {
-                # Failure occurred.
-                return $false;
-            } # Catch : Failed to Create Directory
-        } # Report Directory
-
-
-        # ----
-
-
         # Log Directory
-        if($(Test-Path -LiteralPath "$($this.__logPath)") -eq $false)
+        if(($this.__CheckPathExists("$($this.__logPath)")) -eq $false)
         {
-            # Log Directory does not exist, try to create it.
-            try
-            {
-                # Try to create the directory; if failure - stop.
-                New-Item -Path "$($this.__logPath)" -ItemType Directory -ErrorAction Stop;
-            } # try : Create directory.
-            catch
+            # Root Log Directory does not exist, try to create it.
+            if (($this.__MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
-            } # Catch : Failed to Create Directory
+            } # If : Failed to Create Directory
         } # Log Directory
 
 
         # ----
 
 
-        # Failsafe; final assurance that the directories have been created successfully.
+        # Report Directory
+        if(($this.__CheckPathExists("$($this.__reportPath)")) -eq $false)
+        {
+            # Root Log Directory does not exist, try to create it.
+            if (($this.__MakeDirectory("$($this.__reportPath)")) -eq $false)
+            {
+                # Failure occurred.
+                return $false;
+            } # If : Failed to Create Directory
+        } # Report Directory
+
+
+        # ----
+
+
+        # Fail-safe; final assurance that the directories have been created successfully.
         if(($this.__CheckRequiredDirectories())-eq $true)
         {
             # The directories exist
@@ -998,6 +983,98 @@ class GitControl
         return $exitCode;
     } # __ExecuteGit()
 
+
+
+
+    # Make a New Directory
+    # -------------------------------
+    # Documentation:
+    #  This function will make a new directory with the
+    #   absolute path provided.
+    # -------------------------------
+    # Input:
+    #  [string] Absolute Path
+    #   The absolute path of a directory that is to be
+    #   created by request.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failure to create the directory.
+    #    $true = Successfully created the directory.
+    #            OR
+    #            Directory already exists; nothing to do.
+    # -------------------------------
+    Hidden [bool] __MakeDirectory([string] $path)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $true;    # Exit code that will be returned.
+        # ----------------------------------------
+
+
+        # Check to see if the path already exists;
+        #  if it already exists - then nothing to do.
+        #  If it does not exist, then try to create it.
+        if ((CheckPathExists "$($path)") -eq $false)
+        {
+            # The requested path does not exist, try to create it.
+            try
+            {
+                # Try to create the directory; if failure - stop.
+                New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
+            } # try : Create directory.
+            catch
+            {
+                # Failure occurred.
+                $exitCode = $false;
+            } # Catch : Failed to Create Directory
+        } # If : Directory does not exist
+
+
+        # Return the exit code
+        return $exitCode;
+    } # __MakeDirectory()
+
+
+
+
+    # Check Path Exists
+    # -------------------------------
+    # Documentation:
+    #  This function will check if the provided
+    #   directory (absolute path) exists on the
+    #   host's filesystem.
+    # -------------------------------
+    # Input:
+    #  [string] Directory (Absolute Path)
+    #    The path to check if it exists in the
+    #     filesystem.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Directory does not exist.
+    #    $true = Directory exist
+    # -------------------------------
+    Hidden [bool] __CheckPathExists([string] $path)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;    # Exit code that will be returned.
+        # ----------------------------------------
+
+
+        # Check if the path exists
+        if((Test-Path -LiteralPath "$($path)" -ErrorAction SilentlyContinue) -eq $true)
+        {
+            # Directory exists
+            $exitCode = $true;
+        } # If : Directory exists
+
+
+        # Return with exit code
+        return $exitCode;
+    } # __CheckPathExists()
+
     #endregion
 
 
@@ -1024,9 +1101,6 @@ class GitControl
         # Call the git executable and update the LWC.
         git -C $projectPath pull;
     } # UpdateLocalWorkingCopy()
-
-
-
 
     #endregion
 } # GitControl
