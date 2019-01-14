@@ -80,28 +80,28 @@ function InitalizationDirectory()
     # User-Data Parent Directory Path
     # ---------------
     # The root directory where user-data will be stored.
-    Set-Variable -Name "_DIRECTORYUSERDATAROOT_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)" `
+    Set-Variable -Name "_USERDATA_ROOT_PATH_" -Value "$(FetchPathUserDocuments)\$($_PROGRAMNAME_)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # Output Parent Directory Path
     # ---------------
     # The root directory that the builds reside.
-    Set-Variable -Name "_DIRECTORYOUTPUTROOT_" -Value "$($_DIRECTORYUSERDATAROOT_)\Builds" `
+    Set-Variable -Name "_USERDATA_BUILDS_PATH_" -Value "$($_USERDATA_ROOT_PATH_)\Builds" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # Output Release Directory Path
     # ---------------
     # The directory that holds the 'Release' builds.
-    Set-Variable -Name "_DIRECTORYOUTPUTRELEASE_" -Value "$($_DIRECTORYOUTPUTROOT_)\Release" `
+    Set-Variable -Name "_USERDATA_RELEASEBUILDS_PATH_" -Value "$($_USERDATA_BUILDS_PATH_)\Release" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # Output Development Directory Path
     # ---------------
     # The directory that holds the 'Development' builds.
-    Set-Variable -Name "_DIRECTORYOUTPUTDEV_" -Value "$($_DIRECTORYOUTPUTROOT_)\Development" `
+    Set-Variable -Name "_USERDATA_DEVBUILDS_PATH_" -Value "$($_USERDATA_BUILDS_PATH_)\Development" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
@@ -112,7 +112,7 @@ function InitalizationDirectory()
     # Program-Data Parent Directory Path
     # ---------------
     # The root directory where program-data will be stored.
-    Set-Variable -Name "_DIRECTORYPROGDATAROOT_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)" `
+    Set-Variable -Name "_PROGRAMDATA_ROOT_LOCAL_PATH_" -Value "$(FetchPathAppDataLocal)\$($_PROGRAMNAME_)" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
@@ -120,7 +120,7 @@ function InitalizationDirectory()
     # ---------------
     # The directory that will contain the log-files regarding this program and some special
     #  operations.
-    Set-Variable -Name "_DIRECTORYPROGLOGS_" -Value "$($_DIRECTORYPROGDATAROOT_)\Logs" `
+    Set-Variable -Name "_PROGRAMDATA_LOGS_PATH_" -Value "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
     
@@ -131,14 +131,14 @@ function InitalizationDirectory()
     # Program-Data Parent Directory Path
     # ---------------
     # The root directory where program-data will be stored.
-  #  Set-Variable -Name "_DIRECTORYPROGDATAROOT_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)" `
-  #      -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+    Set-Variable -Name "_PROGRAMADATA_ROOT_ROAMING_PATH_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)" `
+        -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # User Data (Configuration)
     # ---------------
     # This directory will hold the user's configurations.
-    Set-Variable -Name "_DIRECTORYUSERCONFIGS_" -Value "$($_DIRECTORYPROGDATAROOT_)\Configs" `
+    Set-Variable -Name "_PROGRAMDATA_CONFIGS_PATH_" -Value "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)\Configs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 } # InitalizationDirectory()
 

@@ -23,6 +23,7 @@
 #   - Program-Data Domain
 #    - %LOCALAPPDATA%\<PROG_NAME>
 #    - %LOCALAPPDATA%\<PROG_NAME>\Logs
+#    - %APPDATA%\<PROG_NAME>
 #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
 # -------------------------------
 # Output:
@@ -73,7 +74,7 @@ function CreateDirectories()
 
 
     # Program Root Directory
-    if((MakeDirectory "$($_DIRECTORYUSERDATAROOT_)") -eq $false)
+    if((MakeDirectory "$($_USERDATA_ROOT_PATH_)") -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -82,7 +83,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Builds Directory
-    if((MakeDirectory "$($_DIRECTORYOUTPUTROOT_)") -eq $false)
+    if((MakeDirectory "$($_USERDATA_BUILDS_PATH_)") -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -91,7 +92,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Release Builds Directory
-    if((MakeDirectory "$($_DIRECTORYOUTPUTRELEASE_)") -eq $false)
+    if((MakeDirectory "$($_USERDATA_RELEASEBUILDS_PATH_)") -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -100,7 +101,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Dev. Builds Directory
-    if((MakeDirectory "$($_DIRECTORYOUTPUTDEV_)") -eq $false)
+    if((MakeDirectory "$($_USERDATA_DEVBUILDS_PATH_)") -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -114,7 +115,7 @@ function CreateDirectories()
 
 
     # Program Data Root [Local]
-    if((MakeDirectory "$($_DIRECTORYPROGDATAROOT_)") -eq $false)
+    if((MakeDirectory "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)") -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -123,7 +124,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Logs [Local]
-    if((MakeDirectory "$($_DIRECTORYPROGLOGS_)") -eq $false)
+    if((MakeDirectory "$($_PROGRAMDATA_LOGS_PATH_)") -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -131,8 +132,17 @@ function CreateDirectories()
 
     # ----
 
-    # Program Data Configs [Local]
-    if((MakeDirectory "$($_DIRECTORYUSERCONFIGS_)") -eq $false)
+    # Program Data Root [Roaming]
+    if((MakeDirectory "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)") -eq $false)
+    {
+        # Directory could not be created.
+        return $false;
+    } # If : Program Data Configs [Local]
+
+    # ----
+
+    # Program Data Configs [Roaming]
+    if((MakeDirectory "$($_PROGRAMDATA_CONFIGS_PATH_)") -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -166,6 +176,7 @@ function CreateDirectories()
 #   - Program-Data Domain
 #    - %LOCALAPPDATA%\<PROG_NAME>
 #    - %LOCALAPPDATA%\<PROG_NAME>\Logs
+#    - %APPDATA%\<PROG_NAME>
 #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
 # -------------------------------
 # Output:
@@ -178,10 +189,10 @@ function CheckProgramDirectories()
     # User-Data Directories
     # -----
 
-    if (((CheckPathExists "$($_DIRECTORYUSERDATAROOT_)") -eq $true) -and `
-        ((CheckPathExists "$($_DIRECTORYOUTPUTROOT_)") -eq $true) -and `
-        ((CheckPathExists "$($_DIRECTORYOUTPUTRELEASE_)") -eq $true) -and `
-        ((CheckPathExists "$($_DIRECTORYOUTPUTDEV_)") -eq $true))
+    if (((CheckPathExists "$($_USERDATA_ROOT_PATH_)") -eq $true) -and `
+        ((CheckPathExists "$($_USERDATA_BUILDS_PATH_)") -eq $true) -and `
+        ((CheckPathExists "$($_USERDATA_RELEASEBUILDS_PATH_)") -eq $true) -and `
+        ((CheckPathExists "$($_USERDATA_DEVBUILDS_PATH_)") -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -204,9 +215,10 @@ function CheckProgramDirectories()
     # Program-Data Directories
     # ----
 
-    if (((CheckPathExists "$($_DIRECTORYPROGDATAROOT_)") -eq $true) -and `
-        ((CheckPathExists "$($_DIRECTORYPROGLOGS_)") -eq $true) -and `
-        ((CheckPathExists "$($_DIRECTORYUSERCONFIGS_)") -eq $true))
+    if (((CheckPathExists "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)") -eq $true) -and `
+        ((CheckPathExists "$($_PROGRAMDATA_LOGS_PATH_)") -eq $true) -and `
+        ((CheckPathExists "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)") -eq $true) -and `
+        ((CheckPathExists "$($_PROGRAMDATA_CONFIGS_PATH_)") -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
