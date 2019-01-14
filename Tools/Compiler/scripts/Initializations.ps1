@@ -101,12 +101,12 @@ function InitalizationDirectory()
     # Output Development Directory Path
     # ---------------
     # The directory that holds the 'Development' builds.
-    Set-Variable -Name "DIRECTORYOUTPUTDEV_" -Value "$($_DIRECTORYOUTPUTROOT_)\Development" `
+    Set-Variable -Name "_DIRECTORYOUTPUTDEV_" -Value "$($_DIRECTORYOUTPUTROOT_)\Development" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # ----
-    # Program Data
+    # Program Data [Local AppData]
 
 
     # Program-Data Parent Directory Path
@@ -122,6 +122,17 @@ function InitalizationDirectory()
     #  operations.
     Set-Variable -Name "_DIRECTORYPROGLOGS_" -Value "$($_DIRECTORYPROGDATAROOT_)\Logs" `
         -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
+
+    
+    # ----
+    # Program Data [Roaming AppData]
+
+
+    # Program-Data Parent Directory Path
+    # ---------------
+    # The root directory where program-data will be stored.
+  #  Set-Variable -Name "_DIRECTORYPROGDATAROOT_" -Value "$(FetchPathAppDataRoaming)\$($_PROGRAMNAME_)" `
+  #      -Scope Global -Force -Option Constant -ErrorAction SilentlyContinue;
 
 
     # User Data (Configuration)
@@ -185,5 +196,5 @@ function FetchPathAppDataRoaming()
 # -------------------------------
 function FetchPathUserDocuments()
 {
-    return "$($env:HOMEPATH)\Documents"
+    return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents"
 } # FetchPathUserDocuments()
