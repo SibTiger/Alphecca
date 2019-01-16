@@ -333,7 +333,7 @@ class IOCommon
     #    - NOTE: DO NOT PUT THE ACTUAL FILE PATH OR
     #            PATH OF FILES HERE, USE 'Includes'
     #            FOR THIS!
-    #  [string] Includes
+    #  [string[]] Includes
     #    What specific requirements must a file have
     #     in order to be classified to be deleted.
     # -------------------------------
