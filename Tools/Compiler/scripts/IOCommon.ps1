@@ -84,7 +84,7 @@ class IOCommon
     # Inputs:
     #  [string] Command
     #   The external executable to run by request.
-    #  [string] Arguments
+    #  [string[]] Arguments
     #   Arguments to be used when executing the binary.
     #  [string] Project Path
     #   The absolute path of the project directory.
@@ -113,7 +113,7 @@ class IOCommon
     #    The executable could not execute; may not exist.
     # -------------------------------
     [int] ExecuteCommand([string] $command, `
-                        [string] $arguments, `
+                        [string[]] $arguments, `
                         [string] $projectPath, `
                         [string] $stdOutLogPath, `
                         [string] $stdErrLogPath, `
@@ -123,7 +123,7 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [string] $executable = "$($command)";                         # Executable file name
-        [string] $executableArgument = "$($arguments)";               # Executable Parameters
+        [string[]] $executableArgument = $($arguments);               # Executable Parameters
         [string] $workingDirectory = "$($projectPath)";               # Working Directory
         [string] $runTime = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
         [string] $logStdErr = "$($stdErrLogPath)\$($runTime).err";    # Log file: Standard Error
@@ -140,7 +140,7 @@ class IOCommon
         {
             # Execute the command
             $returnCode = Start-Process -FilePath "$($executable)" `
-                                        -ArgumentList "$($executableArgument)" `
+                                        -ArgumentList $($executableArgument) `
                                         -WorkingDirectory "$($workingDirectory)" `
                                         -RedirectStandardOutput "$($fileOutput)" `
                                         -RedirectStandardError "$($logStdErr)" `
