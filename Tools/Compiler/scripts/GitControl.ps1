@@ -701,6 +701,14 @@ class GitControl
     # -------------------------------
     Hidden [bool] __ThrashLogs([bool] $expungeReports)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();          # Used for using common IO functions
+        [string[]] $extLogs = @('*.err', '*.out');   # Array of log extensions
+        [string[]] $extReports = @('*.txt');         # Array of report extensions
+        # ----------------------------------------
+
+
         # First, make sure that the directories exist.
         #  If the directories are not available, than there
         #  is nothing that can be done.
@@ -713,47 +721,22 @@ class GitControl
 
 
         # Because the directories exists, lets try to thrash the logs.
-        try
+        if(($io.DeleteFile("$($this.__logPath)", $extLogs)) -eq $false)
         {
-            # NOTE: We are only rm'ing based on file extensions only, anything else could be user generated.
-            #        Despite that this is program-data and we could nuke everything in our program data domain, I
-            #        also want to make sure that user's custom files are losely protected.  If incase the user
-            #        saved files within that directory (for records or whatever reason) that does not match file
-            #        extensions used in the Remove-Item command, they will not be removed.
-            #        __HOWEVER__, I strongly urge the user's to not practice this.  Please store the files
-            #        else-where, as ANYTHING is subjectable to change with little to no warning!
-            Remove-Item -Path "$($this.__logPath)\*" -Include "*.err","*.out" -Force -ErrorAction Stop;
-        } # Try : Expunge Logs
-        Catch
-        {
-            # Error occurred, immediately stop.
+            # Failure to remove the requested files
             return $false;
-        } # Catch : Error Occurred
+        } # If : failure to delete files
 
 
         # ----
 
 
         # Did the user also wanted to thrash the reports?
-        if ($($expungeReports) -eq $true)
+        if (($($expungeReports) -eq $true) -and `
+        ($io.DeleteFile("$($this.__reportPath)", $extReports)) -eq $false)
         {
-            # Try to thrash the reports.
-            try
-            {
-                # NOTE: We are only rm'ing based on file extensions only, anything else could be user generated.
-                #        Despite that this is program-data and we could nuke everything in our program data domain, I
-                #        also want to make sure that user's custom files are losely protected.  If incase the user
-                #        saved files within that directory (for records or whatever reason) that does not match file
-                #        extensions used in the Remove-Item command, they will not be removed.
-                #        __HOWEVER__, I strongly urge the user's to not practice this.  Please store the files
-                #        else-where, as ANYTHING is subjectable to change with little to no warning!
-                Remove-Item -Path "$($this.__reportPath)\*" -Include "*.txt" -Force -ErrorAction Stop;
-            } # Try : Expunge reports
-            Catch
-            {
-                # Error occurred, immediately stop.
-                return $false;
-            } # Catch : Error Occurred
+            # Failure to remove the requested files
+            return $false;
         } # If : thrash the reports
 
 
