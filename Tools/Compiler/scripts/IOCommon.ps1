@@ -310,5 +310,64 @@ class IOCommon
         return $true;
     } # DeleteDirectory()
 
+
+
+
+    # Delete File
+    # -------------------------------
+    # Documentation:
+    #  This function will forcefully delete an
+    #   individual file or a specific set of
+    #   files given by a specific critia.
+    #   This function cane be useful to delete
+    #   superfluous log files and the like.
+    #   Use this function carefully!
+    #
+    #  NOTES:
+    #   - Forceful
+    # -------------------------------
+    # Input:
+    #  [string] Directory (Absolute Path)
+    #    The directory that we want to inspect
+    #     the file contents.
+    #    - NOTE: DO NOT PUT THE ACTUAL FILE PATH OR
+    #            PATH OF FILES HERE, USE 'Includes'
+    #            FOR THIS!
+    #  [string] Includes
+    #    What specific requirements must a file have
+    #     in order to be classified to be deleted.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to delete directory.
+    #    $true = Successfully deleted directory
+    # -------------------------------
+    [bool] DeleteFile([string] $path, [string[]] $includes)
+    {
+        # First check to see if the directory actually exists,
+        #  if not, then there is nothing to do.
+        if((CheckPathExists("$($path)")) -eq $false)
+        {
+            # The directory does not exist, there's nothing to do.
+            return $true;
+        } # Check if Directory Exists.
+
+        # Try to delete the requested files from specific directory.
+        try
+        {
+            # Remove the requested files.
+            Remove-Item -Path "$($path)\*" -Include $($includes) -Force -ErrorAction Stop;
+        } # Try : Delete Files
+
+        catch
+        {
+            return $false;
+        } # Catch : Error Deleting Files
+
+
+        # Successfully deleted the files.
+        return $true;
+    } # DeleteFile
+
     #endregion
 } # IOCommon
