@@ -703,7 +703,7 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();          # Used for using common IO functions
+        [IOCommon] $io = [IOCommon]::new();          # Using functions from IO Common
         [string[]] $extLogs = @('*.err', '*.out');   # Array of log extensions
         [string[]] $extReports = @('*.txt');         # Array of report extensions
         # ----------------------------------------
@@ -770,7 +770,7 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
         # ----------------------------------------
 
 
@@ -825,7 +825,7 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
         # ----------------------------------------
 
 
