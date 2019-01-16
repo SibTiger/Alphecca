@@ -23,6 +23,46 @@ class IOCommon
 
 
     #region Public Functions
+
+    # Fetch User Input
+    # -------------------------------
+    # Documentation:
+    #  This function will fetch input provided by the
+    #   the user using STDIN (keyboard).
+    #  This function will display a prompt that is
+    #   adjacent to Python's prompt.  I prefer this
+    #   prompt style as it is clear that the program
+    #   is waiting for some sort of feedback from the
+    #   user.  If the program is not clear when it is
+    #   ready for feedback from the user - yet the
+    #   program is in a block state because it is
+    #   waiting for user feedback, the user will
+    #   believe that the program is broken\frozen and
+    #   the user will exit the program.  Because of
+    #   this, I believe that it is important to have
+    #   a clear indication when the program is waiting
+    #   for feedback from the user.
+    # -------------------------------
+    # Output:
+    #  [string] User's Input Request
+    #    Returns the user's request.
+    # -------------------------------
+    [string] FetchUserInput()
+    {
+        # Because I love Python's input prompt, we will emulate it here.
+        #  I find this to be easier on the user to unify an action from the end-user.
+        Write-Host ">>>>> " -NoNewline;
+
+        # Get input from the user.
+        [string] $stdInput = (Get-Host).UI.ReadLine();
+
+        # Return the value as a string
+        return [string]$stdInput;
+    } # FetchUserInput()
+
+
+
+
     # Execute Command [Exit Code]
     # -------------------------------
     # Documentation:
