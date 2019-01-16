@@ -256,5 +256,59 @@ class IOCommon
         return $exitCode;
     } # CheckPathExists()
 
+
+
+
+    # Delete Directory
+    # -------------------------------
+    # Documentation:
+    #  This function will forcefully and recursively
+    #   thrash the target directory and all sub-
+    #   directories following within the hierarchy.
+    #   Thus meaning, anything within the target
+    #   directory - will be expunged.  Use this
+    #   function carefully!
+    #
+    #  NOTES:
+    #   - Recursive
+    #   - Forceful
+    # -------------------------------
+    # Input:
+    #  [string] Directory (Absolute Path)
+    #    The directory that we want to delete.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failed to delete directory.
+    #    $true = Successfully deleted directory
+    # -------------------------------
+    [bool] DeleteDirectory([string] $path)
+    {
+        # First check to see if the directory actually exists,
+        #  if not, then there is nothing to do.
+        if((CheckPathExists("$($path)")) -eq $false)
+        {
+            # The directory does not exist, there's nothing to do.
+            return $true;
+        } # Check if Directory Exists.
+
+
+        # Try to delete the directory
+        try
+        {
+            # Remove the directory.
+            Remove-Item -LiteralPath "$($path)" -Force -Recurse -ErrorAction Stop;
+        } # Try : Delete Directory
+
+        catch
+        {
+            return $false;
+        } # Catch : Error Deleting Directory
+
+
+        # Successfully deleted the directory.
+        return $true;
+    } # DeleteDirectory()
+
     #endregion
 } # IOCommon
