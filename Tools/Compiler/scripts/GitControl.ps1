@@ -785,14 +785,20 @@ class GitControl
     # -------------------------------
     Hidden [bool] __CheckRequiredDirectories()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();
+        # ----------------------------------------
+
+
         # Check Root Log Directory
-        if ((($this.__CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+        if ((($io.CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
 
         # Check Report Path
-        (($this.__CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+        (($io.CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
 
         # Check Log Path
-        (($this.__CheckPathExists("$($this.__logPath)") -eq $true)))
+        (($io.CheckPathExists("$($this.__logPath)") -eq $true)))
         {
             # All of the directories exists
             return $true;
@@ -834,6 +840,12 @@ class GitControl
     # -------------------------------
     Hidden [bool] __CreateDirectories()
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();
+        # ----------------------------------------
+
+
         # First, check if the directories already exist?
         if(($this.__CheckRequiredDirectories())-eq $true)
         {
@@ -849,10 +861,10 @@ class GitControl
         #  check which directory does not exist and then try to create it.
 
         # Root Log Directory
-        if(($this.__CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        if(($io.CheckPathExists("$($this.__rootLogPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (($this.__MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            if (($io.MakeDirectory("$($this.__rootLogPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -864,10 +876,10 @@ class GitControl
 
 
         # Log Directory
-        if(($this.__CheckPathExists("$($this.__logPath)")) -eq $false)
+        if(($io.CheckPathExists("$($this.__logPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (($this.__MakeDirectory("$($this.__logPath)")) -eq $false)
+            if (($io.MakeDirectory("$($this.__logPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -879,10 +891,10 @@ class GitControl
 
 
         # Report Directory
-        if(($this.__CheckPathExists("$($this.__reportPath)")) -eq $false)
+        if(($io.CheckPathExists("$($this.__reportPath)")) -eq $false)
         {
             # Root Log Directory does not exist, try to create it.
-            if (($this.__MakeDirectory("$($this.__reportPath)")) -eq $false)
+            if (($io.MakeDirectory("$($this.__reportPath)")) -eq $false)
             {
                 # Failure occurred.
                 return $false;
@@ -904,176 +916,6 @@ class GitControl
         # A general error occured, the directories could not be created.
         return $false;
     } # __CreateDirectories()
-
-
-
-
-    # Execute Git
-    # -------------------------------
-    # Documentation:
-    #  This function will allow the executable to run with the
-    #   required parameters.  With centralizing the execution,
-    #   this will avoid code duplication and assure the proper
-    #   procedure before and after calling the external command.
-    # -------------------------------
-    # Inputs:
-    #  [string] Arguments
-    #   Arguments to be used when executing the binary.
-    #  [string] Project Path
-    #   The absolute path of the project directory.
-    #  [bool] Is Report
-    #   When true, this will assure that the information
-    #    is logged as a report.
-    # -------------------------------
-    # Output:
-    #  [int] Exit Code
-    #   The error code provided from the executable.
-    #   This can be helpful to diagnose if the external command
-    #    reached an error or was successful.
-    #   ERROR VALUES
-    #   -255
-    #    The executable could not execute; may not exist.
-    #   -256
-    #    Default value; should never happen unless something
-    #     went horribly wrong.  Mainly here to keep ISE quiet.
-    # -------------------------------
-    Hidden [int] __ExecuteGit([string] $arguments, [string] $projectPath, [bool] $isReport)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [string] $executable = "git.exe";                             # Executable file name
-        [string] $executableArgument = $arguments;                    # Executable Parameters
-        [string] $workingDirectory = "$($projectPath)";               # Working Directory
-        [string] $runTime = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
-        [string] $logStdErr = "$($this.__logPath)\$($runTime).err";   # Log file: Standard Error
-        [string] $logStdOut = "$($this.__logPath)\$($runTime).out";   # Log file: Standard Output
-        [string] $logReport = "$($this.__reportPath)\$($runTime).txt";# Report File: Information regarding the repo.
-        [string] $fileOutput = if ($isReport -eq $true) `             # Check if the output is a log or a report.
-                            {"$($logReport)"} else {"$($LogStdOut)"};
-        [int] $exitCode = -256;                                       # The exit code that will be returned from
-                                                                      #  this function. 
-        # ----------------------------------------
-
-        # Execute the binary
-        try
-        {
-            # Execute the command
-            $returnCode = Start-Process -FilePath "$($executable)" `
-                                        -ArgumentList "$($executableArgument)" `
-                                        -WorkingDirectory "$($workingDirectory)" `
-                                        -RedirectStandardOutput "$($fileOutput)" `
-                                        -RedirectStandardError "$($logStdErr)" `
-                                        -NoNewWindow `
-                                        -Wait `
-                                        -UseNewEnvironment;
-
-            # Capture the exit status from the command.
-            $exitCode = $returnCode.ExitCode;
-        } # Try : Executing Git
-
-        # An error occurred while trying to execute the command
-        catch
-        {
-            # The command failed to be executed
-            $exitCode = -255;
-        } # Catch : Failed Executing Git
-
-
-        # Return the exit code
-        return $exitCode;
-    } # __ExecuteGit()
-
-
-
-
-    # Make a New Directory
-    # -------------------------------
-    # Documentation:
-    #  This function will make a new directory with the
-    #   absolute path provided.
-    # -------------------------------
-    # Input:
-    #  [string] Absolute Path
-    #   The absolute path of a directory that is to be
-    #   created by request.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #    $false = Failure to create the directory.
-    #    $true = Successfully created the directory.
-    #            OR
-    #            Directory already exists; nothing to do.
-    # -------------------------------
-    Hidden [bool] __MakeDirectory([string] $path)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $true;    # Exit code that will be returned.
-        # ----------------------------------------
-
-
-        # Check to see if the path already exists;
-        #  if it already exists - then nothing to do.
-        #  If it does not exist, then try to create it.
-        if ((CheckPathExists "$($path)") -eq $false)
-        {
-            # The requested path does not exist, try to create it.
-            try
-            {
-                # Try to create the directory; if failure - stop.
-                New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
-            } # try : Create directory.
-            catch
-            {
-                # Failure occurred.
-                $exitCode = $false;
-            } # Catch : Failed to Create Directory
-        } # If : Directory does not exist
-
-
-        # Return the exit code
-        return $exitCode;
-    } # __MakeDirectory()
-
-
-
-
-    # Check Path Exists
-    # -------------------------------
-    # Documentation:
-    #  This function will check if the provided
-    #   directory (absolute path) exists on the
-    #   host's filesystem.
-    # -------------------------------
-    # Input:
-    #  [string] Directory (Absolute Path)
-    #    The path to check if it exists in the
-    #     filesystem.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #    $false = Directory does not exist.
-    #    $true = Directory exist
-    # -------------------------------
-    Hidden [bool] __CheckPathExists([string] $path)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [bool] $exitCode = $false;    # Exit code that will be returned.
-        # ----------------------------------------
-
-
-        # Check if the path exists
-        if((Test-Path -LiteralPath "$($path)" -ErrorAction SilentlyContinue) -eq $true)
-        {
-            # Directory exists
-            $exitCode = $true;
-        } # If : Directory exists
-
-
-        # Return with exit code
-        return $exitCode;
-    } # __CheckPathExists()
 
     #endregion
 
