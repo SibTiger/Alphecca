@@ -167,6 +167,44 @@ class IOCommon
 
 
 
+    # Detect Command [Test]
+    # -------------------------------
+    # Documentation:
+    #  This function will help to test if the executable could
+    #   run successfully.  This can be helpful to determine if
+    #   the program can detect the executable or if the executable
+    #   is usable.  This function is merely for testing if the
+    #   external software will run properly, do not use this
+    #   function for major operations.
+    # -------------------------------
+    # Inputs:
+    #  [string] Command
+    #   The external executable to run by request.
+    #  [string] Type
+    #   The type of command that will be executed.
+    #    See Get-Command "CommandType"
+    #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/get-command
+    # -------------------------------
+    # Output:
+    #  [bool] Detected Code
+    #    $false = Failure to detect the external executable.
+    #    $true  = Successfully detected the external executable.
+    # -------------------------------
+    [bool] DetectCommand([string] $command, [string] $type)
+    {
+        if ((Get-Command -Name "$($command)" -CommandType $($type) -ErrorAction SilentlyContinue) -eq $null)
+        {
+            # Command was not detected.
+            return $false;
+        } # If : Command Not Detected
+
+        # Command was found
+        return $true;
+    } # DetectCommand()
+
+
+
+
     # Make a New Directory
     # -------------------------------
     # Documentation:
