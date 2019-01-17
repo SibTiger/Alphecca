@@ -205,6 +205,107 @@ class IOCommon
 
 
 
+    # Execute Command Str. [STDOUT - String]
+    # -------------------------------
+    # Documentation:
+    #  This function will execute a specific executable
+    #   to run with the required parameters.
+    #  Besides executing the command and returning the
+    #   exit code, this function instead - will return
+    #   the STDOUT (string).  This function is not
+    #   designed to handle large operations or
+    #   any operations that requires any data manipulation.
+    #  Only use this function for pure simplistic tasks;
+    #   for example, getting a Revision ID or get current
+    #   branch in the Local Working Copy git repository.
+    # -------------------------------
+    # Inputs:
+    #  [string] Command
+    #   The external executable to run by request.
+    #  [string] Arguments
+    #   Arguments to be used when executing the binary.
+    #  [string] Project Path
+    #   The absolute path of the project directory.
+    # -------------------------------
+    # Output:
+    #  [string] STDOUT Result
+    #   The output result from the external command.
+    #   - NOTE:
+    #     If an error occurrs, then "ERR" will be
+    #      returned.
+    # -------------------------------
+    [string] ExecuteCommandStr([string] $command, `
+                            [string] $arguments, `
+                            [string] $projectPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $executable = "$($command)";            # Executable file name
+        [string] $executableArgument = "$($arguments)";  # Executable Parameters
+        [string] $workingDirectory = "$($projectPath)";  # Working Directory
+        [string] $outputResult = "";                     # Holds the STDOUT result from exe.
+        # - - - -
+        # Because Start-Process does NOT redirect to a variable, but only to files.
+        #  instead, we will use the 'ProcessStartInfo' class.
+        #  Helpful Resources
+        #  Stackoverflow Help:
+        #   https://stackoverflow.com/a/24227234
+        #  ProcessStartInfo Help:
+        #   https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo
+        [System.Diagnostics.ProcessStartInfo] $processInfo = `              # Instantiate Process Start Info Obj.
+                            [System.Diagnostics.ProcessStartInfo]::new();
+        [System.Diagnostics.Process] $processExec = `                       # Instantiate Process Obj.
+                            [System.Diagnostics.Process]::new();
+        # ----------------------------------------
+
+        # Setup the ProcessStartInfo Obj.
+        $processInfo.FileName = "$($executable)";          # Executable
+        $processInfo.Arguments = "$($arguments)";          # Argument(s) [STRING]
+        $processInfo.RedirectStandardOutput = $true;       # Maintain STDOUT
+        $processInfo.RedirectStandardError = $true;        # Maintain STDERR
+        $processInfo.UseShellExecute = $false;              # Use the shell
+        $processInfo.CreateNoWindow = $true;               # Use the current console
+        $processInfo.WorkingDirectory = "$($projectPath)"; # Execute in the Working Dir.
+
+        # Setup the Process Obj.
+        $processExec.StartInfo = $processInfo;
+
+
+        Write-Host $processInfo.FileName;
+        Write-Host $processInfo.Arguments;
+        Write-Host $processInfo.WorkingDirectory;
+        # Execute the binary
+        try
+        {
+            # Start the process
+            $processExec.Start() #| Out-Null;
+
+            # Wait for the program to finish.
+            $processExec.WaitForExit();
+
+            # Get the STDOUT result
+            $outputResult = $processExec.StandardOutput.ReadToEnd();
+
+            Write-Host "     - Result $($outputResult)";
+
+            # Return the result
+            return $outputResult;
+        } # Try : Executing command
+
+        # An error occurred while trying to execute the command
+        catch
+        {
+            # The command failed to be executed
+            throw "An issue occurred; could not retrieve the proper result!";
+
+            # Return an error
+            return "ERR";
+        } # Catch : Failed Executing Command
+    } # ExecuteCommandStr()
+
+
+
+
     # Make a New Directory
     # -------------------------------
     # Documentation:
