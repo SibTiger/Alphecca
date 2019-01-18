@@ -62,7 +62,7 @@ class IOCommon
 
 
 
-
+    <#
     # Execute Command [Exit Code]
     # -------------------------------
     # Documentation:
@@ -163,7 +163,7 @@ class IOCommon
         # Return the exit code
         return $exitCode;
     } # ExecuteCommand()
-
+    #>
 
 
 
@@ -203,21 +203,34 @@ class IOCommon
     } # DetectCommand()
 
 
+    [void] Testing([ref] $newVar)
+    {
+        $newVar.Value = "shit";
+    }
 
 
-    # Execute Command Str. [STDOUT - String]
+    # Execute Command [.NET API]
     # -------------------------------
     # Documentation:
-    #  This function will execute a specific executable
-    #   to run with the required parameters.
-    #  Besides executing the command and returning the
-    #   exit code, this function instead - will return
-    #   the STDOUT (string).  This function is not
-    #   designed to handle large operations or
-    #   any operations that requires any data manipulation.
-    #  Only use this function for pure simplistic tasks;
-    #   for example, getting a Revision ID or get current
-    #   branch in the Local Working Copy git repository.
+    #  This function will allow a specific executable to run
+    #   with the required parameters.
+    #
+    #  Return Code Notes: After the command has been executed,
+    #   this function will only return the exit code provided
+    #   by the executable.  If the external executable can not
+    #   be found or generally fails to execute in vague reasons,
+    #   this function will return a specific error code that is
+    #   dedicated by this function.
+    #
+    #  Logging Notes: This function requires the use of logging
+    #   when executing the external command.  During execution,
+    #   this function will log the activities and redirect
+    #   STDOUT and STDERR in the provided logfiles.  HOWEVER,
+    #   it is also possibly to use the STDOUT for functional
+    #   purposes.  When the required settings are configured,
+    #   it is possibly to capture the STDOUT in a reference
+    #   parameter - allowing for the string to be used within
+    #   the program.
     # -------------------------------
     # Inputs:
     #  [string] Command
@@ -226,25 +239,67 @@ class IOCommon
     #   Arguments to be used when executing the binary.
     #  [string] Project Path
     #   The absolute path of the project directory.
+    #  [string] STDOUT Log Path
+    #   Absolute path to store the log file containing
+    #    the program's STDOUT output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] STDERR Log Path
+    #   Absolute path to store the log file containing
+    #    the program's STDERR output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] Report Path
+    #   Absolute path to store the report file.
+    #   - NOTE: Filename is provided by this function.
+    #  [bool] Is Report
+    #   When true, this will assure that the information
+    #    is logged as a report.
+    #  [bool] Capture STDOUT
+    #   When true, the STDOUT will not be logged in a
+    #    text file, instead it will be captured into
+    #    a reference string.
+    #  [string] (REFERENCE) stringOutput
+    #   When Capture STDOUT is true, this parameter will
+    #   carry the STDOUT from the executable.  The
+    #   information provided will be available for use
+    #   from the calling function.
     # -------------------------------
     # Output:
-    #  [string] STDOUT Result
-    #   The output result from the external command.
-    #   - NOTE:
-    #     If an error occurrs, then "ERR" will be
-    #      returned.
+    #  [int] Exit Code
+    #   The error code provided from the executable.
+    #   This can be helpful to diagnose if the external command
+    #    reached an error or was successful.
+    #   ERROR VALUES
+    #   -255
+    #    The executable could not execute; may not exist.
     # -------------------------------
-    [string] ExecuteCommandStr([string] $command, `
-                            [string] $arguments, `
-                            [string] $projectPath)
+    [int] ExecuteCommand([string] $command, `
+                        [string] $arguments, `
+                        [string] $projectPath, `
+                        [string] $stdOutLogPath, `
+                        [string] $stdErrLogPath, `
+                        [string] $reportPath, `
+                        [bool] $isReport, `
+                        [bool] $captureSTDOUT, `
+                        [ref] $stringOutput)
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $executable = "$($command)";            # Executable file name
-        [string] $executableArgument = "$($arguments)";  # Executable Parameters
-        [string] $workingDirectory = "$($projectPath)";  # Working Directory
-        [string] $outputResult = "";                     # Holds the STDOUT result from exe.
+        [string] $executable = "$($command)";                         # Executable file name
+        [string] $executableArgument = "$($arguments)";               # Executable Parameters
+        [string] $workingDirectory = "$($projectPath)";               # Working Directory
+        [string] $runTime = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
+        [string] $logStdErr = "$($stdErrLogPath)\$($runTime).err";    # Log file: Standard Error
+        [string] $logStdOut = "$($stdOutLogPath)\$($runTime).out";    # Log file: Standard Output
+        [string] $logReport = "$($reportPath)\$($runTime).txt";       # Report File: Information regarding the repo.
+        [string] $fileOutput = if ($isReport -eq $true)               # Check if the output is a log or a report.
+                            {"$($logReport)"} else {"$($LogStdOut)"};
+        [int] $exitCode = -255;                                       # The exit code that will be returned from
+                                                                      #  this function.
+        [string] $outputResultErr = "";                               # Cap
+        [string] $outputResultOut = ""; 
+        
         # - - - -
+
         # Because Start-Process does NOT redirect to a variable, but only to files.
         #  instead, we will use the 'ProcessStartInfo' class.
         #  Helpful Resources
@@ -260,10 +315,10 @@ class IOCommon
 
         # Setup the ProcessStartInfo Obj.
         $processInfo.FileName = "$($executable)";          # Executable
-        $processInfo.Arguments = "$($arguments)";          # Argument(s) [STRING]
+        $processInfo.Arguments = "$($arguments)";          # Argument(s)
         $processInfo.RedirectStandardOutput = $true;       # Maintain STDOUT
         $processInfo.RedirectStandardError = $true;        # Maintain STDERR
-        $processInfo.UseShellExecute = $false;              # Use the shell
+        $processInfo.UseShellExecute = $false;             # Use the shell
         $processInfo.CreateNoWindow = $true;               # Use the current console
         $processInfo.WorkingDirectory = "$($projectPath)"; # Execute in the Working Dir.
 
@@ -278,30 +333,58 @@ class IOCommon
         try
         {
             # Start the process
-            $processExec.Start() #| Out-Null;
+            $processExec.Start() | Out-Null;
 
             # Wait for the program to finish.
             $processExec.WaitForExit();
-
-            # Get the STDOUT result
-            $outputResult = $processExec.StandardOutput.ReadToEnd();
-
-            Write-Host "     - Result $($outputResult)";
-
-            # Return the result
-            return $outputResult;
         } # Try : Executing command
 
         # An error occurred while trying to execute the command
         catch
         {
             # The command failed to be executed
-            throw "An issue occurred; could not retrieve the proper result!";
+            throw "Failure to execute command upon request!";
 
             # Return an error
-            return "ERR";
+            return -255;
         } # Catch : Failed Executing Command
-    } # ExecuteCommandStr()
+
+
+        # Get the STDOUT result
+        #  Figure out how the STDOUT should be provided:
+        if ($captureSTDOUT -eq $true)
+        {
+            # Store the information to a variable that will be
+            #  used from the calling function.
+            $stringOutput.Value = $processExec.StandardOutput.ReadToEnd();
+        } # If : Stored in Reference Var.
+        else
+        {
+            # Store the information to a text file.
+            $outputResult = $processExec.StandardOutput.ReadToEnd();
+            
+            
+            #$this.WriteToFile("$($fileOutput)", [ref] $processExec.StandardOutput.ReadToEnd());
+            #Out-File -FilePath "$($fileOutput)" -InputObject "$outputResult";
+            #$outputResult | Out-File -FilePath "$($fileOutput)";
+        } # Else : Stored in a specific file
+          
+
+        # Return the result
+        #return $processExec.
+        return $processExec.ExitCode;
+    } # ExecuteCommand()
+
+    
+    
+    [void] WriteToFile([string] $file, [ref] $contents)
+    {
+        Out-File -FilePath "$($file)" `
+                 -Encoding default `
+                 -InputObject "$($contents.Value.ToString())";
+                 #-NoClobber `
+                 #-Append;
+    } # WriteToFile()
 
 
 
