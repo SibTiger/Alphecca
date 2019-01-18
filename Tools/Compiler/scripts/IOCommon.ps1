@@ -99,10 +99,6 @@ class IOCommon
     } # DetectCommand()
 
 
-    [void] Testing([ref] $newVar)
-    {
-        $newVar.Value = "shit";
-    }
 
 
     # Execute Command [.NET API]
