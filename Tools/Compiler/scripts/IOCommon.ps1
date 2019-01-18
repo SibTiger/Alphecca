@@ -269,13 +269,31 @@ class IOCommon
 
     
     
+
+    # Write to File
+    # -------------------------------
+    # Documentation:
+    #  This function will write contents to a
+    #  specific file.
+    #
+    #  NOTE: The encoding will be set as Default.
+    #   Default, at the time of writing this, is
+    #   Unicode.
+    # -------------------------------
+    # Input:
+    #  [string] File
+    #   The file to be written.
+    #  [ref] Contents
+    #   The information (or data) that is to be
+    #   written to a file.
+    # -------------------------------
     [void] WriteToFile([string] $file, [ref] $contents)
     {
-        Out-File -FilePath "$($file)" `
+        Out-File -LiterialPath "$($file)" `
                  -Encoding default `
-                 -InputObject "$($contents.Value.ToString())";
-                 #-NoClobber `
-                 #-Append;
+                 -InputObject "$($contents.Value.ToString())" `
+                 -NoClobber `
+                 -Append;
     } # WriteToFile()
 
 
