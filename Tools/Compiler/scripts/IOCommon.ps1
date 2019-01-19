@@ -315,7 +315,7 @@ class IOCommon
         catch
         {
             # Operation failed
-            Write-Host "Operation Failed: Error$_";
+            Write-Host "Operation Failed: $_";
 
             # Operation failed
             return $false;
