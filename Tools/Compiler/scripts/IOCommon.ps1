@@ -166,6 +166,8 @@ class IOCommon
     #   ERROR VALUES
     #   -255
     #    The executable could not execute; may not exist.
+    #   -254
+    #    Command was not detected.
     # -------------------------------
     [int] ExecuteCommand([string] $command, `
                         [string] $arguments, `
@@ -206,6 +208,13 @@ class IOCommon
         [System.Diagnostics.Process] $processExec = `                       # Instantiate Process Obj.
                             [System.Diagnostics.Process]::new();
         # ----------------------------------------
+
+
+        # Check to see if the external command exists; if not - leave this function immediately.
+        if((DetectCommand("$($command)", "Application")) -eq $false)
+        {
+            return -254;
+        } # If : Command does not exist
 
 
         # Setup the ProcessStartInfo Obj.
