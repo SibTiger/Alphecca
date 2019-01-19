@@ -259,12 +259,12 @@ class IOCommon
         else
         {
             # Store the information to a text file.
-            $this.WriteToFile("$($logStdOut)", "$($outputResultOut)");
+            $this.WriteToFile("$($logStdOut)", "$($outputResultOut)") | Out-Null;
         } # Else : Stored in a specific file
         
 
         # Write the STDERR to a file
-        $this.WriteToFile("$($logStdErr)", "$($outputResultErr)");
+        $this.WriteToFile("$($logStdErr)", "$($outputResultErr)") | Out-Null;
 
 
         # Return the result
@@ -291,13 +291,35 @@ class IOCommon
     #   The information (or data) that is to be
     #   written to a file.
     # -------------------------------
-    [void] WriteToFile([string] $file, [ref] $contents)
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failure to create and\or write to file.
+    #    $true = Successfully wrote to the file.
+    # -------------------------------
+    [bool] WriteToFile([string] $file, [ref] $contents)
     {
-        Out-File -LiteralPath "$($file)" `
-                 -Encoding default `
-                 -InputObject "$($contents.Value.ToString())" `
-                 -NoClobber `
-                 -Append;
+        # Try to write contents to the file.
+        try
+        {
+            # Try to write the information to the file
+            Out-File -LiteralPath "$($file)" `
+                     -Encoding default `
+                     -InputObject "$($contents.Value.ToString())" `
+                     -NoClobber `
+                     -Append;
+
+            # Operation was successful
+            return $true;
+        } # Try : Write to file
+
+        catch
+        {
+            # Operation failed
+            Write-Host "Operation Failed: Error$_";
+
+            # Operation failed
+            return $false;
+        } # Catch : Failure to write
     } # WriteToFile()
 
 
