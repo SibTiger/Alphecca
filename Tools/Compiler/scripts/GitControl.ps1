@@ -22,6 +22,12 @@ class GitControl
 
     #region Private Variables (emulated)
 
+    # Git Executable Path
+    # ---------------
+    # The path inwhich the executable 'git.exe' resides.
+    Hidden [string] $__executablePath;
+
+
     # Update Source
     # ---------------
     # When true, try to update the source when possible.
@@ -113,6 +119,9 @@ class GitControl
     # Default Constructor
     GitControl()
     {
+        # git.exe Path
+        $this.__executablePath = "git.exe";
+
         # Update Source
         $this.__updateSource = $true;
 
@@ -154,7 +163,8 @@ class GitControl
 
 
     # User Preference : On-Load
-    GitControl([bool]$updateSource,
+    GitControl([string]$executablePath,
+                [bool]$updateSource,
                 [GitCommitLength]$lengthCommitID,
                 [bool]$fetchCommitID,
                 [bool]$fetchChangelog,
@@ -164,6 +174,9 @@ class GitControl
                 [bool]$fetchStats,
                 [bool]$generateReport)
     {
+        # git.exe Path
+        $this.__executablePath = $executablePath;
+
         # Update Source
         $this.__updateSource = $updateSource;
 
@@ -206,6 +219,23 @@ class GitControl
 
 
     #region Getter Functions
+
+    # Get Executable Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Executable Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Executable Path
+    #   the value of the Exectable Path to git.exe.
+    # -------------------------------
+    [string] GetExecutablePath()
+    {
+        return $this.__executablePath;
+    } # GetExecutablePath()
+
+
+
 
     # Get Update Source Flag
     # -------------------------------
@@ -414,6 +444,43 @@ class GitControl
 
 
     #region Setter Functions
+
+    # Set Executable Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Executable Path variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    [bool] SetExecutablePath([string] $newVal)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+        # Because we are testing for an actual file,
+        #  we have to assure that the file really exists
+        #  within the host's filesystem.
+        if(($io.DetectCommand("$($newVal)", "Application")) -eq $false)
+        {
+            # Could not find the executable.
+            return $false;
+        } # If : Command Not Found
+
+
+        # Set the path
+        $this.__executablePath = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetExecutablePath()
+
+
+
 
     # Set Update Source Flag
     # -------------------------------
