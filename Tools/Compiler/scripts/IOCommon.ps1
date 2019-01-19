@@ -140,8 +140,8 @@ class IOCommon
     #    the program's STDERR output.
     #   - NOTE: Filename is provided by this function.
     #  [string] Report Path
-    #   Absolute path to store the report file.
-    #   - NOTE: Filename is provided by this function.
+    #   Absolute path and filename to store the report file.
+    #   - NOTE: Filename MUST BE INCLUDED!
     #  [bool] Is Report
     #   When true, this will assure that the information
     #    is logged as a report.
@@ -181,9 +181,8 @@ class IOCommon
         [string] $logTime    = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
         [string] $logStdErr  = "$($stdErrLogPath)\$($logTime).err";      # Log file: Standard Error
         [string] $logStdOut  = "$($stdOutLogPath)\$($logTime).out";      # Log file: Standard Output
-        [string] $logReport  = "$($reportPath)\$($logTime).txt";         # Report File: Information regarding the repo.
         [string] $fileOutput = if ($isReport -eq $true)                  # Check if the output is a log or a report.
-                            {"$($logReport)"} else {"$($LogStdOut)"};
+                            {"$($reportPath)"} else {"$($LogStdOut)"};
 
         # Capturing Output from Process
         # - - - -
@@ -254,6 +253,13 @@ class IOCommon
             #  used from the calling function.
             $stringOutput.Value = $outputResultOut;
         } # If : Stored in Reference Var.
+
+        # Creating a report
+        ElseIf ($isReport -eq $true)
+        {
+            # Write the data to the report file.
+            $this.WriteToFile("$($reportPath)", "$($outputResultOut)") | Out-Null;
+        } # If : Generating a Report
 
         # Store the STDOUT in a file?
         else
