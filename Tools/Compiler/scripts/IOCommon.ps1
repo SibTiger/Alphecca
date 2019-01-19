@@ -22,7 +22,8 @@ class IOCommon
     # =================================================
 
 
-    #region Public Functions
+    #region User Input Functions
+
 
     # Fetch User Input
     # -------------------------------
@@ -60,8 +61,10 @@ class IOCommon
         return [string]$stdInput;
     } # FetchUserInput()
 
+    #endregion
 
 
+    #region External Command Functions
 
     # Detect Command [Test]
     # -------------------------------
@@ -277,8 +280,10 @@ class IOCommon
         return $processExec.ExitCode;
     } # ExecuteCommand()
 
+    #endregion
     
-    
+
+    #region Writing File Functions
 
     # Write to File
     # -------------------------------
@@ -328,8 +333,10 @@ class IOCommon
         } # Catch : Failure to write
     } # WriteToFile()
 
+    #endregion
 
 
+    #region Directory and File Management Functions
 
     # Make a New Directory
     # -------------------------------
