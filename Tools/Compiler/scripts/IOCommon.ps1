@@ -176,23 +176,23 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $executable = "$($command)";                         # Executable file name
-        [string] $executableArgument = "$($arguments)";               # Executable Parameters
-        [string] $workingDirectory = "$($projectPath)";               # Working Directory
-        [string] $runTime = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
-        [string] $logStdErr = "$($stdErrLogPath)\$($runTime).err";    # Log file: Standard Error
-        [string] $logStdOut = "$($stdOutLogPath)\$($runTime).out";    # Log file: Standard Output
-        [string] $logReport = "$($reportPath)\$($runTime).txt";       # Report File: Information regarding the repo.
-        [string] $fileOutput = if ($isReport -eq $true)               # Check if the output is a log or a report.
-                            {"$($logReport)"} else {"$($LogStdOut)"};
-        [int] $exitCode = -255;                                       # The exit code that will be returned from
-                                                                      #  this function.
-        [string] $outputResultErr = "";                               # Cap
-        [string] $outputResultOut = ""; 
-        
+        # Logging
         # - - - -
+        [string] $logTime    = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
+        [string] $logStdErr  = "$($stdErrLogPath)\$($logTime).err";      # Log file: Standard Error
+        [string] $logStdOut  = "$($stdOutLogPath)\$($logTime).out";      # Log file: Standard Output
+        [string] $logReport  = "$($reportPath)\$($logTime).txt";         # Report File: Information regarding the repo.
+        [string] $fileOutput = if ($isReport -eq $true)                  # Check if the output is a log or a report.
+                            {"$($logReport)"} else {"$($LogStdOut)"};
 
-        # Because Start-Process does NOT redirect to a variable, but only to files.
+        # Capturing Output from Process
+        # - - - -
+        [string] $outputResultErr = ""; # Standard Error
+        [string] $outputResultOut = ""; # Standard Out
+        
+        # .NET Special Objects
+        # - - - -
+        # Because Start-Process CMDLet does NOT redirect to a variable, but only to files.
         #  instead, we will use the 'ProcessStartInfo' class.
         #  Helpful Resources
         #  Stackoverflow Help:
@@ -205,8 +205,9 @@ class IOCommon
                             [System.Diagnostics.Process]::new();
         # ----------------------------------------
 
+
         # Setup the ProcessStartInfo Obj.
-        $processInfo.FileName = "$($executable)";          # Executable
+        $processInfo.FileName = "$($command)";             # Executable
         $processInfo.Arguments = "$($arguments)";          # Argument(s)
         $processInfo.RedirectStandardOutput = $true;       # Maintain STDOUT
         $processInfo.RedirectStandardError = $true;        # Maintain STDERR
@@ -214,17 +215,15 @@ class IOCommon
         $processInfo.CreateNoWindow = $true;               # Use the current console
         $processInfo.WorkingDirectory = "$($projectPath)"; # Execute in the Working Dir.
 
+
         # Setup the Process Obj.
-        $processExec.StartInfo = $processInfo;
+        $processExec.StartInfo = $processInfo;             # Instantiate the Process object.
 
 
-        Write-Host $processInfo.FileName;
-        Write-Host $processInfo.Arguments;
-        Write-Host $processInfo.WorkingDirectory;
-        # Execute the binary
+        # Execute the command
         try
         {
-            # Start the process
+            # Start the process; do not output anything.
             $processExec.Start() | Out-Null;
 
             # Wait for the program to finish.
@@ -242,28 +241,33 @@ class IOCommon
         } # Catch : Failed Executing Command
 
 
-        # Get the STDOUT result
-        #  Figure out how the STDOUT should be provided:
+        # Capture the Output (STDOUT && STDERR)
+        $outputResultErr = $processExec.StandardError.ReadToEnd();  # STDERR
+        $outputResultOut = $processExec.StandardOutput.ReadToEnd(); # STDOUT
+
+
+        # Determine where to throw the STDOUT
+        #  Store the STDOUT in the reference var?
         if ($captureSTDOUT -eq $true)
         {
-            # Store the information to a variable that will be
+            # Store the information to the reference variable that will be
             #  used from the calling function.
-            $stringOutput.Value = $processExec.StandardOutput.ReadToEnd();
+            $stringOutput.Value = $outputResultOut;
         } # If : Stored in Reference Var.
+
+        # Store the STDOUT in a file?
         else
         {
             # Store the information to a text file.
-            $outputResult = $processExec.StandardOutput.ReadToEnd();
-            
-            
-            #$this.WriteToFile("$($fileOutput)", [ref] $processExec.StandardOutput.ReadToEnd());
-            #Out-File -FilePath "$($fileOutput)" -InputObject "$outputResult";
-            #$outputResult | Out-File -FilePath "$($fileOutput)";
+            $this.WriteToFile("$($logStdOut)", "$($outputResultOut)");
         } # Else : Stored in a specific file
-          
+        
+
+        # Write the STDERR to a file
+        $this.WriteToFile("$($logStdErr)", "$($outputResultErr)");
+
 
         # Return the result
-        #return $processExec.
         return $processExec.ExitCode;
     } # ExecuteCommand()
 
