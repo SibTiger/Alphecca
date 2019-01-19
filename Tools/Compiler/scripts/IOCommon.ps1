@@ -293,7 +293,7 @@ class IOCommon
     # -------------------------------
     [void] WriteToFile([string] $file, [ref] $contents)
     {
-        Out-File -LiterialPath "$($file)" `
+        Out-File -LiteralPath "$($file)" `
                  -Encoding default `
                  -InputObject "$($contents.Value.ToString())" `
                  -NoClobber `
