@@ -3,7 +3,7 @@
 # ==============================
 # ==============================
 # This function is designed to centralize common
-#  input\output and to provide minimal maintanence.
+#  input\output and to provide minimal maintenance.
 # Functions housed in this class are based on
 #  common Input\Output tasks, such as: checking for
 #  a specific directory\file\executable, executing
@@ -454,7 +454,7 @@ class IOCommon
     # Documentation:
     #  This function will forcefully delete an
     #   individual file or a specific set of
-    #   files given by a specific critia.
+    #   files given by a specific criteria.
     #   This function cane be useful to delete
     #   superfluous log files and the like.
     #   Use this function carefully!
