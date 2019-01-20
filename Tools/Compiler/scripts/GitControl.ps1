@@ -1047,31 +1047,33 @@ class GitControl
         # Declarations and Initializations
         # ----------------------------------------
         [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-
-        # This will help shorten the long statement request to a small var.
-        [string] $runCMD = $io.ExecuteCommand("$($this.__executablePath)", `
-                                              "pull", `
-                                              "$($projectPath)", `
-                                              "$($this.__logPath)", `
-                                              "$($this.__logPath)", `
-                                              "$($this.__reportPath)", `
-                                              $false, `
-                                              $false, `
-                                              $null);
         # ----------------------------------------
 
 
-        # Try to update the LWC, if allowed to perform that operation.
-        if ($($this.__updateSource) -eq $true)
-        { # Allowed to update the source
-            if(($runCMD) -eq 0)
-            { # Try to update the source
-                return $true;
-            } # If : Update the source
-        } # If : Allowed to update the source?
+        # Are we allowed to update the source?
+        if ($($this.__updateSource) -eq $false)
+        {
+            # User does not want use to update the source.
+            return $false;
+        } # If : Do not update source
 
+        # Try to update the LWC
+        if ($io.ExecuteCommand("$($this.__executablePath)", `
+                                "pull", `
+                                "$($projectPath)", `
+                                "$($this.__logPath)", `
+                                "$($this.__logPath)", `
+                                "$($this.__reportPath)", `
+                                $false, `
+                                $false, `
+                                $null) -eq $true)
+        {
+            # Successfully update the source
+            return $true;
+        } # If : Successfully updated the source
 
-        # A failure occured or not allowed to update the source.
+        
+        # Failure occurred
         return $false;
     } # UpdateLocalWorkingCopy()
 
