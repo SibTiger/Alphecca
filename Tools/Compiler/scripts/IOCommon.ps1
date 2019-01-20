@@ -259,12 +259,7 @@ class IOCommon
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
-    # Output:
-    #  [bool] Status
-    #    $false = Failure to detect the external executable.
-    #    $true  = Successfully detected the external executable.
-    # -------------------------------
-    Hidden [bool] ExecuteCommandLog($stdOutLogPath, `
+    Hidden [void] ExecuteCommandLog($stdOutLogPath, `
                                     $stdErrLogPath, `
                                     $reportPath, `
                                     $logging, `
@@ -315,9 +310,6 @@ class IOCommon
             # Write the STDERR to a file
             $this.WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
         } # If : Log the STDERR
-
-
-        return $true;
     } # ExecuteCommandLog()
 
 
