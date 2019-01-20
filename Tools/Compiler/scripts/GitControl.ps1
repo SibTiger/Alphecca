@@ -1155,16 +1155,16 @@ class GitControl
 
         # Execute the command
         $io.ExecuteCommand("$($this.__executablePath)", `
-                                            "$($lengthArg)", `
-                                            "$($projectPath)", `
-                                            "$($this.__logPath)", `
-                                            "$($this.__logPath)", `
-                                            "$($this.__reportPath)", `
-                                            "Fetch CommitID", `
-                                            $logging, `
-                                            $false, `
-                                            $true, `
-                                            [ref]$commitID) | Out-Null;
+                            "$($lengthArg)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "Fetch CommitID", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$commitID) | Out-Null;
 
 
         # Just for assurance; make sure that we have the Commit ID.
