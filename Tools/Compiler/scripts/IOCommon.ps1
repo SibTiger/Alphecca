@@ -211,7 +211,7 @@ class IOCommon
 
 
         # Check to see if the external command exists; if not - leave this function immediately.
-        if((DetectCommand("$($command)", "Application")) -eq $false)
+        if(($this.DetectCommand("$($command)", "Application")) -eq $false)
         {
             return -254;
         } # If : Command does not exist
