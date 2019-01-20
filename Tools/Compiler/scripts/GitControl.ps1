@@ -1062,7 +1062,7 @@ class GitControl
 
 
         # Try to update the LWC
-        if (($runCMD) -eq $true)
+        if (($runCMD) -eq 0)
         {
             return $true;
         } # If : Detected
