@@ -1061,15 +1061,18 @@ class GitControl
         # ----------------------------------------
 
 
-        # Try to update the LWC
-        if (($runCMD) -eq 0)
-        {
-            return $true;
-        } # If : Detected
-        else
-        {
-            return $false;
-        } # Else : Not Detected
+        # Try to update the LWC, if allowed to perform that operation.
+        if ($($this.__updateSource) -eq $true)
+        { # Allowed to update the source
+            if(($runCMD) -eq 0)
+            { # Try to update the source
+                return $true;
+            } # If : Update the source
+        } # If : Allowed to update the source?
+
+
+        # A failure occured or not allowed to update the source.
+        return $false;
     } # UpdateLocalWorkingCopy()
 
     #endregion
