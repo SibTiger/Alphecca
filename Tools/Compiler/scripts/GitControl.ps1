@@ -973,6 +973,41 @@ class GitControl
 
     #region Public Functions
 
+    # Detect Git Executable
+    # -------------------------------
+    # Documentation:
+    #  This function will check if the Git executable
+    #   was detected.  To accomplish this, we will
+    #   investigate the dedicated variable that
+    #   contains the path and determine if the path
+    #   is valid or not.
+    # -------------------------------
+    # Output:
+    #  [bool] Detected Code
+    #    $false = Failure to detect the external executable.
+    #    $true  = Successfully detected the external executable.
+    # -------------------------------
+    [bool] DetectGitExist()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+        # Check if the git executable was found
+        if (($io.DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        {
+            return $true;
+        } # If : Detected
+        else
+        {
+            return $false;
+        } # Else : Not Detected
+    } # DetectGitExist()
+
+
+
+
     # Update Local Working Copy
     # -------------------------------
     # Documentation:
