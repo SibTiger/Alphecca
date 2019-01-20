@@ -412,7 +412,7 @@ class IOCommon
         catch
         {
             # The command failed to be executed
-            throw "Failure to execute command upon request!";
+            Write-Host "Failure to execute command upon request!`n`r$($_)";
 
             # Return an error
             return -255;
