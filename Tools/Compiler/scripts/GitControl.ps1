@@ -1100,6 +1100,11 @@ class GitControl
     # Output:
     #  [string] Commit ID
     #    The latest commit ID from the project's repository.
+    #    - ERROR and NON-ERROR VALUES
+    #       - "DEV"
+    #           User did not want a commit ID to be retrieved.
+    #       - "ERR"
+    #            Failure retrieving the commit ID.
     # -------------------------------
     [string] FetchCommitID([string] $projectPath)
     {
@@ -1111,6 +1116,16 @@ class GitControl
         [string] $lengthArg = $null;              # Argument that contains the
                                                   #  length type.
         # ----------------------------------------
+
+
+        # Does the user want the commit ID?
+        if ($this.__fetchCommitID -eq $false)
+        {
+            # Immediately leave this function while
+            #  returning a default non-commit ID
+            #  value.
+            return "DEV";
+        } # If : User didn't request commit ID
 
 
         # Determine what type of commit ID the user wants
