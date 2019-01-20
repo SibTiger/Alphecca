@@ -104,11 +104,16 @@ class IOCommon
 
 
 
-    # Execute Command [.NET API]
+    # Execute Command
     # -------------------------------
     # Documentation:
-    #  This function will allow a specific executable to run
-    #   with the required parameters.
+    #  This function will provide the ability to execute the
+    #   requested external command and help to manage how the
+    #   logging or redirection of output should be handled.
+    #  This function will use several functions in order to
+    #   preform the operation, this function is made to help
+    #   simplify the operation and keep data organized
+    #   efficiently.
     #
     #  Return Code Notes: After the command has been executed,
     #   this function will only return the exit code provided
@@ -116,16 +121,6 @@ class IOCommon
     #   be found or generally fails to execute in vague reasons,
     #   this function will return a specific error code that is
     #   dedicated by this function.
-    #
-    #  Logging Notes: This function requires the use of logging
-    #   when executing the external command.  During execution,
-    #   this function will log the activities and redirect
-    #   STDOUT and STDERR in the provided logfiles.  HOWEVER,
-    #   it is also possibly to use the STDOUT for functional
-    #   purposes.  When the required settings are configured,
-    #   it is possibly to capture the STDOUT in a reference
-    #   parameter - allowing for the string to be used within
-    #   the program.
     # -------------------------------
     # Inputs:
     #  [string] Command
@@ -220,6 +215,55 @@ class IOCommon
 
 
 
+    # Execute Command - Logging
+    # -------------------------------
+    # Documentation:
+    #  This function will take the outputs provided by the
+    #   extCMD and place them in logfiles or redirect the
+    #   output to a sepcific reference variable upon request.
+    # -------------------------------
+    # Inputs:
+    #  [string] STDOUT Log Path
+    #   Absolute path to store the log file containing
+    #    the program's STDOUT output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] STDERR Log Path
+    #   Absolute path to store the log file containing
+    #    the program's STDERR output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] Report Path
+    #   Absolute path and filename to store the report file.
+    #   - NOTE: Filename MUST BE INCLUDED!
+    #  [bool] Logging
+    #   User's request to log
+    #  [bool] Is Report
+    #   When true, this will assure that the information
+    #    is logged as a report.
+    #  [bool] Capture STDOUT
+    #   When true, the STDOUT will not be logged in a
+    #    text file, instead it will be captured into
+    #    a reference string.
+    #  [string] Description
+    #   Used for logging and for information purposes only.
+    #  [ref] {string} Output String
+    #   When Capture STDOUT is true, this parameter will
+    #    carry the STDOUT from the executable.  The
+    #    information provided will be available for use
+    #    from the calling function.
+    #  [ref] {string} Output Result STDOUT
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Trying to conserve main memory space by using referencing.
+    #            Output can be at maximum of 2GB of space. (Defined by CLR)
+    #  [ref] {string} Output Result STDERR
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Trying to conserve main memory space by using referencing.
+    #            Output can be at maximum of 2GB of space. (Defined by CLR)
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #    $false = Failure to detect the external executable.
+    #    $true  = Successfully detected the external executable.
+    # -------------------------------
     Hidden [bool] ExecuteCommandLog($stdOutLogPath, `
                                     $stdErrLogPath, `
                                     $reportPath, `
@@ -274,11 +318,49 @@ class IOCommon
 
 
         return $true;
-    }
+    } # ExecuteCommandLog()
 
 
 
 
+    # Execute Command - Run [Using .NET API]
+    # -------------------------------
+    # Documentation:
+    #  This function will allow a specific executable to run
+    #   with the required parameters.
+    #
+    #  Return Code Notes: After the command has been executed,
+    #   this function will only return the exit code provided
+    #   by the executable.  If the external executable can not
+    #   be found or generally fails to execute in vague reasons,
+    #   this function will return a specific error code that is
+    #   dedicated by this function.
+    # -------------------------------
+    # Inputs:
+    #  [string] Command
+    #   The external executable to run by request.
+    #  [string] Arguments
+    #   Arguments to be used when executing the binary.
+    #  [string] Project Path
+    #   The absolute path of the project directory.
+    #  [ref] {string} STDOUT Container
+    #   Placeholder for the STDOUT information
+    #    provided by the extCMD.
+    #  [ref] {string} STDERR Container
+    #   Placeholder for the STDERR information
+    #    provided by the extCMD.
+    # -------------------------------
+    # Output:
+    #  [int] Exit Code
+    #   The error code provided from the executable.
+    #   This can be helpful to diagnose if the external command
+    #    reached an error or was successful.
+    #   ERROR VALUES
+    #   -255
+    #    The executable could not execute; may not exist.
+    #   -254
+    #    Command was not detected.
+    # -------------------------------
     Hidden [int] ExecuteCommandRun([string] $command, `
                                     [string] $arguments, `
                                     [string] $projectPath, `
@@ -352,7 +434,7 @@ class IOCommon
 
         # Return the result
         return $processExec.ExitCode;
-    } # ExecuteCommand()
+    } # ExecuteCommandRun()
 
     #endregion
     
