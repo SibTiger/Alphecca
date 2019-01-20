@@ -187,14 +187,106 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Logging
-        # - - - -
+        [string] $containerStdOut = $null;        # Used to hold the STDOUT
+        [string] $containerStdErr = $null;        # Used to hold the STDERR
+        [int] $externalCommandReturnCode = $null; # Exit Code from the extCMD.
+        # ----------------------------------------
+
+        # Execute the Command
+        $externalCommandReturnCode = $this.ExecuteCommandRun($command, `
+                                                       $arguments, `
+                                                       $projectPath, `
+                                                       [ref] $containerStdOut, `
+                                                       [ref] $containerStdErr)
+
+
+        # Create the necessary logfiles or capture a specific input
+        $this.ExecuteCommandLog($stdOutLogPath, `
+                        $stdErrLogPath, `
+                        $reportPath, `
+                        $logging, `
+                        $isReport, `
+                        $captureSTDOUT, `
+                        $description, `
+                        [ref] $stringOutput, `
+                        [ref] $containerStdOut, `
+                        [ref] $containerStdErr)
+
+
+        # Return the ExtCMD's exit code
+        return $externalCommandReturnCode;
+    } # ExecuteCommand()
+
+
+
+
+    Hidden [bool] ExecuteCommandLog($stdOutLogPath, `
+                                    $stdErrLogPath, `
+                                    $reportPath, `
+                                    $logging, `
+                                    $isReport, `
+                                    $captureSTDOUT, `
+                                    $description, `
+                                    [ref] $stringOutput, `
+                                    [ref] $outputResultOut, `
+                                    [ref] $outputResultErr)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
         [string] $logTime    = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
         [string] $logStdErr  = "$($stdErrLogPath)\$($logTime)-$($description).err";      # Log file: Standard Error
         [string] $logStdOut  = "$($stdOutLogPath)\$($logTime)-$($description).out";      # Log file: Standard Output
         [string] $fileOutput = if ($isReport -eq $true)                  # Check if the output is a log or a report.
                             {"$($reportPath)"} else {"$($LogStdOut)"};
+        # ----------------------------------------
 
+
+        # Determine where to throw the STDOUT
+        #  Store the STDOUT in the reference var?
+        if ($captureSTDOUT -eq $true)
+        {
+            # Store the information to the reference variable that will be
+            #  used from the calling function.
+            $stringOutput.Value = $outputResultOut;
+        } # If : Stored in Reference Var.
+
+        # Creating a report
+        ElseIf ($isReport -eq $true)
+        {
+            # Write the data to the report file.
+            $this.WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
+        } # If : Generating a Report
+
+        # Store the STDOUT in a file?
+        ElseIf ($logging -eq $true)
+        {
+            # Store the information to a text file.
+            $this.WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
+        } # Else : Stored in a specific file
+        
+
+        # Store the STDERR in a logfile?
+        If ($logging -eq $true)
+        {
+            # Write the STDERR to a file
+            $this.WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
+        } # If : Log the STDERR
+
+
+        return $true;
+    }
+
+
+
+
+    Hidden [int] ExecuteCommandRun([string] $command, `
+                                    [string] $arguments, `
+                                    [string] $projectPath, `
+                                    [ref] $captureStdOut, `
+                                    [ref] $captureStdErr)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
         # Capturing Output from Process
         # - - - -
         [string] $outputResultErr = ""; # Standard Error
@@ -259,40 +351,8 @@ class IOCommon
 
 
         # Capture the Output (STDOUT && STDERR)
-        $outputResultErr = $processExec.StandardError.ReadToEnd();  # STDERR
-        $outputResultOut = $processExec.StandardOutput.ReadToEnd(); # STDOUT
-
-
-        # Determine where to throw the STDOUT
-        #  Store the STDOUT in the reference var?
-        if ($captureSTDOUT -eq $true)
-        {
-            # Store the information to the reference variable that will be
-            #  used from the calling function.
-            $stringOutput.Value = $outputResultOut;
-        } # If : Stored in Reference Var.
-
-        # Creating a report
-        ElseIf ($isReport -eq $true)
-        {
-            # Write the data to the report file.
-            $this.WriteToFile("$($reportPath)", "$($outputResultOut)") | Out-Null;
-        } # If : Generating a Report
-
-        # Store the STDOUT in a file?
-        ElseIf ($logging -eq $true)
-        {
-            # Store the information to a text file.
-            $this.WriteToFile("$($logStdOut)", "$($outputResultOut)") | Out-Null;
-        } # Else : Stored in a specific file
-        
-
-        # Store the STDERR in a logfile?
-        If ($logging -eq $true)
-        {
-            # Write the STDERR to a file
-            $this.WriteToFile("$($logStdErr)", "$($outputResultErr)") | Out-Null;
-        } # If : Log the STDERR
+        $captureStdErr.Value = $processExec.StandardError.ReadToEnd();  # STDERR
+        $captureStdOut.Value = $processExec.StandardOutput.ReadToEnd(); # STDOUT
 
 
         # Return the result
