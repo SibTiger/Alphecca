@@ -287,11 +287,6 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        # Capturing Output from Process
-        # - - - -
-        [string] $outputResultErr = ""; # Standard Error
-        [string] $outputResultOut = ""; # Standard Out
-        
         # .NET Special Objects
         # - - - -
         # Because Start-Process CMDLet does NOT redirect to a variable, but only to files.
