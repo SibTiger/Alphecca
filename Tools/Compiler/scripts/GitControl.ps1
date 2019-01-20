@@ -1050,7 +1050,7 @@ class GitControl
 
         # This will help shorten the long statement request to a small var.
         [string] $runCMD = $io.ExecuteCommand("$($this.__executablePath)", `
-                                              "-C $($projectPath) pull", `
+                                              "pull", `
                                               "$($projectPath)", `
                                               "$($this.__logPath)", `
                                               "$($this.__logPath)", `
