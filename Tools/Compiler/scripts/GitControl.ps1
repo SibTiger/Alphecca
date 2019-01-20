@@ -1064,6 +1064,7 @@ class GitControl
                                 "$($this.__logPath)", `
                                 "$($this.__logPath)", `
                                 "$($this.__reportPath)", `
+                                "Update LWC", `
                                 $false, `
                                 $false, `
                                 $null) -eq $true)
@@ -1148,6 +1149,7 @@ class GitControl
                                             "$($this.__logPath)", `
                                             "$($this.__logPath)", `
                                             "$($this.__reportPath)", `
+                                            "Fetch CommitID", `
                                             $false, `
                                             $true, `
                                             [ref]$commitID) | Out-Null;

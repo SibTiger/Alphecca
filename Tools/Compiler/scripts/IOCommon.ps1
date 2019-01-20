@@ -145,6 +145,8 @@ class IOCommon
     #  [string] Report Path
     #   Absolute path and filename to store the report file.
     #   - NOTE: Filename MUST BE INCLUDED!
+    #  [string] Description
+    #   Used for logging and for information purposes only.
     #  [bool] Is Report
     #   When true, this will assure that the information
     #    is logged as a report.
@@ -175,6 +177,7 @@ class IOCommon
                         [string] $stdOutLogPath, `
                         [string] $stdErrLogPath, `
                         [string] $reportPath, `
+                        [string] $description, `
                         [bool] $isReport, `
                         [bool] $captureSTDOUT, `
                         [ref] $stringOutput)
@@ -184,8 +187,8 @@ class IOCommon
         # Logging
         # - - - -
         [string] $logTime    = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
-        [string] $logStdErr  = "$($stdErrLogPath)\$($logTime).err";      # Log file: Standard Error
-        [string] $logStdOut  = "$($stdOutLogPath)\$($logTime).out";      # Log file: Standard Output
+        [string] $logStdErr  = "$($stdErrLogPath)\$($logTime)-$($description).err";      # Log file: Standard Error
+        [string] $logStdOut  = "$($stdOutLogPath)\$($logTime)-$($description).out";      # Log file: Standard Output
         [string] $fileOutput = if ($isReport -eq $true)                  # Check if the output is a log or a report.
                             {"$($reportPath)"} else {"$($LogStdOut)"};
 
