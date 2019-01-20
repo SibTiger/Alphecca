@@ -1011,10 +1011,10 @@ class GitControl
     # Update Local Working Copy
     # -------------------------------
     # Documentation:
-    #  This function will essentially update the user's
-    #  local working copy of the source code.  This is
-    #  essentially done by using git.exe and pulling all
-    #  updates from the centralized repository server.
+    #  This function will update the project's Local
+    #   Working Copy by fetching any of the latest
+    #   changes made to the centralized repository
+    #   server. 
     # -------------------------------
     # Input:
     #  [string] Project Path
@@ -1023,10 +1023,39 @@ class GitControl
     #   lacks that specific '.git' directory, this
     #   will fail to work.
     # -------------------------------
-    [void] UpdateLocalWorkingCopy([string] $projectPath)
+    # Output:
+    #  [bool] Status
+    #    $false = Failure to detect the external executable.
+    #    $true  = Successfully detected the external executable.
+    # -------------------------------
+    [bool] UpdateLocalWorkingCopy([string] $projectPath)
     {
-        # Call the git executable and update the LWC.
-        git -C $projectPath pull;
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+
+        # This will help shorten the long statement request to a small var.
+        [string] $runCMD = $io.ExecuteCommand("$($this.__executablePath)", `
+                                              "-C $($projectPath) pull", `
+                                              "$($projectPath)", `
+                                              "$($this.__logPath)", `
+                                              "$($this.__logPath)", `
+                                              "$($this.__reportPath)", `
+                                              $false, `
+                                              $false, `
+                                              $null);
+        # ----------------------------------------
+
+
+        # Try to update the LWC
+        if (($runCMD) -eq $true)
+        {
+            return $true;
+        } # If : Detected
+        else
+        {
+            return $false;
+        } # Else : Not Detected
     } # UpdateLocalWorkingCopy()
 
     #endregion
