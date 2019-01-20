@@ -147,6 +147,8 @@ class IOCommon
     #   - NOTE: Filename MUST BE INCLUDED!
     #  [string] Description
     #   Used for logging and for information purposes only.
+    #  [bool] Logging
+    #   User's request to log
     #  [bool] Is Report
     #   When true, this will assure that the information
     #    is logged as a report.
@@ -178,6 +180,7 @@ class IOCommon
                         [string] $stdErrLogPath, `
                         [string] $reportPath, `
                         [string] $description, `
+                        [bool] $logging, `
                         [bool] $isReport, `
                         [bool] $captureSTDOUT, `
                         [ref] $stringOutput)
@@ -277,15 +280,19 @@ class IOCommon
         } # If : Generating a Report
 
         # Store the STDOUT in a file?
-        else
+        ElseIf ($logging -eq $true)
         {
             # Store the information to a text file.
             $this.WriteToFile("$($logStdOut)", "$($outputResultOut)") | Out-Null;
         } # Else : Stored in a specific file
         
 
-        # Write the STDERR to a file
-        $this.WriteToFile("$($logStdErr)", "$($outputResultErr)") | Out-Null;
+        # Store the STDERR in a logfile?
+        If ($logging -eq $true)
+        {
+            # Write the STDERR to a file
+            $this.WriteToFile("$($logStdErr)", "$($outputResultErr)") | Out-Null;
+        } # If : Log the STDERR
 
 
         # Return the result

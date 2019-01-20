@@ -1036,13 +1036,18 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
     # -------------------------------
     # Output:
     #  [bool] Status
     #    $false = Failure to detect the external executable.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
-    [bool] UpdateLocalWorkingCopy([string] $projectPath)
+    [bool] UpdateLocalWorkingCopy([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1065,6 +1070,7 @@ class GitControl
                                 "$($this.__logPath)", `
                                 "$($this.__reportPath)", `
                                 "Update LWC", `
+                                $logging, `
                                 $false, `
                                 $false, `
                                 $null) -eq $true)
@@ -1097,6 +1103,11 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
     # -------------------------------
     # Output:
     #  [string] Commit ID
@@ -1107,7 +1118,7 @@ class GitControl
     #       - "ERR"
     #            Failure retrieving the commit ID.
     # -------------------------------
-    [string] FetchCommitID([string] $projectPath)
+    [string] FetchCommitID([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1150,6 +1161,7 @@ class GitControl
                                             "$($this.__logPath)", `
                                             "$($this.__reportPath)", `
                                             "Fetch CommitID", `
+                                            $logging, `
                                             $false, `
                                             $true, `
                                             [ref]$commitID) | Out-Null;
