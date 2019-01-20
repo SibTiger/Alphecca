@@ -1077,6 +1077,81 @@ class GitControl
         return $false;
     } # UpdateLocalWorkingCopy()
 
+
+
+
+    # Fetch Current Commit ID
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve the latest
+    #   Commit ID from the project repository.
+    #  Two possible ways of getting the Commit
+    #   ID are the following:
+    #    - Short: 7chars
+    #    - Long: 40chars
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    # -------------------------------
+    # Output:
+    #  [string] Commit ID
+    #    The latest commit ID from the project's repository.
+    # -------------------------------
+    [string] FetchCommitID([string] $projectPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        [string] $commitID = $null;               # This will hold the commit ID
+                                                  #  This will also be returned.
+        [string] $lengthArg = $null;              # Argument that contains the
+                                                  #  length type.
+        # ----------------------------------------
+
+
+        # Determine what type of commit ID the user wants
+        if($($this.__lengthCommitID) -eq 0)
+        {
+            # Short Commit ID
+            $lengthArg = "rev-parse --short HEAD";
+        } # If : Short Commit ID
+        else
+        {
+            # Long Commit ID
+            $lengthArg = "rev-parse HEAD";
+        } # Else : Long Commit ID
+
+
+        # Execute the command
+        $io.ExecuteCommand("$($this.__executablePath)", `
+                                            "$($lengthArg)", `
+                                            "$($projectPath)", `
+                                            "$($this.__logPath)", `
+                                            "$($this.__logPath)", `
+                                            "$($this.__reportPath)", `
+                                            $false, `
+                                            $true, `
+                                            [ref]$commitID) | Out-Null;
+
+
+        # Just for assurance; make sure that we have the Commit ID.
+        #  If incase the commit ID was not retrieved successfully,
+        #  than place 'ERR' to signify that an issue occured, but
+        #  still providing a value.
+        if ("$($commitID)" -eq "$($null)")
+        {
+            $commitID = "ERR";
+        } # If : Commit ID is not valid
+
+
+        # Return the Commit ID
+        return $commitID;
+    } # FetchCommitID()
+
     #endregion
 } # GitControl
 
