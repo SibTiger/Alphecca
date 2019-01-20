@@ -197,15 +197,15 @@ class IOCommon
 
         # Create the necessary logfiles or capture a specific input
         $this.ExecuteCommandLog($stdOutLogPath, `
-                        $stdErrLogPath, `
-                        $reportPath, `
-                        $logging, `
-                        $isReport, `
-                        $captureSTDOUT, `
-                        $description, `
-                        [ref] $stringOutput, `
-                        [ref] $containerStdOut, `
-                        [ref] $containerStdErr)
+                                $stdErrLogPath, `
+                                $reportPath, `
+                                $logging, `
+                                $isReport, `
+                                $captureSTDOUT, `
+                                $description, `
+                                [ref] $stringOutput, `
+                                [ref] $containerStdOut, `
+                                [ref] $containerStdErr)
 
 
         # Return the ExtCMD's exit code
