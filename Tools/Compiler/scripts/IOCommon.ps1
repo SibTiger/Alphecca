@@ -185,6 +185,9 @@ class IOCommon
         [string] $containerStdOut = $null;        # Used to hold the STDOUT
         [string] $containerStdErr = $null;        # Used to hold the STDERR
         [int] $externalCommandReturnCode = $null; # Exit Code from the extCMD.
+        [string] $callBack = $null;               # Allocate memory address if the stdout
+                                                  #  needs to be relocated, this is our
+                                                  #  medium in order to accomplish this.
         # ----------------------------------------
 
         # Execute the Command
@@ -203,9 +206,18 @@ class IOCommon
                                 $isReport, `
                                 $captureSTDOUT, `
                                 $description, `
-                                [ref] $stringOutput, `
+                                [ref] $callBack, `
                                 [ref] $containerStdOut, `
                                 [ref] $containerStdErr)
+
+
+        # Do we need to copy the STDOUT to the pointer?
+        #  Used if wanting the extCMD output in a function.
+        if ($captureSTDOUT -eq $true)
+        {
+            # Copy the stdout to pointer
+            $stringOutput.Value = $callBack;
+        } # If : Redirect STDOUT to Pointer
 
 
         # Return the ExtCMD's exit code
@@ -272,21 +284,28 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $logTime    = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S"); # Capture the current date and time.
-        [string] $logStdErr  = "$($stdErrLogPath)\$($logTime)-$($description).err";      # Log file: Standard Error
-        [string] $logStdOut  = "$($stdOutLogPath)\$($logTime)-$($description).out";      # Log file: Standard Output
-        [string] $fileOutput = if ($isReport -eq $true)                  # Check if the output is a log or a report.
-                            {"$($reportPath)"} else {"$($LogStdOut)"};
+        [string] $logTime        = $(Get-Date -UFormat "%d-%b-%y %H.%M.%S");             # Capture the current date and time.
+        [string] $logStdErr      = "$($stdErrLogPath)\$($logTime)-$($description).err";  # Log file: Standard Error
+        [string] $logStdOut      = "$($stdOutLogPath)\$($logTime)-$($description).out";  # Log file: Standard Output
+        [string] $fileOutput     = if ($isReport -eq $true)                              # Check if the output is a log or a report.
+                                   {"$($reportPath)"} else {"$($LogStdOut)"};
+        [string] $redirectStdOut = $null;                   # When STDOUT redirection to variable is
+                                                            #  requested, this will be our buffer.
         # ----------------------------------------
 
-
+        
         # Determine where to throw the STDOUT
         #  Store the STDOUT in the reference var?
         if ($captureSTDOUT -eq $true)
         {
-            # Store the information to the reference variable that will be
-            #  used from the calling function.
-            $stringOutput.Value = $outputResultOut;
+            # Because we need a memory-address, we will store the contents in a
+            #  temporarily variable.  After that, store the value to the pointer.
+            $redirectStdOut = $outputResultOut.Value;
+
+
+            # Now store the information to the pointer; which can be used from
+            #  the calling function.
+            $stringOutput.Value = $redirectStdOut;
         } # If : Stored in Reference Var.
 
         # Creating a report
