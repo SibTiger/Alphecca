@@ -1073,7 +1073,7 @@ class GitControl
                                 $logging, `
                                 $false, `
                                 $false, `
-                                $null) -eq $true)
+                                $null) -eq 0)
         {
             # Successfully update the source
             return $true;
