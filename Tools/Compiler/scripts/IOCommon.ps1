@@ -294,37 +294,54 @@ class IOCommon
         # ----------------------------------------
 
         
-        # Determine where to throw the STDOUT
-        #  Store the STDOUT in the reference var?
-        if ($captureSTDOUT -eq $true)
+        # Standard Output
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Is there any data in the STDOUT?
+        #  If so, we can continue to evaluate it.  Otherwise, skip over.
+        if ("$($outputResultErr.Value)" -ne "")
         {
-            # Because we need a memory-address, we will store the contents in a
-            #  temporarily variable.  After that, store the value to the pointer.
-            $redirectStdOut = $outputResultOut.Value;
+            # Should we store the STDOUT to a variable?
+            if ($captureSTDOUT -eq $true)
+            {
+                # Because we need a memory-address, we will store the contents in a
+                #  temporarily variable.  After that, store the value to the pointer.
+                $redirectStdOut = $outputResultOut.Value;
 
 
-            # Now store the information to the pointer; which can be used from
-            #  the calling function.
-            $stringOutput.Value = $redirectStdOut;
-        } # If : Stored in Reference Var.
+                # Now store the information to the pointer; which can be used from
+                #  the calling function.
+                $stringOutput.Value = $redirectStdOut;
+            } # If : Stored in Reference Var.
 
-        # Creating a report
-        ElseIf ($isReport -eq $true)
-        {
-            # Write the data to the report file.
-            $this.WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
-        } # If : Generating a Report
 
-        # Store the STDOUT in a file?
-        ElseIf ($logging -eq $true)
-        {
-            # Store the information to a text file.
-            $this.WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
-        } # Else : Stored in a specific file
+            # Should we store the STDOUT to a report file?
+            ElseIf ($isReport -eq $true)
+            {
+                # Write the data to the report file.
+                $this.WriteToFile("$($reportPath)", "$($outputResultOut.Value)") | Out-Null;
+            } # If : Generating a Report
+
+
+            # Store the STDOUT in a file?
+            ElseIf ($logging -eq $true)
+            {
+                # Store the information to a text file.
+                $this.WriteToFile("$($logStdOut)", "$($outputResultOut.Value)") | Out-Null;
+            } # Else : Stored in a specific file
+        } # If : STDOUT contains data
         
 
-        # Store the STDERR in a logfile?
-        If ($logging -eq $true)
+
+        # Standard Error
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Store the STDERR in a logfile and is there data?
+        If (($logging -eq $true) -and ("$($outputResultErr.Value)" -ne ""))
         {
             # Write the STDERR to a file
             $this.WriteToFile("$($logStdErr)", "$($outputResultErr.Value)") | Out-Null;
