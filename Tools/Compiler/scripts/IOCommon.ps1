@@ -410,6 +410,12 @@ class IOCommon
                             [System.Diagnostics.ProcessStartInfo]::new();
         [System.Diagnostics.Process] $processExec = `                       # Instantiate Process Obj.
                             [System.Diagnostics.Process]::new();
+
+        # Redirection Standard Out (Asynchronous)
+        $asyncStdOut = New-Object -TypeName System.Runtime.CompilerServices.AsyncTaskMethodBuilder
+
+        # Redirection Standard Error (Asynchronous)
+        $asyncStdErr = New-Object -TypeName System.Runtime.CompilerServices.AsyncTaskMethodBuilder
         # ----------------------------------------
 
 
@@ -440,6 +446,24 @@ class IOCommon
             # Start the process; do not output anything.
             $processExec.Start() | Out-Null;
 
+            # Prevent a Deadlock from occuring by capturing
+            #  the output and immediately cache before the
+            #  buffer is full, once the buffer is full
+            #  (which is a few Kilobytes) - a deadlock will
+            #  occur.  Once a deadlock has occured, nothing
+            #  more can be done -- the shell itself MUST be
+            #  forcefully terminated.
+            # Resources that helped on resolving this issue:
+            # >> https://stackoverflow.com/a/36539747
+            # >> https://stackoverflow.com/a/36539226
+            # -------
+            # Standard Out (Asynchronous)
+            $asyncStdOut = $processExec.StandardOutput.ReadToEndAsync()
+
+            # Standard Error (Asynchronous)
+            $asyncStdErr = $processExec.StandardError.ReadToEndAsync()
+            # -------
+
             # Wait for the program to finish.
             $processExec.WaitForExit();
         } # Try : Executing command
@@ -456,8 +480,8 @@ class IOCommon
 
 
         # Capture the Output (STDOUT && STDERR)
-        $captureStdErr.Value = $processExec.StandardError.ReadToEnd();  # STDERR
-        $captureStdOut.Value = $processExec.StandardOutput.ReadToEnd(); # STDOUT
+        $captureStdErr.Value = $asyncStdErr.Result; # STDERR
+        $captureStdOut.Value = $asyncStdOut.Result; # STDOUT
 
 
         # Return the result
