@@ -1349,7 +1349,7 @@ class GitControl
 
         # Execute the command
         $io.ExecuteCommand("$($this.__executablePath)", `
-                            "rev-parse --abbrev-ref HEAD", `
+                            "$($arg)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
                             "$($this.__logPath)", `
