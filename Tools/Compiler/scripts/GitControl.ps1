@@ -1197,6 +1197,11 @@ class GitControl
     #   contains the .git directory.  If that directory
     #   lacks that specific '.git' directory, this
     #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
     #  [string] Output Path
     #   The absolute location to place the Commit History.
     #   - NOTE: We will use the Report functionality to
@@ -1209,7 +1214,7 @@ class GitControl
     #    $false = Failure to create a report.
     #    $true  = Successfully created the report.
     # -------------------------------
-    [bool] FetchCommitHistory([string] $projectPath, [string] $outputPath)
+    [bool] FetchCommitHistory([string] $projectPath, [bool] $logging, [string] $outputPath)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1288,7 +1293,7 @@ class GitControl
                             "$($this.__logPath)", `
                             "$($changelogPath)", `
                             "Fetch Commit History", `
-                            $true, `
+                            $logging, `
                             $true, `
                             $false, `
                             $null) -eq 0)
