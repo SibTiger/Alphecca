@@ -301,7 +301,7 @@ class IOCommon
 
         # Is there any data in the STDOUT?
         #  If so, we can continue to evaluate it.  Otherwise, skip over.
-        if ("$($outputResultErr.Value)" -ne "")
+        if ("$($outputResultOut.Value)" -ne "")
         {
             # Should we store the STDOUT to a variable?
             if ($captureSTDOUT -eq $true)
