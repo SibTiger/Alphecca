@@ -1181,6 +1181,127 @@ class GitControl
         return $commitID;
     } # FetchCommitID()
 
+
+
+
+    # Fetch Commit History (Changelog)
+    # -------------------------------
+    # Documentation:
+    #  This function is designed to grab the Commit History
+    #   from a specific repository and place the information
+    #   into a textfile.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [string] Output Path
+    #   The absolute location to place the Commit History.
+    #   - NOTE: We will use the Report functionality to
+    #           create the file; this gives us full power
+    #           to dictact where to put the file and how
+    #           it'll be named.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure to create a report.
+    #    $true  = Successfully created the report.
+    # -------------------------------
+    [bool] FetchCommitHistory([string] $projectPath, [string] $outputPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
+        [string] $fileName = "Changelog.txt"                    # The filename of the commit history (changelog)
+        [string] $changelogSize = $null;                        # The size of the changelog
+        [string] $changelogPath = "$($outputPath)\$($fileName)";# Location of the commit history (changelog)
+        [string] $prettyType = "fuller";                        # The type of 'Pretty' format to be used.
+                                                                #  More Info: https://git-scm.com/docs/pretty-formats
+        [string] $gitArgBuilder = $null;                        # The argument(s) that is to be passed to git.
+                                                                #  We will build the arguments in this variable.
+        # ----------------------------------------
+
+
+        # Does the user want the commit history (changelog)?
+        if ($this.__fetchChangelog -eq $false)
+        {
+            # Immediately leave this function; user's request.
+            #  We will return true because no actual error happened.
+            return $true;
+        } # If : User didn't request commit history.
+
+
+
+        # Commit History Size
+        # ++++++++++++++++++++
+
+
+        # How many commits does the user want?
+        #  Number-Line (because I am a visual person)
+        #  <(-----------0+++++++++++)>
+        if ($this.__changelogLimit -eq 0)
+        {
+            # User wants ALL of the commits made into the project.
+            #  Do not use the size parameter; this will give us
+            #  the entire commit history that is in the repository.
+            $changelogSize = "";
+        } # If : All Commits
+
+
+        #  We want to also make sure that if a negative number exists (it shouldn't happen),
+        #   but we should also negate it - thus making it a positive number.
+        ElseIf($this.__changelogLimit -lt 0)
+        {
+            # Negative number, make it a positive number and use that as the new size.
+            $changelogSize = "-$($this.__changelogLimit * (-1))";
+        } # If : Negated number; flip it (Error Protection)
+
+
+        # Number that is greater than zero
+        else
+        {
+            # Because it's a supported number, just use it as is.
+            $changelogSize = "-$($this.__changelogLimit)";
+        } # Else : Number greater than 0
+
+
+
+        # Arguments Builder Constructor
+        # ++++++++++++++++++++
+
+
+        $gitArgBuilder = "--pretty=$($prettyType) $($changelogSize)";
+
+
+
+        # Execute the Command
+        # ++++++++++++++++++++
+
+
+        # Execute the command
+        if($io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($gitArgBuilder)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($changelogPath)", `
+                            "Fetch Commit History", `
+                            $true, `
+                            $true, `
+                            $false, `
+                            $null) -eq 0)
+        {
+            # Successfully retrieved the commit history.
+            return $true;
+        } # If : Successfully retrieved the commit history.
+
+
+        # Failure to retrieve the commit history or a general error had occured.
+        return $false;
+    } # FetchCommitHistory()
+
     #endregion
 } # GitControl
 
