@@ -1272,7 +1272,7 @@ class GitControl
         # ++++++++++++++++++++
 
 
-        $gitArgBuilder = "--pretty=$($prettyType) $($changelogSize)";
+        $gitArgBuilder = "log --pretty=$($prettyType) $($changelogSize)";
 
 
 
