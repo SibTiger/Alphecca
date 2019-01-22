@@ -1375,6 +1375,79 @@ class GitControl
         return $outputResult;
     } # FetchCurrentBranch()
 
+
+
+
+    # Fetch all available Branches
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve all of the available
+    #   branches in the project's repository.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] Branches
+    #    All available branches that are in the project's
+    #     repository.
+    #    - NOTE: This does not really return a 'list' type,
+    #            but this string will capture the newline chars
+    #            and will be added to the string.
+    #            For example:
+    #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
+    # -------------------------------
+    [string] FetchAllBranches([string] $projectPath, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [string] $arg = "branch";                       # Argument used with git
+                                                        #  This will only show the
+                                                        #  selected branch.
+        [string] $outputResult = $null;                 # Holds the value of the current
+                                                        #  branch provided by the extCMD.
+        # ----------------------------------------
+
+
+
+        # Execute the command
+        $io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($arg)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "Fetch All Branches", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$outputResult) | Out-Null;
+
+
+        # Just for assurance; make sure that we have all of the branches.
+        #  If incase the branches was not retrieved successfully, then
+        #  place 'ERR' to signify that an issue occured, but still
+        #  providing a value.
+        if ("$($outputResult)" -eq "$($null)")
+        {
+            $outputResult = "ERR";
+        } # If : Branches is not valid
+
+
+        # Return all available Branches
+        return $outputResult;
+    } # FetchAllBranches()
+
     #endregion
 } # GitControl
 
