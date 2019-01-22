@@ -1302,6 +1302,74 @@ class GitControl
         return $false;
     } # FetchCommitHistory()
 
+
+
+
+    # Fetch Current Branch
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve the current
+    #   branch that is active in the project's 
+    #   local repository.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] Current and Active Branch
+    #    The current branch selected (or active).
+    # -------------------------------
+    [string] FetchCurrentBranch([string] $projectPath, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [string] $arg = "rev-parse --abbrev-ref HEAD";  # Argument used with git
+                                                        #  This will only show the
+                                                        #  selected branch.
+        [string] $outputResult = $null;                 # Holds the value of the current
+                                                        #  branch provided by the extCMD.
+        # ----------------------------------------
+
+
+
+        # Execute the command
+        $io.ExecuteCommand("$($this.__executablePath)", `
+                            "rev-parse --abbrev-ref HEAD", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "Fetch Current Branch", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$outputResult) | Out-Null;
+
+
+        # Just for assurance; make sure that we have the current branch.
+        #  If incase the current branch was not retrieved successfully,
+        #  than place 'ERR' to signify that an issue occured, but
+        #  still providing a value.
+        if ("$($outputResult)" -eq "$($null)")
+        {
+            $outputResult = "ERR";
+        } # If : Current Branch is not valid
+
+
+        # Return the Current (active) Branch
+        return $outputResult;
+    } # FetchCurrentBranch()
+
     #endregion
 } # GitControl
 
