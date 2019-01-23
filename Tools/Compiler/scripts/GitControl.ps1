@@ -1051,7 +1051,10 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
+        [string] $extCMDArgs = "pull";          # Arguments for the external command
+                                                #  Fetch updates from the remote repository.
+        [string] $execReason = "Update LWC";    # Description; used for logging
         # ----------------------------------------
 
 
@@ -1064,12 +1067,12 @@ class GitControl
 
         # Try to update the LWC
         if ($io.ExecuteCommand("$($this.__executablePath)", `
-                                "pull", `
+                                "$($extCMDArgs)", `
                                 "$($projectPath)", `
                                 "$($this.__logPath)", `
                                 "$($this.__logPath)", `
                                 "$($this.__reportPath)", `
-                                "Update LWC", `
+                                "$($execReason)", `
                                 $logging, `
                                 $false, `
                                 $false, `
@@ -1122,11 +1125,14 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
-        [string] $commitID = $null;               # This will hold the commit ID
-                                                  #  This will also be returned.
-        [string] $lengthArg = $null;              # Argument that contains the
-                                                  #  length type.
+        [IOCommon] $io = [IOCommon]::new();         # Using functions from IO Common
+        [string] $commitID = $null;                 # This will hold the commit ID
+                                                    #  This will also be returned.
+        [string] $extCMDArgs = $null;               # Arguments for the external command
+                                                    #  This will contain the commit ID
+                                                    #  argument; though determined by
+                                                    #  user's request.
+        [string] $execReason = "Fetch CommitID";    # Description; used for logging
         # ----------------------------------------
 
 
@@ -1144,23 +1150,23 @@ class GitControl
         if($($this.__lengthCommitID) -eq 0)
         {
             # Short Commit ID
-            $lengthArg = "rev-parse --short HEAD";
+            $extCMDArgs = "rev-parse --short HEAD";
         } # If : Short Commit ID
         else
         {
             # Long Commit ID
-            $lengthArg = "rev-parse HEAD";
+            $extCMDArgs = "rev-parse HEAD";
         } # Else : Long Commit ID
 
 
         # Execute the command
         $io.ExecuteCommand("$($this.__executablePath)", `
-                            "$($lengthArg)", `
+                            "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
-                            "Fetch CommitID", `
+                            "$($execReason)", `
                             $logging, `
                             $false, `
                             $true, `
@@ -1224,8 +1230,11 @@ class GitControl
         [string] $changelogPath = "$($outputPath)\$($fileName)";# Location of the commit history (changelog)
         [string] $prettyType = "fuller";                        # The type of 'Pretty' format to be used.
                                                                 #  More Info: https://git-scm.com/docs/pretty-formats
-        [string] $gitArgBuilder = $null;                        # The argument(s) that is to be passed to git.
-                                                                #  We will build the arguments in this variable.
+        [string] $extCMDArgs = $null;                           # Arguments for the external command
+                                                                #  This will contain args. to get the
+                                                                #  commit history.  This'll be generated
+                                                                #  by user's request.
+        [string] $execReason = "Fetch Commit History";          # Description; used for logging
         # ----------------------------------------
 
 
@@ -1277,7 +1286,7 @@ class GitControl
         # ++++++++++++++++++++
 
 
-        $gitArgBuilder = "log --pretty=$($prettyType) $($changelogSize)";
+        $extCMDArgs = "log --pretty=$($prettyType) $($changelogSize)";
 
 
 
@@ -1287,12 +1296,12 @@ class GitControl
 
         # Execute the command
         if($io.ExecuteCommand("$($this.__executablePath)", `
-                            "$($gitArgBuilder)", `
+                            "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
                             "$($this.__logPath)", `
                             "$($changelogPath)", `
-                            "Fetch Commit History", `
+                            "$($execReason)", `
                             $logging, `
                             $true, `
                             $false, `
@@ -1337,24 +1346,25 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
-        [string] $arg = "rev-parse --abbrev-ref HEAD";  # Argument used with git
-                                                        #  This will only show the
-                                                        #  selected branch.
-        [string] $outputResult = $null;                 # Holds the value of the current
-                                                        #  branch provided by the extCMD.
+        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
+        [string] $extCMDArgs = "rev-parse --abbrev-ref HEAD";   # Arguments for the external command
+                                                                #  This will only show the selected
+                                                                #  branch.
+        [string] $outputResult = $null;                         # Holds the value of the current
+                                                                #  branch provided by the extCMD.
+        [string] $execReason = "Fetch Current Branch";          # Description; used for logging
         # ----------------------------------------
 
 
 
         # Execute the command
         $io.ExecuteCommand("$($this.__executablePath)", `
-                            "$($arg)", `
+                            "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
-                            "Fetch Current Branch", `
+                            "$($execReason)", `
                             $logging, `
                             $false, `
                             $true, `
@@ -1411,23 +1421,24 @@ class GitControl
         # Declarations and Initializations
         # ----------------------------------------
         [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
-        [string] $arg = "branch";                       # Argument used with git
-                                                        #  This will only show the
-                                                        #  selected branch.
+        [string] $extCMDArgs = "branch";                # Arguments for the external command
+                                                        #  This will display all the branches
+                                                        #  available in the local repository.
         [string] $outputResult = $null;                 # Holds the value of the current
                                                         #  branch provided by the extCMD.
+        [string] $execReason = "Fetch All Branches";    # Description; used for logging
         # ----------------------------------------
 
 
 
         # Execute the command
         $io.ExecuteCommand("$($this.__executablePath)", `
-                            "$($arg)", `
+                            "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
-                            "Fetch All Branches", `
+                            "$($execReason)", `
                             $logging, `
                             $false, `
                             $true, `
@@ -1481,22 +1492,23 @@ class GitControl
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
-        [string] $arg = "checkout $($requestedBranch)"; # Argument used with git
-                                                        #  This will only show the
-                                                        #  selected branch.
+        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
+        [string] $extCMDArgs = "checkout $($requestedBranch)";  # Arguments for the external command
+                                                                #  This will allow us to switch to
+                                                                #  another branch.
+        [string] $execReason = "Switch Branch";                 # Description; used for logging
         # ----------------------------------------
 
 
 
         # Execute the command
         if ($io.ExecuteCommand("$($this.__executablePath)", `
-                            "$($arg)", `
+                            "$($extCMDArgs)", `
                             "$($projectPath)", `
                             "$($this.__logPath)", `
                             "$($this.__logPath)", `
                             "$($this.__reportPath)", `
-                            "Switch Branch", `
+                            "$($execReason)", `
                             $logging, `
                             $false, `
                             $false, `
