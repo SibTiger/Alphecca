@@ -1448,6 +1448,69 @@ class GitControl
         return $outputResult;
     } # FetchAllBranches()
 
+
+
+
+    # Switch Local Branch
+    # -------------------------------
+    # Documentation:
+    #  This function will switch the project's local
+    #   repository to the requested branch - if possible.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    #  [string] Requested Branch
+    #   The requested branch to switch to in the local
+    #    repository.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure to switch to requested branch.
+    #    $true  = Successfully switched to requested branch.
+    # -------------------------------
+    [bool] SwitchLocalBranch([string] $projectPath, [bool] $logging, [string] $requestedBranch)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [string] $arg = "checkout $($requestedBranch)"; # Argument used with git
+                                                        #  This will only show the
+                                                        #  selected branch.
+        # ----------------------------------------
+
+
+
+        # Execute the command
+        if ($io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($arg)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "Switch Branch", `
+                            $logging, `
+                            $false, `
+                            $false, `
+                            [ref]$null) -eq 0)
+        {
+            # Successfully switched from one branch to another branch.
+            return $true;
+        } # If : Switch Branches
+
+
+        # Failure to switch branches.
+        return $false;
+    } # SwitchLocalBranch()
+
     #endregion
 } # GitControl
 
