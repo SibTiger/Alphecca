@@ -1523,6 +1523,83 @@ class GitControl
         return $false;
     } # SwitchLocalBranch()
 
+
+
+
+    # Fetch All Contributors
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve all of the contributors
+    #   that have been involved within the project, as well
+    #   how many commits have been pushed into the project
+    #   by those users.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] Contributors
+    #    All contributors that have been involved with the project.
+    #     repository.
+    #    - NOTE: This does not really return a 'list' type,
+    #            but this string will capture the newline chars
+    #            and will be added to the string.
+    #            For example:
+    #            John[CR][LF]Amber[CR][LF]Hammingway
+    # -------------------------------
+    [string] FetchAllContributors([string] $projectPath, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [string] $extCMDArgs = `                        # Arguments for the external command
+                "shortlog --summary --email";           #  This will provide all contributors
+                                                        #  with a valid email address.
+        [string] $outputResult = $null;                 # Holds the value of all contributors
+                                                        #  that have been involved within the
+                                                        #  project.
+        [string] $execReason = "Fetch All Contributors";# Description; used for logging
+        # ----------------------------------------
+
+
+
+        # Execute the command
+        $io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$outputResult) | Out-Null;
+
+
+        # Just for assurance; make sure that we have all of the contributors.
+        #  If incase the contributors was not retrieved successfully, then
+        #  place 'ERR' to signify that an issue occured, but still
+        #  providing a value.
+        if ("$($outputResult)" -eq "$($null)")
+        {
+            $outputResult = "ERR";
+        } # If : Contributors is not valid
+
+
+        # Return all contributors
+        return $outputResult;
+    } # FetchAllContributors()
+
     #endregion
 } # GitControl
 
