@@ -1600,6 +1600,103 @@ class GitControl
         return $outputResult;
     } # FetchAllContributors()
 
+
+
+
+    # Generate Graph
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve a simple visual graph-line
+    #   with the commit description, date when it was commited
+    #   into the repository, and by whom.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] Commit Graph & info
+    #    Simple line-graph with commit information
+    #    - NOTE: This is a giant string.
+    # -------------------------------
+    [string] MakeCommitGraphInfo([string] $projectPath, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [string] $extCMDArgs = $null;                   # Arguments for the external command
+                                                        #  This will display the graph and the
+                                                        #  commit information once it has been
+                                                        #  constructed.
+        [string] $gitArgsLong = $null;                  # Long-wordy arguments
+        [string] $gitArgsFormat = $null;                # Formatting for the commit information args.
+        [string] $outputResult = $null;                 # Holds the graph and commit information.
+        [string] $execReason = "Graph Log";             # Description; used for logging
+        # ----------------------------------------
+
+
+
+        # Arguments Builder Constructor
+        # ++++++++++++++++++++
+
+        # This was a major help in figuring out how to accomplish this task:
+        #  https://stackoverflow.com/a/9074343
+        # Formatting Help:
+        #  https://git-scm.com/docs/pretty-formats
+
+        # Long wordy arguments
+        $gitArgsLong = "log --graph --abbrev-commit --decorate --all";
+
+
+        # Formatting for the commit informaiton
+        $gitArgsFormat = "`"--format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'`"";
+
+        # Construct the arguments into one variable,
+        #  this will be used when calling the extCMD.
+        $extCMDArgs = "$($gitArgsLong) $($gitArgsFormat)";
+
+
+
+        # Execute the Command
+        # ++++++++++++++++++++
+
+
+        # Execute the command
+        $io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$outputResult) | Out-Null;
+
+
+        # Just for assurance; make sure that we have all of the information.
+        #  If incase the graph and information was not retrieved successfully,
+        #  then place 'ERR' to signify that an issue occured, but still
+        #  providing a value.
+        if ("$($outputResult)" -eq "$($null)")
+        {
+            $outputResult = "ERR";
+        } # If : Information is not valid
+
+
+        # Return the graph and commit information
+        return $outputResult;
+    } # MakeCommitGraphInfo()
+
     #endregion
 } # GitControl
 
