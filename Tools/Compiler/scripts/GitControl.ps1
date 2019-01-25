@@ -1657,7 +1657,7 @@ class GitControl
 
 
         # Formatting for the commit informaiton
-        $gitArgsFormat = "[%h] - %aD (%ar) %d%n%x09By: %an%n%x09%s%n";
+        $gitArgsFormat = "--format=`"[%h] - %aD (%ar) %d%n%x09By: %an%n%x09%s%n`"";
 
 
         # Construct the arguments into one variable,
