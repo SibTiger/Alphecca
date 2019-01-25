@@ -1657,7 +1657,8 @@ class GitControl
 
 
         # Formatting for the commit informaiton
-        $gitArgsFormat = "`"--format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'`"";
+        $gitArgsFormat = "[%h] - %aD (%ar) %d%n%x09By: %an%n%x09%s";
+
 
         # Construct the arguments into one variable,
         #  this will be used when calling the extCMD.
