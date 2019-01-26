@@ -24,7 +24,7 @@ class GitControl
 
     # Git Executable Path
     # ---------------
-    # The path inwhich the executable 'git.exe' resides.
+    # The path in which the executable 'git.exe' resides.
     Hidden [string] $__executablePath;
 
 
@@ -241,7 +241,7 @@ class GitControl
     # -------------------------------
     # Output:
     #  [string] Executable Path
-    #   the value of the Exectable Path to git.exe.
+    #   the value of the Executable Path to git.exe.
     # -------------------------------
     [string] GetExecutablePath()
     {
@@ -977,7 +977,7 @@ class GitControl
         } # IF : Check if Directories Exists
 
         
-        # A general error occured, the directories could not be created.
+        # A general error occurred, the directories could not be created.
         return $false;
     } # __CreateDirectories()
 
@@ -1174,8 +1174,8 @@ class GitControl
 
 
         # Just for assurance; make sure that we have the Commit ID.
-        #  If incase the commit ID was not retrieved successfully,
-        #  than place 'ERR' to signify that an issue occured, but
+        #  If in case the commit ID was not retrieved successfully,
+        #  than place 'ERR' to signify that an issue occurred, but
         #  still providing a value.
         if ("$($commitID)" -eq "$($null)")
         {
@@ -1212,7 +1212,7 @@ class GitControl
     #   The absolute location to place the Commit History.
     #   - NOTE: We will use the Report functionality to
     #           create the file; this gives us full power
-    #           to dictact where to put the file and how
+    #           to dictate where to put the file and how
     #           it'll be named.
     # -------------------------------
     # Output:
@@ -1312,7 +1312,7 @@ class GitControl
         } # If : Successfully retrieved the commit history.
 
 
-        # Failure to retrieve the commit history or a general error had occured.
+        # Failure to retrieve the commit history or a general error had occurred.
         return $false;
     } # FetchCommitHistory()
 
@@ -1372,8 +1372,8 @@ class GitControl
 
 
         # Just for assurance; make sure that we have the current branch.
-        #  If incase the current branch was not retrieved successfully,
-        #  than place 'ERR' to signify that an issue occured, but
+        #  If in case the current branch was not retrieved successfully,
+        #  than place 'ERR' to signify that an issue occurred, but
         #  still providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
@@ -1446,8 +1446,8 @@ class GitControl
 
 
         # Just for assurance; make sure that we have all of the branches.
-        #  If incase the branches was not retrieved successfully, then
-        #  place 'ERR' to signify that an issue occured, but still
+        #  If in case the branches was not retrieved successfully, then
+        #  place 'ERR' to signify that an issue occurred, but still
         #  providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
@@ -1470,14 +1470,14 @@ class GitControl
     #   when it was last active.
     #  NOTE: This function will use branches that are
     #        available on the remote-repository, not
-    #        the local-repositry.  This is done to assure
+    #        the local-repository.  This is done to assure
     #        that all official branches have been detected.
-    #        If we were to rely on the local-repositry, we
+    #        If we were to rely on the local-repository, we
     #        would be bounded to what is available to the
-    #        local-repositry -- when the local-repository
+    #        local-repository -- when the local-repository
     #        only has five branches available, but the
     #        remote has more than ten available.
-    #        As such, we will use the Remote-Repositry to
+    #        As such, we will use the Remote-Repository to
     #        assure we have all of the branches.
     # -------------------------------
     # Input:
@@ -1550,8 +1550,8 @@ class GitControl
 
 
         # Just for assurance; make sure that we have all of the branches.
-        #  If incase the branches was not retrieved successfully, then
-        #  place 'ERR' to signify that an issue occured, but still
+        #  If in case the branches was not retrieved successfully, then
+        #  place 'ERR' to signify that an issue occurred, but still
         #  providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
@@ -1691,8 +1691,8 @@ class GitControl
 
 
         # Just for assurance; make sure that we have all of the contributors.
-        #  If incase the contributors was not retrieved successfully, then
-        #  place 'ERR' to signify that an issue occured, but still
+        #  If in case the contributors was not retrieved successfully, then
+        #  place 'ERR' to signify that an issue occurred, but still
         #  providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
@@ -1711,7 +1711,7 @@ class GitControl
     # -------------------------------
     # Documentation:
     #  This function will retrieve a simple visual graph-line
-    #   with the commit description, date when it was commited
+    #   with the commit description, date when it was committed
     #   into the repository, and by whom.
     # -------------------------------
     # Input:
@@ -1760,7 +1760,7 @@ class GitControl
         $gitArgsLong = "log --graph --abbrev-commit --decorate --all";
 
 
-        # Formatting for the commit informaiton
+        # Formatting for the commit information
         $gitArgsFormat = "--format=`"[%h] - %aD (%ar) %d%n%x09By: %an%n%x09%s%n`"";
 
 
@@ -1789,8 +1789,8 @@ class GitControl
 
 
         # Just for assurance; make sure that we have all of the information.
-        #  If incase the graph and information was not retrieved successfully,
-        #  then place 'ERR' to signify that an issue occured, but still
+        #  If in case the graph and information was not retrieved successfully,
+        #  then place 'ERR' to signify that an issue occurred, but still
         #  providing a value.
         if ("$($outputResult)" -eq "$($null)")
         {
@@ -1823,7 +1823,7 @@ class GitControl
     #    operations performed.
     #   - Does not effect main program logging.
     #  [ProjectInformation] Project Info
-    #   Ths project's information, such as
+    #   This project's information, such as
     #   project name, project website, and much more.
     # -------------------------------
     # Output:
@@ -1853,7 +1853,7 @@ class GitControl
         # >> Standard Textfile
         [string] $fileNameTXT = "$($this.__reportPath)\$($projectInfo.GetProjectName()) - $($dateTime).txt";
         
-        # >> Protable Document File (PDF)
+        # >> Portable Document File (PDF)
         [string] $fileNamePDF = "$($this.__reportPath)\$($projectInfo.GetProjectName()) - $($dateTime).pdf";
         # - - - -
 
@@ -1935,7 +1935,7 @@ class GitControl
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Failure occured while writing to the file.
+                        # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
@@ -1965,7 +1965,7 @@ class GitControl
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Failure occured while writing to the file.
+                        # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
@@ -2004,7 +2004,7 @@ class GitControl
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Failure occured while writing to the file.
+                        # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
@@ -2033,7 +2033,7 @@ class GitControl
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Failure occured while writing to the file.
+                        # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
@@ -2062,7 +2062,7 @@ class GitControl
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Failure occured while writing to the file.
+                        # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
@@ -2091,7 +2091,7 @@ class GitControl
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
-                        # Failure occured while writing to the file.
+                        # Failure occurred while writing to the file.
                         return $false;
                     } # If : Failure to write file
 
