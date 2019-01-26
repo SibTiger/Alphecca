@@ -2003,6 +2003,14 @@ class GitControl
                     # Finished with the Commits Overview
                     break;
                 } # Case : SECTION - Commits Overview
+
+
+                # Default - ERROR; Run Away
+                default
+                {
+                    # Something went horribly wrong
+                    return $false;
+                } # Case : DEFAULT
             } # switch()
         } While ($readyToBreak -eq $false);
 
