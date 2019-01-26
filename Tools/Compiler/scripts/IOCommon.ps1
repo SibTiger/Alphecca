@@ -232,7 +232,7 @@ class IOCommon
     # Documentation:
     #  This function will take the outputs provided by the
     #   extCMD and place them in logfiles or redirect the
-    #   output to a sepcific reference variable upon request.
+    #   output to a specific reference variable upon request.
     # -------------------------------
     # Inputs:
     #  [string] STDOUT Log Path
@@ -446,11 +446,11 @@ class IOCommon
             # Start the process; do not output anything.
             $processExec.Start() | Out-Null;
 
-            # Prevent a Deadlock from occuring by capturing
+            # Prevent a Deadlock from occurring by capturing
             #  the output and immediately cache before the
             #  buffer is full, once the buffer is full
             #  (which is a few Kilobytes) - a deadlock will
-            #  occur.  Once a deadlock has occured, nothing
+            #  occur.  Once a deadlock has occurred, nothing
             #  more can be done -- the shell itself MUST be
             #  forcefully terminated.
             # Resources that helped on resolving this issue:
