@@ -1981,7 +1981,7 @@ class GitControl
                                      "Provided below is an overview of commits that" + `
                                      "  have been submitted to this project's repository.`r`n`r`n" + `
                                      "List of Commits:`r`n" + `
-                                     "$($this.MakeCommitGraphInfo($projectPath, $logging))`r`n`r`n";
+                                     "$($this.MakeCommitGraphInfo($projectPath, $logging))";
 
 
                     # Write to file
