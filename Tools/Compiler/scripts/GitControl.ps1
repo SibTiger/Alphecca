@@ -1851,10 +1851,10 @@ class GitControl
         # This will hold the report's filename.
         # - - - -
         # >> Standard Textfile
-        [string] $fileNameTXT = "$($this.__reportPath)\$($dateTime).txt";
+        [string] $fileNameTXT = "$($this.__reportPath)\$($projectInfo.GetProjectName()) - $($dateTime).txt";
         
         # >> Protable Document File (PDF)
-        [string] $fileNamePDF = "$($this.__reportPath)\$($dateTime).pdf";
+        [string] $fileNamePDF = "$($this.__reportPath)\$($projectInfo.GetProjectName()) - $($dateTime).pdf";
         # - - - -
 
         # This variable will hold the output
