@@ -1698,6 +1698,278 @@ class GitControl
         return $outputResult;
     } # MakeCommitGraphInfo()
 
+
+
+
+    # Create a new Report
+    # -------------------------------
+    # Documentation:
+    #  This function will create a report based upon
+    #   the project's repository.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    #  [ProjectInformation] Project Info
+    #   Ths project's information, such as
+    #   project name, project website, and much more.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure occurred while writing the report.
+    #    $true  = Successfully created the report.
+    # -------------------------------
+    [bool] CreateNewReport([string] $projectPath, [bool] $logging, [ProjectInformation] $projectInfo)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Using functions from IO Common
+        [IOCommon] $io = [IOCommon]::new();
+
+        # This variable will hold the current date and
+        #  time from the host system.  With this, it'll be accessed
+        #  for the filename and inside the report.
+        [string] $dateTime = "$(Get-Date -UFormat "%d-%b-%y %H.%M.%S")";
+
+        # This will hold the report's filename.
+        # - - - -
+        # >> Standard Textfile
+        [string] $fileNameTXT = "$($this.__reportPath)\$($dateTime).txt";
+        
+        # >> Protable Document File (PDF)
+        [string] $fileNamePDF = "$($this.__reportPath)\$($dateTime).pdf";
+        # - - - -
+
+        # This variable will hold the output
+        #  provided by the functions.  Because
+        #  some data might be excessively large
+        #  and to help minimize requiring
+        #  massive heap space, we will only
+        #  store only ONE output at a time.
+        #  If we store MORE THAN ONE, depending
+        #  on the project size, this could demand
+        #  a lot on main memory.  Lets try to
+        #  conserve on memory.
+        # NOTE: CLR String Datatypes can reach
+        #       near 3GB of memory usage.
+        [string] $outputContent = $null;
+
+        # This will be used to jump from one case to another.
+        #  This will greatly help to keep the procedure organized
+        #  and to assure that the data is being written properly.
+        [int] $traverse = 0;
+
+        # This variable is a small placeholder for the border
+        #  that will be used for each section within this report.
+        #  With this variable, it'll help avoid redundancy - by
+        #  not having to retype the border over and over again.
+        [string] $sectionBorder = $null;
+
+        # This variable will be used to break out of the do-while
+        #  loop.  This assures that the file is being written within
+        #  the switch statement inside of the do-while loop.
+        [bool] $readyToBreak = $false;
+        # ----------------------------------------
+
+
+        # Before we begin creating the report, lets generate the
+        #  bordering that will be used for each section in the report.
+
+        $sectionBorder = "------------------------------`r`n" + `
+                         "==============================`r`n" + `
+                         "==============================`r`n";
+
+        DO
+        {
+            # Begin writing the report
+            switch ($traverse)
+            {
+                # Report Header
+                0
+                {
+                    # Build the output
+                    $outputContent = "                  GIT REPORT`r`n" + `
+                                     "                --------------`r`n`r`n`r`n" + `
+                                     "This report was generated on $($dateTime) for the" + `
+                                     " $($projectInfo.GetProjectName()) project.  Within this" + `
+                                     " report contains the a brief overlook of the project's activity" + `
+                                     " and work-flow.  However, all information is based on the local repository -" + `
+                                     " not directly from the remote repository.  If the local repository is caught" + `
+                                     " up with the remote repository, then all information is current with the" + `
+                                     " centralized repository." + `
+                                     "`r`n`r`n`r`n";
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occured while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+
+                    # Finished with the header
+                    break;
+                } # Case : Report Header
+
+
+                # Table of Contents
+                1
+                {
+                    # Build the output
+                    $outputContent = "Table of Contents:`r`n" + `
+                                     "---------------------`r`n" + `
+                                     "1) Project Information`r`n" + `
+                                     "2) Contributors`r`n" + `
+                                     "3) Branches`r`n" + `
+                                     "4) Commits overview`r`n" + `
+                                     "`r`n`r`n";
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occured while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+
+                    # Finished with the header
+                    break;
+                } # Case : Table of Contents
+
+
+                # SECTION - Project Information
+                2
+                {
+                    $outputContent = "1) PROJECT INFORMATION`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "Provided below is information regarding the project itself.`r`n`r`n" + `
+                                     "Project Name:`r`n" + `
+                                     "`t$($projectInfo.GetProjectName())`r`n`r`n" + `
+                                     "Project Code Name:`r`n" + `
+                                     "`t$($projectInfo.GetCodeName())`r`n`r`n" + `
+                                     "Filename:`r`n" + `
+                                     "`t$($projectInfo.GetFilename())`r`n`r`n" + `
+                                     "Project Website:`r`n" + `
+                                     "`t$($projectInfo.GetProjectWebsite())`r`n`r`n" + `
+                                     "Project's Documentation:`r`n" + `
+                                     "`t$($projectInfo.GetProjectWiki())`r`n`r`n" + `
+                                     "Project's Repository:`r`n" + `
+                                     "`t$($projectInfo.GetProjectSource())`r`n" + `
+                                     "`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occured while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+                    
+                    # Finished with the header
+                    break;
+                } # Case : SECTION - Project Information
+
+
+                # SECTION - Contributors
+                3
+                {
+                    $outputContent = "2) CONTRIBUTORS`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "Provided below is a list of contributors that have" + `
+                                     " sent commits to this project's git repository.`r`n`r`n" + `
+                                     "List of Contributors:`r`n" + `
+                                     "$($this.FetchAllContributors($projectPath, $logging))`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occured while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+                    
+                    # Finished with the header
+                    break;
+                } # Case : SECTION - Contributors
+
+                
+                # SECTION - Branch
+                4
+                {
+                    $outputContent = "3) BRANCHES`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "Provided below is list of branches that are" + `
+                                     " available in this repository.`r`n`r`n" + `
+                                     "List of Branches:`r`n" + `
+                                     "$($this.FetchAllBranches($projectPath, $logging))`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occured while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+                    
+                    # Finished with the header
+                    break;
+                } # Case : SECTION - Branch
+
+
+                # SECTION - Commits Overview
+                5
+                {
+                    $outputContent = "4) COMMITS OVERVIEW`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "Provided below is an overview of commits that" + `
+                                     "  have been submitted to this project's repository.`r`n`r`n" + `
+                                     "List of Commits:`r`n" + `
+                                     "$($this.MakeCommitGraphInfo($projectPath, $logging))`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occured while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+                    $readyToBreak = $true;
+                    # Finished with the header
+                    break;
+                } # Case : SECTION - Branch
+
+            } # switch()
+        } While ($readyToBreak -eq $false);
+
+        write-host "Break Value: $($readyToBreak)";
+        return $true;
+
+    } # CreateNewReport()
+
     #endregion
 } # GitControl
 
