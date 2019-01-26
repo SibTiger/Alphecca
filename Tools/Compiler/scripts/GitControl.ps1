@@ -1827,6 +1827,7 @@ class GitControl
                                      " centralized repository." + `
                                      "`r`n`r`n`r`n";
 
+
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
@@ -1834,8 +1835,10 @@ class GitControl
                         return $false;
                     } # If : Failure to write file
 
+
                     # Increment the traverse variable
                     $traverse = $traverse + 1;
+
 
                     # Finished with the header
                     break;
@@ -1854,6 +1857,7 @@ class GitControl
                                      "4) Commits overview`r`n" + `
                                      "`r`n`r`n";
 
+
                     # Write to file
                     if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
                     {
@@ -1861,10 +1865,12 @@ class GitControl
                         return $false;
                     } # If : Failure to write file
 
+
                     # Increment the traverse variable
                     $traverse = $traverse + 1;
 
-                    # Finished with the header
+
+                    # Finished with the Table of Contents
                     break;
                 } # Case : Table of Contents
 
@@ -1872,6 +1878,7 @@ class GitControl
                 # SECTION - Project Information
                 2
                 {
+                    # Build the output
                     $outputContent = "1) PROJECT INFORMATION`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is information regarding the project itself.`r`n`r`n" + `
@@ -1897,10 +1904,12 @@ class GitControl
                         return $false;
                     } # If : Failure to write file
 
+
                     # Increment the traverse variable
                     $traverse = $traverse + 1;
                     
-                    # Finished with the header
+
+                    # Finished with the Project Info.
                     break;
                 } # Case : SECTION - Project Information
 
@@ -1908,6 +1917,7 @@ class GitControl
                 # SECTION - Contributors
                 3
                 {
+                    # Build the output
                     $outputContent = "2) CONTRIBUTORS`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is a list of contributors that have" + `
@@ -1923,10 +1933,12 @@ class GitControl
                         return $false;
                     } # If : Failure to write file
 
+
                     # Increment the traverse variable
                     $traverse = $traverse + 1;
                     
-                    # Finished with the header
+
+                    # Finished with the Contributors
                     break;
                 } # Case : SECTION - Contributors
 
@@ -1934,6 +1946,7 @@ class GitControl
                 # SECTION - Branch
                 4
                 {
+                    # Build the output
                     $outputContent = "3) BRANCHES`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is list of branches that are" + `
@@ -1949,10 +1962,12 @@ class GitControl
                         return $false;
                     } # If : Failure to write file
 
+
                     # Increment the traverse variable
                     $traverse = $traverse + 1;
                     
-                    # Finished with the header
+
+                    # Finished with the Branches
                     break;
                 } # Case : SECTION - Branch
 
@@ -1960,6 +1975,7 @@ class GitControl
                 # SECTION - Commits Overview
                 5
                 {
+                    # Build the output
                     $outputContent = "4) COMMITS OVERVIEW`r`n" + `
                                      "$($sectionBorder)`r`n`r`n" + `
                                      "Provided below is an overview of commits that" + `
@@ -1975,13 +1991,18 @@ class GitControl
                         return $false;
                     } # If : Failure to write file
 
+
                     # Increment the traverse variable
                     $traverse = $traverse + 1;
-                    $readyToBreak = $true;
-                    # Finished with the header
-                    break;
-                } # Case : SECTION - Branch
 
+
+                    # Jump out of the Loop key
+                    $readyToBreak = $true;
+
+
+                    # Finished with the Commits Overview
+                    break;
+                } # Case : SECTION - Commits Overview
             } # switch()
         } While ($readyToBreak -eq $false);
 
