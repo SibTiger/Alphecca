@@ -1462,6 +1462,98 @@ class GitControl
 
 
 
+    # Fetch all available Branches with Last-Known Activity
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve all of the available
+    #   branches in the project's repository and determine
+    #   when it was last active.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] Branches with Last-Known Activity
+    #    All available branches that are in the project's
+    #     repository, and when they were last active.
+    #    - NOTE: This does not really return a 'list' type,
+    #            but this string will capture the newline chars
+    #            and will be added to the string.
+    #            For example:
+    #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
+    # -------------------------------
+    [string] FetchAllBranchesActivity([string] $projectPath, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [string] $extCMDArgs = $null;                   # Arguments for the external command
+                                                        #  This will display all the branches
+                                                        #  available in the local repository,
+                                                        #  once the variable has been built.
+        [string] $outputResult = $null;                 # Holds the value of the current
+                                                        #  branch provided by the extCMD.
+        [string] $execReason = "Fetch Active Branches"  # Description; used for logging
+        # ----------------------------------------
+
+
+
+        # Arguments Builder Constructor
+        # ++++++++++++++++++++
+
+
+        # This should provide us with the following example:
+        # *(BRANCH) - (RELATIVE_DATE)
+        # Source: https://stackoverflow.com/a/30076212
+        $extCMDArgs = "branch -r --sort=-committerdate" + `
+                      " --format=`"%(refname:short)" + `
+                      " (%(committerdate:relative))`"";
+
+
+        # Execute the command
+        # ++++++++++++++++++++
+
+
+        # Execute the command
+        $io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$outputResult) | Out-Null;
+
+
+        # Just for assurance; make sure that we have all of the branches.
+        #  If incase the branches was not retrieved successfully, then
+        #  place 'ERR' to signify that an issue occured, but still
+        #  providing a value.
+        if ("$($outputResult)" -eq "$($null)")
+        {
+            $outputResult = "ERR";
+        } # If : Branches is not valid
+
+
+        # Return all available Branches
+        return $outputResult;
+    } # FetchAllBranches()
+
+
+
+
     # Switch Local Branch
     # -------------------------------
     # Documentation:
@@ -1952,7 +2044,7 @@ class GitControl
                                      "Provided below is list of branches that are" + `
                                      " available in this repository.`r`n`r`n" + `
                                      "List of Branches:`r`n" + `
-                                     "$($this.FetchAllBranches($projectPath, $logging))`r`n`r`n";
+                                     "$($this.FetchAllBranchesActivity($projectPath, $logging))`r`n`r`n";
 
 
                     # Write to file
