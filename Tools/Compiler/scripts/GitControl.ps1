@@ -1801,8 +1801,23 @@ class GitControl
                 0
                 {
                     # Build the output
-                    $outputContent = "                  GIT REPORT`r`n" + `
-                                     "                --------------`r`n`r`n`r`n" + `
+                    #  Word Art provided by this website:
+                    #  http://patorjk.com/software/taag
+                    #  FONT: Big
+                    #  All other settings set to 'default'.
+                    $outputContent = "+--------------------------------------------------+`r`n" + `
+                                     "|   _____ _ _     _____                       _    |`r`n" + `
+                                     "|  / ____(_) |   |  __ \                     | |   |`r`n" + `
+                                     "| | |  __ _| |_  | |__) |___ _ __   ___  _ __| |_  |`r`n" + `
+                                     "| | | |_ | | __| |  _  // _ \ '_ \ / _ \| '__| __| |`r`n" + `
+                                     "| | |__| | | |_  | | \ \  __/ |_) | (_) | |  | |_  |`r`n" + `
+                                     "|  \_____|_|\__| |_|  \_\___| .__/ \___/|_|   \__| |`r`n" + `
+                                     "|                           | |                    |`r`n" + `
+                                     "|                           |_|                    |`r`n" + `
+                                     "+--------------------------------------------------+`r`n" + `
+                                     "`r`n`r`n" + `
+                                     "Synopsis`r`n" + `
+                                     "----------`r`n" + `
                                      "This report was generated on $($dateNow) at $($timeNow) for the" + `
                                      " $($projectInfo.GetProjectName()) project.  This report contains" + `
                                      " an overlook of the project's activity and work flow." + `
