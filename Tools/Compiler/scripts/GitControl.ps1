@@ -1924,7 +1924,7 @@ class GitControl
                                      "----------`r`n" + `
                                      "This report was generated on $($dateNow) at $($timeNow) for the" + `
                                      " $($projectInfo.GetProjectName()) project.  This report contains" + `
-                                     " an overlook of the project's activity and work flow." + `
+                                     " an overview of the project's activity and work flow." + `
                                      "  However, all information is based on the local repository -" + `
                                      " not directly from the remote repository.  If the local repository is caught" + `
                                      " up with the remote repository then all of the information is current with the" + `
