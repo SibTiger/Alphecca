@@ -8,7 +8,7 @@
 # NOTE: In order to use git, it must first already be
 #  installed within the host system.  We are merely going to
 #  use the binary to perform the tasks we want; if the
-#  binary is not available - than nothing is used.
+#  binary is not available - then nothing is used.
 
 
 
