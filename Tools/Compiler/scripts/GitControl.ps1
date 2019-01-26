@@ -2006,7 +2006,7 @@ class GitControl
             } # switch()
         } While ($readyToBreak -eq $false);
 
-        write-host "Break Value: $($readyToBreak)";
+
         return $true;
 
     } # CreateNewReport()
