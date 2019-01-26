@@ -1468,6 +1468,17 @@ class GitControl
     #  This function will retrieve all of the available
     #   branches in the project's repository and determine
     #   when it was last active.
+    #  NOTE: This function will use branches that are
+    #        available on the remote-repository, not
+    #        the local-repositry.  This is done to assure
+    #        that all official branches have been detected.
+    #        If we were to rely on the local-repositry, we
+    #        would be bounded to what is available to the
+    #        local-repositry -- when the local-repository
+    #        only has five branches available, but the
+    #        remote has more than ten available.
+    #        As such, we will use the Remote-Repositry to
+    #        assure we have all of the branches.
     # -------------------------------
     # Input:
     #  [string] Project Path
@@ -1517,6 +1528,7 @@ class GitControl
         $extCMDArgs = "branch -r --sort=-committerdate" + `
                       " --format=`"%(refname:short)" + `
                       " (%(committerdate:relative))`"";
+
 
 
         # Execute the command
