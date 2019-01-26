@@ -2006,7 +2006,7 @@ class GitControl
             } # switch()
         } While ($readyToBreak -eq $false);
 
-
+        # Successfully wrote to the file
         return $true;
 
     } # CreateNewReport()
