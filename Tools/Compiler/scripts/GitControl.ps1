@@ -1737,7 +1737,12 @@ class GitControl
         # This variable will hold the current date and
         #  time from the host system.  With this, it'll be accessed
         #  for the filename and inside the report.
-        [string] $dateTime = "$(Get-Date -UFormat "%d-%b-%y %H.%M.%S")";
+        # >> Date
+        [string] $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
+        # >> Time
+        [string] $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
+        # >> Date && Time
+        [string] $dateTime = "$($dateNow) $($timeNow)";
 
         # This will hold the report's filename.
         # - - - -
@@ -1798,7 +1803,7 @@ class GitControl
                     # Build the output
                     $outputContent = "                  GIT REPORT`r`n" + `
                                      "                --------------`r`n`r`n`r`n" + `
-                                     "This report was generated on $($dateTime) for the" + `
+                                     "This report was generated on $($dateNow) at $($timeNow) for the" + `
                                      " $($projectInfo.GetProjectName()) project.  Within this" + `
                                      " report contains the a brief overlook of the project's activity" + `
                                      " and work-flow.  However, all information is based on the local repository -" + `
