@@ -1,20 +1,21 @@
-﻿# User Preferences
-# ------------------------------
-# ==============================
-# ==============================
-# This class holds the User Preferences within this
-#  program.  The user's preferences will give rise
-#  to what the user wants to do with this program
-#  and perform the task as the user's demands with
-#  minimal configuration after the first initial
-#  setup.  The goal of this program is to assure
-#  that the user can merely 'click-and-forget',
-#  thus the program should NOT stand in the way
-#  of the user's tasks.  With that in mind, it
-#  is paramount that the User Preferences should
-#  provide little headache as necessary; in-fact,
-#  all of the configurations within the classes
-#  provides that same principle.
+﻿<# User Preferences
+ # ------------------------------
+ # ==============================
+ # ==============================
+ # This class holds the User Preferences within this
+ #  program.  The user's preferences will give rise
+ #  to what the user wants to do with this program
+ #  and perform the task as the user's demands with
+ #  minimal configuration after the first initial
+ #  setup.  The goal of this program is to assure
+ #  that the user can merely 'click-and-forget',
+ #  thus the program should NOT stand in the way
+ #  of the user's tasks.  With that in mind, it
+ #  is paramount that the User Preferences should
+ #  provide little headache as necessary; in-fact,
+ #  all of the configurations within the classes
+ #  provides that same principle.
+ #>
 
 
 
@@ -165,7 +166,7 @@ class UserPreferences
 
     #region Getter Functions
 
-    # Get Compression Tool Choice
+   <# Get Compression Tool Choice
     # -------------------------------
     # Documentation:
     #  Returns the value of the Compression Tool Choice variable.
@@ -174,6 +175,7 @@ class UserPreferences
     #  [UserPreferencesCompressTool] Compression Tool Choice
     #   the value of the Compression Tool Choice.
     # -------------------------------
+    #>
     [UserPreferencesCompressTool] GetCompressionTool()
     {
         return $this.__compressionTool;
@@ -182,7 +184,7 @@ class UserPreferences
 
 
 
-    # Get Project Path
+   <# Get Project Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Project Path variable.
@@ -191,6 +193,7 @@ class UserPreferences
     #  [string] Project Path
     #   the value of the Project Path.
     # -------------------------------
+    #>
     [string] GetProjectPath()
     {
         return $this.__projectPath;
@@ -199,7 +202,7 @@ class UserPreferences
 
 
 
-    # Get Project Builds Path
+   <# Get Project Builds Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Project Builds Path variable.
@@ -208,6 +211,7 @@ class UserPreferences
     #  [string] Project Builds Path
     #   the value of the Project Builds Path.
     # -------------------------------
+    #>
     [string] GetProjectBuildsPath()
     {
         return $this.__outputBuildsPath;
@@ -216,7 +220,7 @@ class UserPreferences
 
 
 
-    # Get Use Git Features
+   <# Get Use Git Features
     # -------------------------------
     # Documentation:
     #  Returns the value of the Use Git Features variable.
@@ -225,6 +229,7 @@ class UserPreferences
     #  [bool] Use Git Features
     #   the value of the Use Git Features.
     # -------------------------------
+    #>
     [bool] GetUseGitFeatures()
     {
         return $this.__useGitFeatures;
@@ -233,7 +238,7 @@ class UserPreferences
 
 
 
-    # Get Use Windows Explorer
+   <# Get Use Windows Explorer
     # -------------------------------
     # Documentation:
     #  Returns the value of the Use Windows Explorer variable.
@@ -242,6 +247,7 @@ class UserPreferences
     #  [bool] Use Windows Explorer
     #   the value of the Use Windows Explorer.
     # -------------------------------
+    #>
     [bool] GetUseWindowsExplorer()
     {
         return $this.__useWindowsExplorer;
@@ -250,7 +256,7 @@ class UserPreferences
 
 
 
-    # Get Logging
+   <# Get Logging
     # -------------------------------
     # Documentation:
     #  Returns the value of the Logging variable.
@@ -259,6 +265,7 @@ class UserPreferences
     #  [bool] Logging
     #   the value of the Logging.
     # -------------------------------
+    #>
     [bool] GetLogging()
     {
         return $this.__logging;
@@ -267,7 +274,7 @@ class UserPreferences
 
 
 
-    # Get Use Bell
+   <# Get Use Bell
     # -------------------------------
     # Documentation:
     #  Returns the value of the Use Bell variable.
@@ -276,6 +283,7 @@ class UserPreferences
     #  [bool] Use Bell
     #   the value of the Use Bell.
     # -------------------------------
+    #>
     [bool] GetUseBell()
     {
         return $this.__ringMyDingaling;
@@ -283,7 +291,7 @@ class UserPreferences
 
 
 
-    # Get Bell Events
+   <# Get Bell Events
     # -------------------------------
     # Documentation:
     #  Returns the value of the Bell Events variable.
@@ -292,6 +300,7 @@ class UserPreferences
     #  [UserPreferencesEventAlarm] Bell Events
     #   the value of the Bell Events.
     # -------------------------------
+    #>
     [UserPreferencesEventAlarm] GetBellEvents()
     {
         return $this.__notificationType;
@@ -303,7 +312,7 @@ class UserPreferences
 
     #region Setter Functions
 
-    # Set Compression Tool Choice
+   <# Set Compression Tool Choice
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Compression Tool Choice variable.
@@ -313,6 +322,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetCompressionTool([UserPreferencesCompressTool] $newVal)
     {
         # Because the value must fit within the
@@ -329,7 +339,7 @@ class UserPreferences
 
 
 
-    # Set Project Path
+   <# Set Project Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Project Path variable.
@@ -339,6 +349,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetProjectPath([string] $newVal)
     {
         # Inspect to see if the path exists
@@ -356,7 +367,7 @@ class UserPreferences
 
 
 
-    # Set Project Builds Path
+   <# Set Project Builds Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Project Builds Path variable.
@@ -366,6 +377,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetProjectBuildsPath([string] $newVal)
     {
         # Inspect to see if the path exists
@@ -383,7 +395,7 @@ class UserPreferences
 
 
 
-    # Set Use Git Features
+   <# Set Use Git Features
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Use Git Features variable.
@@ -393,6 +405,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetUseGitFeatures([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -408,7 +421,7 @@ class UserPreferences
 
 
 
-    # Set Use Windows Explorer
+   <# Set Use Windows Explorer
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Use Windows Explorer variable.
@@ -418,6 +431,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetUseWindowsExplorer([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -433,7 +447,7 @@ class UserPreferences
 
 
 
-    # Set Logging
+   <# Set Logging
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Logging variable.
@@ -443,6 +457,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetLogging([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -458,7 +473,7 @@ class UserPreferences
 
 
 
-    # Set Use Bell
+   <# Set Use Bell
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Use Bell variable.
@@ -468,6 +483,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetUseBell([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -483,7 +499,7 @@ class UserPreferences
 
 
 
-    # Set Bell Events
+   <# Set Bell Events
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Bell Events variable.
@@ -493,6 +509,7 @@ class UserPreferences
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetBellEvents([UserPreferencesEventAlarm] $newVal)
     {
         # Because the value must fit within the
@@ -512,12 +529,13 @@ class UserPreferences
 
 
 
-# User Preferences Compress Tool [ENUM]
-# -------------------------------
-# Associated with what type of compression tool
-#  should be used when wanting to compact a data
-#  into an archive-file.
-# -------------------------------
+<# User Preferences Compress Tool [ENUM]
+ # -------------------------------
+ # Associated with what type of compression tool
+ #  should be used when wanting to compact a data
+ #  into an archive-file.
+ # -------------------------------
+ #>
 enum UserPreferencesCompressTool
 {
     Default = 0;   # .NET
@@ -527,13 +545,14 @@ enum UserPreferencesCompressTool
 
 
 
-# User Preferences Event Alarm [ENUM]
-# -------------------------------
-# Associated with what type of audible notification
-#  the user wishes to receive.  These notifications
-#  are based on certain events that can occur during
-#  the program's run-time.
-# -------------------------------
+<# User Preferences Event Alarm [ENUM]
+ # -------------------------------
+ # Associated with what type of audible notification
+ #  the user wishes to receive.  These notifications
+ #  are based on certain events that can occur during
+ #  the program's run-time.
+ # -------------------------------
+ #>
 enum UserPreferencesEventAlarm
 {
     Everything = 0;    # Everything will sound an alarm.
