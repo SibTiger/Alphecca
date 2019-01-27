@@ -1,11 +1,12 @@
-﻿# Initializations Driver
-# -------------------------------
-# Documentation:
-#  This function is essentially the driver to setting up the declarations and
-#   initializations for the heart of the program.  Most of the declarations
-#   housed within this script are global but constant, thus the variables can
-#   be used anywhere within this program but not mutable once initialized.
-# -------------------------------
+﻿<# Initializations Driver
+ # -------------------------------
+ # Documentation:
+ #  This function is essentially the driver to setting up the declarations and
+ #   initializations for the heart of the program.  Most of the declarations
+ #   housed within this script are global but constant, thus the variables can
+ #   be used anywhere within this program but not mutable once initialized.
+ # -------------------------------
+ #>
 function Initializations()
 {
     # Program Information
@@ -18,11 +19,12 @@ function Initializations()
 
 
 
-# Initialization Program Data
-# -------------------------------
-# Documentation:
-#  This function will initialize all variables related to the program.
-# -------------------------------
+<# Initialization Program Data
+ # -------------------------------
+ # Documentation:
+ #  This function will initialize all variables related to the program.
+ # -------------------------------
+ #>
 function InitalizationProgramData()
 {
     # Program Name
@@ -53,12 +55,13 @@ function InitalizationProgramData()
 
 
 
-# Initialization Directory Paths
-# -------------------------------
-# Documentation:
-#  This function will setup the directory paths that will be used
-#   when handling files within this program.
-# -------------------------------
+<# Initialization Directory Paths
+ # -------------------------------
+ # Documentation:
+ #  This function will setup the directory paths that will be used
+ #   when handling files within this program.
+ # -------------------------------
+ #>
 function InitalizationDirectory()
 {
     # Script Absolute Script Path
@@ -145,17 +148,18 @@ function InitalizationDirectory()
 
 
 
-# Fetch Path: AppData Local Directory
-# -------------------------------
-# Documentation:
-#  This function will find the currently logged-in user's
-#   AppData Local absolute path and return the value to the
-#   respected caller.
-# -------------------------------
-# Output:
-#  [string] Local AppData Absolute Path
-#   The current user's Local AppData directory.
-# -------------------------------
+<# Fetch Path: AppData Local Directory
+ # -------------------------------
+ # Documentation:
+ #  This function will find the currently logged-in user's
+ #   AppData Local absolute path and return the value to the
+ #   respected caller.
+ # -------------------------------
+ # Output:
+ #  [string] Local AppData Absolute Path
+ #   The current user's Local AppData directory.
+ # -------------------------------
+ #>
 function FetchPathAppDataLocal()
 {
     return "$($env:LOCALAPPDATA)";
@@ -164,17 +168,18 @@ function FetchPathAppDataLocal()
 
 
 
-# Fetch Path: AppData Roaming Directory
-# -------------------------------
-# Documentation:
-#  This function will find the currently logged-in user's
-#   AppData Roaming absolute path and return the value to the
-#   respected caller.
-# -------------------------------
-# Output:
-#  [string] Roaming AppData Absolute Path
-#   The current user's Roaming AppData directory.
-# -------------------------------
+<# Fetch Path: AppData Roaming Directory
+ # -------------------------------
+ # Documentation:
+ #  This function will find the currently logged-in user's
+ #   AppData Roaming absolute path and return the value to the
+ #   respected caller.
+ # -------------------------------
+ # Output:
+ #  [string] Roaming AppData Absolute Path
+ #   The current user's Roaming AppData directory.
+ # -------------------------------
+ #>
 function FetchPathAppDataRoaming()
 {
     return "$($env:APPDATA)";
@@ -183,17 +188,18 @@ function FetchPathAppDataRoaming()
 
 
 
-# Fetch Path: User's Document Directory
-# -------------------------------
-# Documentation:
-#  This function will find the currently logged-in user's
-#   Document's absolute path and return the value to the
-#   respected caller.
-# -------------------------------
-# Output:
-#  [string] User's 'My Documents' Absolute Path
-#   The current user's Documents directory.
-# -------------------------------
+<# Fetch Path: User's Document Directory
+ # -------------------------------
+ # Documentation:
+ #  This function will find the currently logged-in user's
+ #   Document's absolute path and return the value to the
+ #   respected caller.
+ # -------------------------------
+ # Output:
+ #  [string] User's 'My Documents' Absolute Path
+ #   The current user's Documents directory.
+ # -------------------------------
+ #>
 function FetchPathUserDocuments()
 {
     return "$($env:HOMEDRIVE)$($env:HOMEPATH)\Documents"
