@@ -25,7 +25,7 @@ class IOCommon
     #region User Input Functions
 
 
-    # Fetch User Input
+   <# Fetch User Input
     # -------------------------------
     # Documentation:
     #  This function will fetch input provided by the
@@ -48,6 +48,7 @@ class IOCommon
     #  [string] User's Input Request
     #    Returns the user's request.
     # -------------------------------
+    #>
     [string] FetchUserInput()
     {
         # Because I love Python's input prompt, we will emulate it here.
@@ -66,7 +67,7 @@ class IOCommon
 
     #region External Command Functions
 
-    # Detect Command [Test]
+   <# Detect Command [Test]
     # -------------------------------
     # Documentation:
     #  This function will help to test if the executable could
@@ -89,6 +90,7 @@ class IOCommon
     #    $false = Failure to detect the external executable.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
+    #>
     [bool] DetectCommand([string] $command, [string] $type)
     {
         if ((Get-Command -Name "$($command)" -CommandType $($type) -ErrorAction SilentlyContinue) -eq $null)
@@ -104,7 +106,7 @@ class IOCommon
 
 
 
-    # Execute Command
+   <# Execute Command
     # -------------------------------
     # Documentation:
     #  This function will provide the ability to execute the
@@ -178,6 +180,7 @@ class IOCommon
     #   -251
     #    Standard Error Path was not detected.
     # -------------------------------
+    #>
     [int] ExecuteCommand([string] $command, `
                         [string] $arguments, `
                         [string] $projectPath, `
@@ -292,7 +295,7 @@ class IOCommon
 
 
 
-    # Execute Command - Logging
+   <# Execute Command - Logging
     # -------------------------------
     # Documentation:
     #  This function will take the outputs provided by the
@@ -336,6 +339,7 @@ class IOCommon
     #   - NOTE: Trying to conserve main memory space by using referencing.
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
+    #>
     Hidden [void] ExecuteCommandLog($stdOutLogPath, `
                                     $stdErrLogPath, `
                                     $reportPath, `
@@ -416,7 +420,7 @@ class IOCommon
 
 
 
-    # Execute Command - Run [Using .NET API]
+   <# Execute Command - Run [Using .NET API]
     # -------------------------------
     # Documentation:
     #  This function will allow a specific executable to run
@@ -454,6 +458,7 @@ class IOCommon
     #   -254
     #    Command was not detected.
     # -------------------------------
+    #>
     Hidden [int] ExecuteCommandRun([string] $command, `
                                     [string] $arguments, `
                                     [string] $projectPath, `
@@ -558,7 +563,7 @@ class IOCommon
 
     #region Writing File Functions
 
-    # Write to File
+   <# Write to File
     # -------------------------------
     # Documentation:
     #  This function will write contents to a
@@ -580,6 +585,7 @@ class IOCommon
     #    $false = Failure to create and\or write to file.
     #    $true = Successfully wrote to the file.
     # -------------------------------
+    #>
     [bool] WriteToFile([string] $file, [ref] $contents)
     {
         # Try to write contents to the file.
@@ -620,7 +626,7 @@ class IOCommon
 
 
 
-    # Create a Protable Document File (PDF)
+   <# Create a Protable Document File (PDF)
     # -------------------------------
     # Documentation:
     #  This function will provide the ability to
@@ -660,6 +666,7 @@ class IOCommon
     #    $false = Failure to create the PDF file.
     #    $true = Successfully created the PDF file.
     # -------------------------------
+    #>
     [bool] CreatePDFFile([string] $sourceFile, [string] $destinationFile)
     {
         # Declarations and Initializations
@@ -819,7 +826,7 @@ class IOCommon
 
     #region Directory and File Management Functions
 
-    # Make a New Directory
+   <# Make a New Directory
     # -------------------------------
     # Documentation:
     #  This function will make a new directory with the
@@ -837,6 +844,7 @@ class IOCommon
     #            OR
     #            Directory already exists; nothing to do.
     # -------------------------------
+    #>
     [bool] MakeDirectory([string] $path)
     {
         # Declarations and Initializations
@@ -871,7 +879,7 @@ class IOCommon
 
 
 
-    # Check Path Exists
+   <# Check Path Exists
     # -------------------------------
     # Documentation:
     #  This function will check if the provided
@@ -888,6 +896,7 @@ class IOCommon
     #    $false = Directory does not exist.
     #    $true = Directory exist
     # -------------------------------
+    #>
     [bool] CheckPathExists([string] $path)
     {
         # Declarations and Initializations
@@ -911,7 +920,7 @@ class IOCommon
 
 
 
-    # Delete Directory
+   <# Delete Directory
     # -------------------------------
     # Documentation:
     #  This function will forcefully and recursively
@@ -934,6 +943,7 @@ class IOCommon
     #    $false = Failed to delete directory.
     #    $true = Successfully deleted directory
     # -------------------------------
+    #>
     [bool] DeleteDirectory([string] $path)
     {
         # First check to see if the directory actually exists,
@@ -965,7 +975,7 @@ class IOCommon
 
 
 
-    # Delete File
+   <# Delete File
     # -------------------------------
     # Documentation:
     #  This function will forcefully delete an
@@ -994,6 +1004,7 @@ class IOCommon
     #    $false = Failed to delete directory.
     #    $true = Successfully deleted directory
     # -------------------------------
+    #>
     [bool] DeleteFile([string] $path, [string[]] $includes)
     {
         # First check to see if the directory actually exists,
