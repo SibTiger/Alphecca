@@ -1,16 +1,17 @@
-﻿# Common Input\Output Operations
-# ------------------------------
-# ==============================
-# ==============================
-# This function is designed to centralize common
-#  input\output and to provide minimal maintenance.
-# Functions housed in this class are based on
-#  common Input\Output tasks, such as: checking for
-#  a specific directory\file\executable, executing
-#  a specific command while providing return code,
-#  executing a specific command to return a literal
-#  string, browsing for specific directory, and
-#  much more.
+﻿<# Common Input\Output Operations
+ # ------------------------------
+ # ==============================
+ # ==============================
+ # This function is designed to centralize common
+ #  input\output and to provide minimal maintenance.
+ # Functions housed in this class are based on
+ #  common Input\Output tasks, such as: checking for
+ #  a specific directory\file\executable, executing
+ #  a specific command while providing return code,
+ #  executing a specific command to return a literal
+ #  string, browsing for specific directory, and
+ #  much more.
+ #>
 
 
 
