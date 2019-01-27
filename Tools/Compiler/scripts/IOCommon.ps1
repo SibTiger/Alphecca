@@ -190,6 +190,69 @@ class IOCommon
                                                   #  medium in order to accomplish this.
         # ----------------------------------------
 
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the executable exists before trying to use it.
+        if ($($this.DetectCommand("$($command)", "Application")) -eq $false)
+        {
+            # Executable was not detected.
+            return $false;
+        } # if : Executable was not detected
+
+
+        # Make sure that the Project path exists
+        if ($($this.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : The Project Path does not exist
+
+
+        # Make sure that the Standard Output Path exists
+        if ($($this.CheckPathExists("$($stdOutLogPath)")) -eq $false)
+        {
+            # Standard Output Path does not exist, return an error.
+            return $false;
+        } # if : The Standard Output Path does not exist
+
+
+        # Make sure that the Standard Error path exists
+        if ($($this.CheckPathExists("$($stdErrLogPath)")) -eq $false)
+        {
+            # Standard Error Path does not exist, return an error.
+            return $false;
+        } # if : The Standard Error Path does not exist
+
+
+        # Make sure that the Report path exists
+        if ($($this.CheckPathExists("$($reportPath)")) -eq $false)
+        {
+            # Report Path does not exist, return an error.
+            return $false;
+        } # if : The Report Path does not exist
+
+
+        # Make sure that the description field actually has something
+        #  meaningful, if not (by mistake) - use the executable and args
+        #  as the description.
+        if (("$($description)" -eq "") -or ("$($description)" -eq $null))
+        {
+            # NOTE: Worst case scenario, we potentially break the filesystem
+            #  by either: using illegal characters or long chars.
+            #  To avoid this from happening, please use a valid description!
+            $description = "$($command) $($arguments)";
+        } # if : Description was not populated
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
         # Execute the Command
         $externalCommandReturnCode = $this.ExecuteCommandRun($command, `
                                                        $arguments, `
@@ -526,9 +589,6 @@ class IOCommon
                      -InputObject "$($contents.Value.ToString())" `
                      -NoClobber `
                      -Append;
-
-            # Operation was successful
-            return $true;
         } # Try : Write to file
 
         catch
@@ -539,6 +599,20 @@ class IOCommon
             # Operation failed
             return $false;
         } # Catch : Failure to write
+
+
+        # Assurance Fail-Safe; make sure that the file
+        #  was successfully created on the filesystem.
+        if ($this.CheckPathExists("$($file)") -eq $false)
+        {
+            # Operation failed because the file does not
+            #  exist on the secondary storage.
+            return $false;
+        } # if : file didn't exist (after write)
+
+
+        # Operation was successful
+        return $true;
     } # WriteToFile()
 
 
@@ -601,7 +675,24 @@ class IOCommon
         # ----------------------------------------
 
 
-            
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Check to make sure that the source file actually exists.
+        if ($this.CheckPathExists("$($sourceFile)") -eq $false)
+        {
+            # The source file does not exist.
+            return $false;
+        } # if : source file didn't exist
+        
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
         # Detect Microsoft Word
         # -------------------
         # +++++++++++++++++++
@@ -701,6 +792,20 @@ class IOCommon
 
         # Destroy the Word instance cleanly
         $msWord.Quit();
+
+
+
+        # Finalizing
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Check to make sure that the PDF file was saved properly.
+        if ($this.CheckPathExists("$($destinationFile)") -eq $false)
+        {
+            # The PDF file was not found
+            return $false;
+        } # if : file didn't exist
 
 
         # Successfully created the document
