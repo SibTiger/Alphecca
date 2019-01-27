@@ -1058,12 +1058,21 @@ class GitControl
         # ----------------------------------------
 
 
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected.
+            return $false;
+        } # if : Git was not detected
+
+
         # Are we allowed to update the source?
         if ($($this.__updateSource) -eq $false)
         {
             # User does not want use to update the source.
             return $false;
         } # If : Do not update source
+
 
         # Try to update the LWC
         if ($io.ExecuteCommand("$($this.__executablePath)", `
@@ -1134,6 +1143,15 @@ class GitControl
                                                     #  user's request.
         [string] $execReason = "Fetch CommitID";    # Description; used for logging
         # ----------------------------------------
+
+
+
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected, throw the default message instead.
+            return "DEV";
+        } # if : Git was not detected
 
 
         # Does the user want the commit ID?
@@ -1236,6 +1254,14 @@ class GitControl
                                                                 #  by user's request.
         [string] $execReason = "Fetch Commit History";          # Description; used for logging
         # ----------------------------------------
+
+
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected.
+            return $false;
+        } # if : Git was not detected
 
 
         # Does the user want the commit history (changelog)?
@@ -1357,6 +1383,14 @@ class GitControl
 
 
 
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected, throw the default message instead.
+            return "ERR";
+        } # if : Git was not detected
+
+
         # Execute the command
         $io.ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
@@ -1429,6 +1463,14 @@ class GitControl
         [string] $execReason = "Fetch All Branches";    # Description; used for logging
         # ----------------------------------------
 
+
+
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected, throw the error message instead.
+            return "ERR";
+        } # if : Git was not detected
 
 
         # Execute the command
@@ -1518,6 +1560,14 @@ class GitControl
 
 
 
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected, throw an error message instead.
+            return "ERR";
+        } # if : Git was not detected
+
+
         # Arguments Builder Constructor
         # ++++++++++++++++++++
 
@@ -1605,6 +1655,14 @@ class GitControl
 
 
 
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected.
+            return $false;
+        } # if : Git was not detected
+
+
         # Execute the command
         if ($io.ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
@@ -1674,6 +1732,14 @@ class GitControl
         [string] $execReason = "Fetch All Contributors";# Description; used for logging
         # ----------------------------------------
 
+
+
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected.
+            return $false;
+        } # if : Git was not detected
 
 
         # Execute the command
@@ -1746,6 +1812,14 @@ class GitControl
         [string] $execReason = "Graph Log";             # Description; used for logging
         # ----------------------------------------
 
+
+
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected, throw an error message instead.
+            return "ERR";
+        } # if : Git was not detected
 
 
         # Arguments Builder Constructor
@@ -1895,9 +1969,17 @@ class GitControl
         # ----------------------------------------
 
 
+
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected.
+            return $false;
+        } # if : Git was not detected
+
+
         # Before we begin creating the report, lets generate the
         #  bordering that will be used for each section in the report.
-
         $sectionBorder = "------------------------------`r`n" + `
                          "==============================`r`n" + `
                          "==============================`r`n";
