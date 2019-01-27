@@ -1066,6 +1066,14 @@ class GitControl
         } # if : Git was not detected
 
 
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : the Project Path does not exist
+
+
         # Are we allowed to update the source?
         if ($($this.__updateSource) -eq $false)
         {
@@ -1152,6 +1160,15 @@ class GitControl
             # Git was not detected, throw the default message instead.
             return "DEV";
         } # if : Git was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return the default
+            #  message instead.
+            return "DEV";
+        } # if : the Project Path does not exist
 
 
         # Does the user want the commit ID?
@@ -1262,6 +1279,14 @@ class GitControl
             # Git was not detected.
             return $false;
         } # if : Git was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : the Project Path does not exist
 
 
         # Does the user want the commit history (changelog)?
@@ -1391,6 +1416,15 @@ class GitControl
         } # if : Git was not detected
 
 
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return the default
+            #  message instead.
+            return "ERR";
+        } # if : the Project Path does not exist
+
+
         # Execute the command
         $io.ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
@@ -1471,6 +1505,15 @@ class GitControl
             # Git was not detected, throw the error message instead.
             return "ERR";
         } # if : Git was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return the default
+            #  error message instead.
+            return "ERR";
+        } # if : the Project Path does not exist
 
 
         # Execute the command
@@ -1568,6 +1611,15 @@ class GitControl
         } # if : Git was not detected
 
 
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error
+            #  message instead.
+            return "ERR";
+        } # if : the Project Path does not exist
+
+
         # Arguments Builder Constructor
         # ++++++++++++++++++++
 
@@ -1663,6 +1715,14 @@ class GitControl
         } # if : Git was not detected
 
 
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : the Project Path does not exist
+
+
         # Execute the command
         if ($io.ExecuteCommand("$($this.__executablePath)", `
                             "$($extCMDArgs)", `
@@ -1740,6 +1800,14 @@ class GitControl
             # Git was not detected.
             return $false;
         } # if : Git was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : the Project Path does not exist
 
 
         # Execute the command
@@ -1820,6 +1888,14 @@ class GitControl
             # Git was not detected, throw an error message instead.
             return "ERR";
         } # if : Git was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error messeage instead.
+            return "ERR";
+        } # if : the Project Path does not exist
 
 
         # Arguments Builder Constructor
@@ -1976,6 +2052,14 @@ class GitControl
             # Git was not detected.
             return $false;
         } # if : Git was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : the Project Path does not exist
 
 
         # Before we begin creating the report, lets generate the
