@@ -1058,6 +1058,13 @@ class GitControl
         # ----------------------------------------
 
 
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1072,6 +1079,9 @@ class GitControl
             # Project Path does not exist, return an error.
             return $false;
         } # if : the Project Path does not exist
+        
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Are we allowed to update the source?
@@ -1154,6 +1164,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1169,6 +1185,9 @@ class GitControl
             #  message instead.
             return "DEV";
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Does the user want the commit ID?
@@ -1273,6 +1292,13 @@ class GitControl
         # ----------------------------------------
 
 
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1287,6 +1313,9 @@ class GitControl
             # Project Path does not exist, return an error.
             return $false;
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Does the user want the commit history (changelog)?
@@ -1408,6 +1437,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1423,6 +1458,9 @@ class GitControl
             #  message instead.
             return "ERR";
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Execute the command
@@ -1499,6 +1537,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1514,6 +1558,9 @@ class GitControl
             #  error message instead.
             return "ERR";
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Execute the command
@@ -1603,6 +1650,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1618,6 +1671,9 @@ class GitControl
             #  message instead.
             return "ERR";
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Arguments Builder Constructor
@@ -1707,6 +1763,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1721,6 +1783,9 @@ class GitControl
             # Project Path does not exist, return an error.
             return $false;
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Execute the command
@@ -1794,6 +1859,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1808,6 +1879,9 @@ class GitControl
             # Project Path does not exist, return an error message instead.
             return "ERR";
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Execute the command
@@ -1882,6 +1956,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -1896,6 +1976,9 @@ class GitControl
             # Project Path does not exist, return an error messeage instead.
             return "ERR";
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Arguments Builder Constructor
@@ -2046,6 +2129,12 @@ class GitControl
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
@@ -2060,6 +2149,9 @@ class GitControl
             # Project Path does not exist, return an error.
             return $false;
         } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
 
 
         # Before we begin creating the report, lets generate the
