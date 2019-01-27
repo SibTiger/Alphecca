@@ -1825,13 +1825,19 @@ class GitControl
     #  [ProjectInformation] Project Info
     #   This project's information, such as
     #   project name, project website, and much more.
+    #  [bool] Create a PDF File
+    #   When true, this will allow the ability to create
+    #    a PDF document along with the textfile
     # -------------------------------
     # Output:
     #  [bool] Status Code
     #    $false = Failure occurred while writing the report.
     #    $true  = Successfully created the report.
     # -------------------------------
-    [bool] CreateNewReport([string] $projectPath, [bool] $logging, [ProjectInformation] $projectInfo)
+    [bool] CreateNewReport([string] $projectPath, `
+                           [bool] $logging, `
+                           [ProjectInformation] $projectInfo, `
+                           [bool] $makePDF)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -2117,6 +2123,19 @@ class GitControl
                 } # Case : DEFAULT
             } # switch()
         } While ($readyToBreak -eq $false);
+
+        
+        # Does the user also want a PDF file of the report?
+        if ($makePDF -eq $true)
+        {
+            # Create the PDF file
+            if(($io.CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            {
+                # Failure occurred while creating the PDF document.
+                return $false;
+            } # If : Failure while creating PDF
+        } # If : Make PDF Report
+
 
         # Successfully wrote to the file
         return $true;
