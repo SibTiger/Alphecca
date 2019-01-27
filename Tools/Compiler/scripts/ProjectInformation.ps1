@@ -1,14 +1,14 @@
-﻿# Project Information
-# ------------------------------
-# ==============================
-# ==============================
-# This class holds all information regarding the desired project
-#  that we will be essentially compiling.  Such information is
-#  essentially basic, such as: project name, code name, output -
-#  filename, and project URLs.  This is going to be helpful for
-#  the program to be much more moduler and yet also helpful for
-#  the end-user that will be using this program tool.
-
+﻿<# Project Information
+ # ------------------------------
+ # ==============================
+ # ==============================
+ # This class holds all information regarding the desired project
+ #  that we will be essentially compiling.  Such information is
+ #  essentially basic, such as: project name, code name, output -
+ #  filename, and project URLs.  This is going to be helpful for
+ #  the program to be much more moduler and yet also helpful for
+ #  the end-user that will be using this program tool.
+ #>
 
 
 
@@ -109,7 +109,7 @@ class ProjectInformation
 
     #region Getter Functions
 
-    # Get Project Name
+   <# Get Project Name
     # -------------------------------
     # Documentation:
     #  Returns the value of the Project Name variable.
@@ -118,6 +118,7 @@ class ProjectInformation
     #  [string] Project Name
     #   The name of the project.
     # -------------------------------
+    #>
     [string] GetProjectName()
     {
         return $this.__projectName;
@@ -125,7 +126,7 @@ class ProjectInformation
 
 
 
-    # Get Project's Code Name
+   <# Get Project's Code Name
     # -------------------------------
     # Documentation:
     #  Returns the value of the Code Name variable.
@@ -134,6 +135,7 @@ class ProjectInformation
     #  [string] Project's Code Name
     #   The code name of the project or version.
     # -------------------------------
+    #>
     [string] GetCodeName()
     {
         return $this.__codeName;
@@ -141,7 +143,7 @@ class ProjectInformation
 
 
 
-    # Get Filename
+   <# Get Filename
     # -------------------------------
     # Documentation:
     #  Returns the value of the filename variable.
@@ -150,6 +152,7 @@ class ProjectInformation
     #  [string] Archive datafile filename
     #   The filename to be used for the archive datafile.
     # -------------------------------
+    #>
     [string] GetFilename()
     {
         return $this.__fileName;
@@ -157,7 +160,7 @@ class ProjectInformation
 
 
 
-    # Get Project's Official Website
+   <# Get Project's Official Website
     # -------------------------------
     # Documentation:
     #  Returns the value of the Website variable.
@@ -166,6 +169,7 @@ class ProjectInformation
     #  [string] Project's Website
     #   The project's official website.
     # -------------------------------
+    #>
     [string] GetProjectWebsite()
     {
         return $this.__urlWebsite;
@@ -173,7 +177,7 @@ class ProjectInformation
 
 
 
-    # Get Project's Official Documentation
+   <# Get Project's Official Documentation
     # -------------------------------
     # Documentation:
     #  Returns the value of the Wiki\Documentation variable.
@@ -182,6 +186,7 @@ class ProjectInformation
     #  [string] Project's Wikipedia
     #   The project's official wikipedia\documentation webpage.
     # -------------------------------
+    #>
     [string] GetProjectWiki()
     {
         return $this.__urlWiki;
@@ -189,7 +194,7 @@ class ProjectInformation
 
 
 
-    # Get Project's Official Repository
+   <# Get Project's Official Repository
     # -------------------------------
     # Documentation:
     #  Returns the value of the Source variable.
@@ -198,6 +203,7 @@ class ProjectInformation
     #  [string] Project's Repository
     #   The project's official repository (web view) path.
     # -------------------------------
+    #>
     [string] GetProjectSource()
     {
         return $this.__urlSource;
