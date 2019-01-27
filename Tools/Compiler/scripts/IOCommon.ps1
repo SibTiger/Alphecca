@@ -541,6 +541,164 @@ class IOCommon
         } # Catch : Failure to write
     } # WriteToFile()
 
+
+
+
+    # Create a Protable Document File (PDF)
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to
+    #   create a PDF file by taking the existing
+    #   text-document as the main source, the
+    #   output file that will be generated - is
+    #   the PDF file.
+    #
+    #  NOTE: This function requires Microsoft Word
+    #         to be installed on the host-system.
+    #
+    #  DEV.NOTE: iTextSharp is possible to use
+    #         instead of MSWord, but you'll need
+    #         to use 3rd party API's.  You are
+    #         free to use it, if necessary.
+    #         Please be sure to keep licensing
+    #         in mind when implementing that
+    #         dependency.
+    #
+    #  Resources:
+    #   This help greatly with how to implement
+    #    feature.
+    #   - https://stackoverflow.com/a/23894977
+    #   Microsoft Word API Commands
+    #   - https://docs.microsoft.com/en-us/office/vba/api/word.application
+    # -------------------------------
+    # Input:
+    #  [string] Source File
+    #   The source text document that will be
+    #    reflected to the PDF file.
+    #  [string] Destination File
+    #   The destination path and filename of the
+    #    PDF file.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failure to create the PDF file.
+    #    $true = Successfully created the PDF file.
+    # -------------------------------
+    [bool] CreatePDFFile([string] $sourceFile, [string] $destinationFile)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [float] $wordVersion = 0.0;         # Microsoft Word Version
+                                            #  May not be needed, but incase
+                                            #  differences between versions
+                                            #  causes problems, we can try to
+                                            #  deter that from happening.
+        [string] $txtContent = $null;       # This will hold the source text
+                                            #  file's contents.
+        [int] $wordPDFCode = 17;            # The code to export a document in
+                                            #  PDF format.
+            # https://docs.microsoft.com/en-us/office/vba/api/word.wdexportformat
+        # ----------------------------------------
+
+
+            
+        # Detect Microsoft Word
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # First try to see if the user has Microsoft Word installed,
+        #  if so, we can proceed through the rest of this function,
+        #  otherwise - immediately stop.
+        if ($(Test-Path HKLM:SOFTWARE\Classes\Word.Application) -eq $true)
+        {
+            # Microsoft Word was detected; try to create a new instance
+            #  of the process.
+            try
+            {
+                # Try to create the object instance
+                [System.__ComObject]$msWord = New-Object -ComObject Word.Application;
+            } # Try : Create MS Word Instance
+
+            catch
+            {
+                # The host system may not have Microsoft Word ready to be
+                #  use or has a Microsoft Word version that is not
+                #  compatible with PowerShell integration.
+                return $false;
+            } # Catch : Failure to create MS Word Instance
+        } # If : Microsoft Word Installed \ Ready
+
+        # Microsoft Word was not detected or is not compatible with PowerShell
+        #  integration.
+        else
+        {
+            return $false;
+        } # Else : Failure to find Microsoft Word
+
+
+
+        # Setup the Environment
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Get the version of MS Word.
+        $wordVersion = $msWord.Version;
+
+
+        # Hide the instance; user does not need to see it.
+        $msWord.Visible = $true;
+
+
+
+        # Setup the Document
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Open the document directly.
+        $wordDocument = $msWord.Documents.Open("$($sourceFile)");
+
+        # Dev. Notes:
+        #    Caching the data to a string (Document.TypeText) is far too taxing and
+        #    causes more problems while solving - bare minimum.
+        #     > Not ALL of the document will be cached, if the file is too big - contents
+        #       will be missing from the TypeText.
+        #     > New Lines are not appended to the document, unless 'Get-Content -Raw' is
+        #       used.
+        #     > Font properties must be adjusted.
+        #    It is far better to open the existing document and work with that directly.
+
+
+
+        # Export the Document
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Export the document
+        $wordDocument.ExportAsFixedFormat($destinationFile, $wordPDFCode);
+        
+
+
+        # Finishing Up
+        # -------------------
+        # +++++++++++++++++++
+
+
+        # Close the document without saving the document.
+        $wordDocument.Close(0);
+
+
+        # Destroy the Word instance cleanly
+        $msWord.Quit();
+
+
+        # Successfully created the document
+        return $true;
+    } # CreatePDFFile()
+
     #endregion
 
 
