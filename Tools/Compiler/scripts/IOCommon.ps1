@@ -648,7 +648,7 @@ class IOCommon
 
 
         # Hide the instance; user does not need to see it.
-        $msWord.Visible = $true;
+        $msWord.Visible = $false;
 
 
 
