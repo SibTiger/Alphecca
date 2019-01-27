@@ -1,19 +1,20 @@
-﻿# Seven Zip
-# ------------------------------
-# ==============================
-# ==============================
-# This class holds settings regarding the use of 7Zip
-#  aswell as functions in order to perform specific
-#  operations relating to compacting archive datafiles.
-#  This is an optional setting and must be enabled by
-#  the user in order to use it.
-# NOTE: This is required in order to generate 7Z (PK7)
-#   archive data files.
-# IMPORTANT NOTE:
-#  In order to use 7Zip features in this program, the
-#   end-user must also have 7Zip installed on the host
-#   system.  If the program is not installed, then the
-#   features are not available for use.
+﻿<# Seven Zip
+ # ------------------------------
+ # ==============================
+ # ==============================
+ # This class holds settings regarding the use of 7Zip
+ #  aswell as functions in order to perform specific
+ #  operations relating to compacting archive datafiles.
+ #  This is an optional setting and must be enabled by
+ #  the user in order to use it.
+ # NOTE: This is required in order to generate 7Z (PK7)
+ #   archive data files.
+ # IMPORTANT NOTE:
+ #  In order to use 7Zip features in this program, the
+ #   end-user must also have 7Zip installed on the host
+ #   system.  If the program is not installed, then the
+ #   features are not available for use.
+ #>
 
 
 
@@ -171,7 +172,7 @@ class SevenZip
 
     #region Getter Functions
 
-    # Get Compression Method
+   <# Get Compression Method
     # -------------------------------
     # Documentation:
     #  Returns the value of the Compression Method variable.
@@ -180,6 +181,7 @@ class SevenZip
     #  [SevenZipCompressionMethod] Compression Method
     #   the value of the Compression Method.
     # -------------------------------
+    #>
     [SevenZipCompressionMethod] GetCompressionMethod()
     {
         return $this.__compressionMethod;
@@ -188,7 +190,7 @@ class SevenZip
 
 
 
-    # Get Algorithm [PK3|Zip]
+   <# Get Algorithm [PK3|Zip]
     # -------------------------------
     # Documentation:
     #  Returns the value of the Algorithm variable.
@@ -197,6 +199,7 @@ class SevenZip
     #  [SevenZipAlgorithmZip] Algorithm [ZIP]
     #   the value of the Compression Algorithm.
     # -------------------------------
+    #>
     [SevenZipAlgorithmZip] GetAlgorithmZip()
     {
         return $this.__algorithmZip;
@@ -205,7 +208,7 @@ class SevenZip
 
 
 
-    # Get Algorithm [PK7|7Zip]
+   <# Get Algorithm [PK7|7Zip]
     # -------------------------------
     # Documentation:
     #  Returns the value of the Algorithm variable.
@@ -214,6 +217,7 @@ class SevenZip
     #  [SevenZipAlgorithm7Zip] Algorithm [7Zip]
     #   the value of the Compression Algorithm.
     # -------------------------------
+    #>
     [SevenZipAlgorithm7Zip] GetAlgorithm7Zip()
     {
         return $this.__algorithm7Zip;
@@ -222,7 +226,7 @@ class SevenZip
 
 
 
-    # Get Use Multithread
+   <# Get Use Multithread
     # -------------------------------
     # Documentation:
     #  Returns the value of the Use Multithread variable.
@@ -231,6 +235,7 @@ class SevenZip
     #  [bool] Use Multithread
     #   the value of the Use Multithread.
     # -------------------------------
+    #>
     [bool] GetUseMultithread()
     {
         return $this.__useMultithread;
@@ -239,7 +244,7 @@ class SevenZip
 
 
 
-    # Get Compression Level
+   <# Get Compression Level
     # -------------------------------
     # Documentation:
     #  Returns the value of the Compression Level variable.
@@ -248,6 +253,7 @@ class SevenZip
     #  [SevenCompressionLevel] Compression Level
     #   the value of the Compression Level.
     # -------------------------------
+    #>
     [SevenCompressionLevel] GetCompressionLevel()
     {
         return $this.__compressionLevel;
@@ -256,7 +262,7 @@ class SevenZip
 
 
 
-    # Get Provide Hash
+   <# Get Provide Hash
     # -------------------------------
     # Documentation:
     #  Returns the value of the Provide Hash variable.
@@ -265,6 +271,7 @@ class SevenZip
     #  [bool] Provide Hash
     #   the value of the Provide Hash.
     # -------------------------------
+    #>
     [bool] GetProvideHash()
     {
         return $this.__provideHash;
@@ -273,7 +280,7 @@ class SevenZip
 
 
 
-    # Get Verify Build
+   <# Get Verify Build
     # -------------------------------
     # Documentation:
     #  Returns the value of the Verify Build variable.
@@ -282,6 +289,7 @@ class SevenZip
     #  [bool] Verify Build
     #   the value of the Verify Build.
     # -------------------------------
+    #>
     [bool] GetVerifyBuild()
     {
         return $this.__verifyBuild;
@@ -290,7 +298,7 @@ class SevenZip
 
 
 
-    # Get Generate Report
+   <# Get Generate Report
     # -------------------------------
     # Documentation:
     #  Returns the value of the Generate Report variable.
@@ -299,6 +307,7 @@ class SevenZip
     #  [bool] Generate Report
     #   the value of the Generate Report.
     # -------------------------------
+    #>
     [bool] GetGenerateReport()
     {
         return $this.__generateReport;
@@ -307,7 +316,7 @@ class SevenZip
 
 
 
-    # Get Report Path
+   <# Get Report Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Report Path variable.
@@ -316,6 +325,7 @@ class SevenZip
     #  [string] Report Path
     #   the value of the Report Path.
     # -------------------------------
+    #>
     [string] GetReportPath()
     {
         return $this.__reportPath;
@@ -327,7 +337,7 @@ class SevenZip
 
     #region Setter Functions
 
-    # Set Compression Method
+   <# Set Compression Method
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Compression Method variable.
@@ -337,6 +347,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetCompressionMethod([SevenZipCompressionMethod] $newVal)
     {
         # Because the value must fit within the
@@ -353,7 +364,7 @@ class SevenZip
 
 
 
-    # Set Algorithm [PK3|Zip]
+   <# Set Algorithm [PK3|Zip]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Algorithm variable.
@@ -363,6 +374,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetAlgorithmZip([SevenZipAlgorithmZip] $newVal)
     {
         # Because the value must fit within the
@@ -379,7 +391,7 @@ class SevenZip
 
 
 
-    # Set Algorithm [PK7|7Zip]
+   <# Set Algorithm [PK7|7Zip]
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Algorithm variable.
@@ -389,6 +401,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetAlgorithm7Zip([SevenZipAlgorithm7Zip] $newVal)
     {
         # Because the value must fit within the
@@ -405,7 +418,7 @@ class SevenZip
 
 
 
-    # Set Use Multithread
+   <# Set Use Multithread
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Use Multithread variable.
@@ -415,6 +428,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetUseMultithread([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -430,7 +444,7 @@ class SevenZip
 
 
 
-    # Set Compression Level
+   <# Set Compression Level
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Compression Level variable.
@@ -440,6 +454,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetCompressionLevel([SevenCompressionLevel] $newVal)
     {
         # Because the value must fit within the
@@ -456,7 +471,7 @@ class SevenZip
 
 
 
-    # Set Provide Hash
+   <# Set Provide Hash
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Provide Hash variable.
@@ -466,6 +481,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetProvideHash([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -481,7 +497,7 @@ class SevenZip
 
 
 
-    # Set Verify Build
+   <# Set Verify Build
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Verify Build variable.
@@ -491,6 +507,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetVerifyBuild([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -506,7 +523,7 @@ class SevenZip
 
 
 
-    # Set Generate Report
+   <# Set Generate Report
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Generate Report variable.
@@ -516,6 +533,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetGenerateReport([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -531,7 +549,7 @@ class SevenZip
 
 
 
-    # Set Report Path
+   <# Set Report Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Report Path variable.
@@ -541,6 +559,7 @@ class SevenZip
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetReportPath([string] $newVal)
     {
         # Inspect to see if the path exists
@@ -561,11 +580,12 @@ class SevenZip
 
 
 
-# 7Zip Compression Method [ENUM]
-# -------------------------------
-# Associated with what type of 7Z Method the end-user
-#  prefers when compacting an archive datafile.
-# -------------------------------
+<# 7Zip Compression Method [ENUM]
+ # -------------------------------
+ # Associated with what type of 7Z Method the end-user
+ #  prefers when compacting an archive datafile.
+ # -------------------------------
+ #>
 enum SevenZipCompressionMethod
 {
     Zip = 0;      # Zip format [PK3]
@@ -575,12 +595,13 @@ enum SevenZipCompressionMethod
 
 
 
-# 7Zip Algorithm Zip [ENUM]
-# -------------------------------
-# Associated with what type of 7Z Compression Algorithm
-#  the end-user prefers when compacting an archive
-#  datafile.
-# -------------------------------
+<# 7Zip Algorithm Zip [ENUM]
+ # -------------------------------
+ # Associated with what type of 7Z Compression Algorithm
+ #  the end-user prefers when compacting an archive
+ #  datafile.
+ # -------------------------------
+ #>
 enum SevenZipAlgorithmZip
 {
     Deflate = 0;  # Default
@@ -591,12 +612,13 @@ enum SevenZipAlgorithmZip
 
 
 
-# 7Zip Algorithm 7Zip [ENUM]
-# -------------------------------
-# Associated with what type of 7Z Compression Algorithm
-#  the end-user prefers when compacting an archive
-#  datafile.
-# -------------------------------
+<# 7Zip Algorithm 7Zip [ENUM]
+ # -------------------------------
+ # Associated with what type of 7Z Compression Algorithm
+ #  the end-user prefers when compacting an archive
+ #  datafile.
+ # -------------------------------
+ #>
 enum SevenZipAlgorithm7Zip
 {
     LZMA2 = 0;    # Default
@@ -608,11 +630,12 @@ enum SevenZipAlgorithm7Zip
 
 
 
-# 7Zip Compression Level [ENUM]
-# -------------------------------
-# Associated with what type of compression level the
-#  end-user prefers when compacting an archive datafile.
-# -------------------------------
+<# 7Zip Compression Level [ENUM]
+ # -------------------------------
+ # Associated with what type of compression level the
+ #  end-user prefers when compacting an archive datafile.
+ # -------------------------------
+ #>
 enum SevenCompressionLevel
 {
     Store = 0;    # Store [No Compression] {0}
