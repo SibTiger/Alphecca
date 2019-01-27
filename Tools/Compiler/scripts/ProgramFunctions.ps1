@@ -1,38 +1,39 @@
-﻿# Create Program Required Directories
-# -------------------------------
-# Documentation:
-#  This function will create the directories
-#   that is required to house program-data.
-#  These directories will be paramount for
-#   this program to operate successfully.
-#  If the directories do not exist, then the
-#   directories are to be created on the user's
-#   filesystem.
-#  If the directories does exist already, then
-#   nothing will be created nor changed.
-#
-# ----
-#
-#  Directories to Create:
-#   - User-Data Domain
-#    - %HomePath%\Documents\<PROG_NAME>
-#    - %HomePath%\Documents\<PROG_NAME>\Builds
-#    - %HomePath%\Documents\<PROG_NAME>\Builds\Release
-#    - %HomePath%\Documents\<PROG_NAME>\Builds\Development
-#
-#   - Program-Data Domain
-#    - %LOCALAPPDATA%\<PROG_NAME>
-#    - %LOCALAPPDATA%\<PROG_NAME>\Logs
-#    - %APPDATA%\<PROG_NAME>
-#    - %LOCALAPPDATA%\<PROG_NAME>\Configs
-# -------------------------------
-# Output:
-#  [bool] Exit code
-#    $false = Failure creating the new directories.
-#    $true  = Successfully created the new directories
-#             OR
-#             Directories already existed, nothing to do.
-# -------------------------------
+﻿<# Create Program Required Directories
+ # -------------------------------
+ # Documentation:
+ #  This function will create the directories
+ #   that is required to house program-data.
+ #  These directories will be paramount for
+ #   this program to operate successfully.
+ #  If the directories do not exist, then the
+ #   directories are to be created on the user's
+ #   filesystem.
+ #  If the directories does exist already, then
+ #   nothing will be created nor changed.
+ #
+ # ----
+ #
+ #  Directories to Create:
+ #   - User-Data Domain
+ #    - %HomePath%\Documents\<PROG_NAME>
+ #    - %HomePath%\Documents\<PROG_NAME>\Builds
+ #    - %HomePath%\Documents\<PROG_NAME>\Builds\Release
+ #    - %HomePath%\Documents\<PROG_NAME>\Builds\Development
+ #
+ #   - Program-Data Domain
+ #    - %LOCALAPPDATA%\<PROG_NAME>
+ #    - %LOCALAPPDATA%\<PROG_NAME>\Logs
+ #    - %APPDATA%\<PROG_NAME>
+ #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
+ # -------------------------------
+ # Output:
+ #  [bool] Exit code
+ #    $false = Failure creating the new directories.
+ #    $true  = Successfully created the new directories
+ #             OR
+ #             Directories already existed, nothing to do.
+ # -------------------------------
+ #>
 function CreateDirectories()
 {
     # First, check if the special directories exists.
@@ -157,33 +158,34 @@ function CreateDirectories()
 
 
 
-# Check Program Directories
-# -------------------------------
-# Documentation:
-#  This function will check to make sure that the
-#   required directories exists within the user's
-#   filesystem.
-#
-# ----
-#
-#  Directories to Check:
-#   - User-Data Domain
-#    - %HomePath%\Documents\<PROG_NAME>
-#    - %HomePath%\Documents\<PROG_NAME>\Builds
-#    - %HomePath%\Documents\<PROG_NAME>\Builds\Release
-#    - %HomePath%\Documents\<PROG_NAME>\Builds\Development
-#
-#   - Program-Data Domain
-#    - %LOCALAPPDATA%\<PROG_NAME>
-#    - %LOCALAPPDATA%\<PROG_NAME>\Logs
-#    - %APPDATA%\<PROG_NAME>
-#    - %LOCALAPPDATA%\<PROG_NAME>\Configs
-# -------------------------------
-# Output:
-#  [bool] Exit code
-#    $false = One or more directories does not exist.
-#    $true = Directories exist
-# -------------------------------
+<# Check Program Directories
+ # -------------------------------
+ # Documentation:
+ #  This function will check to make sure that the
+ #   required directories exists within the user's
+ #   filesystem.
+ #
+ # ----
+ #
+ #  Directories to Check:
+ #   - User-Data Domain
+ #    - %HomePath%\Documents\<PROG_NAME>
+ #    - %HomePath%\Documents\<PROG_NAME>\Builds
+ #    - %HomePath%\Documents\<PROG_NAME>\Builds\Release
+ #    - %HomePath%\Documents\<PROG_NAME>\Builds\Development
+ #
+ #   - Program-Data Domain
+ #    - %LOCALAPPDATA%\<PROG_NAME>
+ #    - %LOCALAPPDATA%\<PROG_NAME>\Logs
+ #    - %APPDATA%\<PROG_NAME>
+ #    - %LOCALAPPDATA%\<PROG_NAME>\Configs
+ # -------------------------------
+ # Output:
+ #  [bool] Exit code
+ #    $false = One or more directories does not exist.
+ #    $true = Directories exist
+ # -------------------------------
+ #>
 function CheckProgramDirectories()
 {
     # User-Data Directories
@@ -246,22 +248,23 @@ function CheckProgramDirectories()
 
 
 
-# Check Special Directories
-# -------------------------------
-# Documentation:
-#  This function will check to make sure that the
-#   defined special directories exists within the
-#   host system.
-#  Special Directories are defined as normally
-#   provided by the Operating System and usually
-#   required for the user's profile.
-# -------------------------------
-# Output:
-#  [bool] Exit Code
-#    $false = One or more special directories
-#              could not be detected, possibly missing.
-#    $true = All special directories exists; no errors. 
-# -------------------------------
+<# Check Special Directories
+ # -------------------------------
+ # Documentation:
+ #  This function will check to make sure that the
+ #   defined special directories exists within the
+ #   host system.
+ #  Special Directories are defined as normally
+ #   provided by the Operating System and usually
+ #   required for the user's profile.
+ # -------------------------------
+ # Output:
+ #  [bool] Exit Code
+ #    $false = One or more special directories
+ #              could not be detected, possibly missing.
+ #    $true = All special directories exists; no errors. 
+ # -------------------------------
+ #>
 function CheckSpecialDirectories()
 {
     # Declarations and Initializations
@@ -310,24 +313,25 @@ function CheckSpecialDirectories()
 
 
 
-# Make a New Directory
-# -------------------------------
-# Documentation:
-#  This function will make a new directory with the
-#   absolute path provided.
-# -------------------------------
-# Input:
-#  [string] Absolute Path
-#   The absolute path of a directory that is to be
-#   created by request.
-# -------------------------------
-# Output:
-#  [bool] Exit code
-#    $false = Failure to create the directory.
-#    $true = Successfully created the directory.
-#            OR
-#            Directory already exists; nothing to do.
-# -------------------------------
+<# Make a New Directory
+ # -------------------------------
+ # Documentation:
+ #  This function will make a new directory with the
+ #   absolute path provided.
+ # -------------------------------
+ # Input:
+ #  [string] Absolute Path
+ #   The absolute path of a directory that is to be
+ #   created by request.
+ # -------------------------------
+ # Output:
+ #  [bool] Exit code
+ #    $false = Failure to create the directory.
+ #    $true = Successfully created the directory.
+ #            OR
+ #            Directory already exists; nothing to do.
+ # -------------------------------
+ #>
 function MakeDirectory()
 {
     # Parameters for this function
@@ -370,23 +374,24 @@ function MakeDirectory()
 
 
 
-# Check Path Exists
-# -------------------------------
-# Documentation:
-#  This function will check if the provided
-#   directory (absolute path) exists on the
-#   host's filesystem.
-# -------------------------------
-# Input:
-#  [string] Directory (Absolute Path)
-#    The path to check if it exists in the
-#     filesystem.
-# -------------------------------
-# Output:
-#  [bool] Exit code
-#    $false = Directory does not exist.
-#    $true = Directory exist
-# -------------------------------
+<# Check Path Exists
+ # -------------------------------
+ # Documentation:
+ #  This function will check if the provided
+ #   directory (absolute path) exists on the
+ #   host's filesystem.
+ # -------------------------------
+ # Input:
+ #  [string] Directory (Absolute Path)
+ #    The path to check if it exists in the
+ #     filesystem.
+ # -------------------------------
+ # Output:
+ #  [bool] Exit code
+ #    $false = Directory does not exist.
+ #    $true = Directory exist
+ # -------------------------------
+ #>
 function CheckPathExists()
 {
     # Parameters for this function
