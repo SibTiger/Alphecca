@@ -165,8 +165,21 @@ class IOCommon
     #   ERROR VALUES
     #   -255
     #    The executable could not execute; may not exist.
+    #
     #   -254
     #    Command was not detected.
+    #
+    #   -253
+    #    Project Path was not detected.
+    #
+    #   -252
+    #    Standard Out Path was not detected.
+    #
+    #   -251
+    #    Standard Error Path was not detected.
+    #
+    #   -250
+    #    Report Path was not detected.
     # -------------------------------
     [int] ExecuteCommand([string] $command, `
                         [string] $arguments, `
@@ -202,7 +215,7 @@ class IOCommon
         if ($($this.DetectCommand("$($command)", "Application")) -eq $false)
         {
             # Executable was not detected.
-            return $false;
+            return -254;
         } # if : Executable was not detected
 
 
@@ -210,7 +223,7 @@ class IOCommon
         if ($($this.CheckPathExists("$($projectPath)")) -eq $false)
         {
             # Project Path does not exist, return an error.
-            return $false;
+            return -253;
         } # if : The Project Path does not exist
 
 
@@ -218,7 +231,7 @@ class IOCommon
         if ($($this.CheckPathExists("$($stdOutLogPath)")) -eq $false)
         {
             # Standard Output Path does not exist, return an error.
-            return $false;
+            return -252;
         } # if : The Standard Output Path does not exist
 
 
@@ -226,7 +239,7 @@ class IOCommon
         if ($($this.CheckPathExists("$($stdErrLogPath)")) -eq $false)
         {
             # Standard Error Path does not exist, return an error.
-            return $false;
+            return -251;
         } # if : The Standard Error Path does not exist
 
 
@@ -234,7 +247,7 @@ class IOCommon
         if ($($this.CheckPathExists("$($reportPath)")) -eq $false)
         {
             # Report Path does not exist, return an error.
-            return $false;
+            return -250;
         } # if : The Report Path does not exist
 
 
