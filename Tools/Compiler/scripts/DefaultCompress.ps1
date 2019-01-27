@@ -1,16 +1,16 @@
-﻿# Default Compress
-# ------------------------------
-# ==============================
-# ==============================
-# This class holds settings regarding the use of .NET's
-#  System.IO.Compression (aka: .NET Compression).
-#  Because this was part of .NET 4.5 version and later,
-#  it is now possible for end-user's to use the native
-#  Zip provided - without requiring external API's or
-#  3rd party applications.  This should hypothetically
-#  support all targeted versions of Windows platforms.
-# Requirements: .NET Framework 4.5
-
+﻿<# Default Compress
+ # ------------------------------
+ # ==============================
+ # ==============================
+ # This class holds settings regarding the use of .NET's
+ #  System.IO.Compression (aka: .NET Compression).
+ #  Because this was part of .NET 4.5 version and later,
+ #  it is now possible for end-user's to use the native
+ #  Zip provided - without requiring external API's or
+ #  3rd party applications.  This should hypothetically
+ #  support all targeted versions of Windows platforms.
+ # Requirements: .NET Framework 4.5
+ #>
 
 
 
@@ -116,7 +116,7 @@ class DefaultCompress
 
     #region Getter Functions
 
-    # Get Compression Level
+   <# Get Compression Level
     # -------------------------------
     # Documentation:
     #  Returns the value of the Compression Level variable.
@@ -125,6 +125,7 @@ class DefaultCompress
     #  [DefaultCompressionLevel] Compression Level
     #   the value of the Compression Level.
     # -------------------------------
+    #>
     [DefaultCompressionLevel] GetCompressionLevel()
     {
         return $this.__compressionLevel;
@@ -133,7 +134,7 @@ class DefaultCompress
 
 
 
-    # Get Provide Hash
+   <# Get Provide Hash
     # -------------------------------
     # Documentation:
     #  Returns the value of the Provide Hash variable.
@@ -142,6 +143,7 @@ class DefaultCompress
     #  [bool] Provide Hash
     #   the value of the Provide Hash.
     # -------------------------------
+    #>
     [bool] GetProvideHash()
     {
         return $this.__provideHash;
@@ -150,7 +152,7 @@ class DefaultCompress
 
 
 
-    # Get Verify Build
+   <# Get Verify Build
     # -------------------------------
     # Documentation:
     #  Returns the value of the Verify Build variable.
@@ -159,6 +161,7 @@ class DefaultCompress
     #  [bool] Verify Build
     #   the value of the Verify Build.
     # -------------------------------
+    #>
     [bool] GetVerifyBuild()
     {
         return $this.__verifyBuild;
@@ -167,7 +170,7 @@ class DefaultCompress
 
 
 
-    # Get Generate Report
+   <# Get Generate Report
     # -------------------------------
     # Documentation:
     #  Returns the value of the Generate Report variable.
@@ -176,6 +179,7 @@ class DefaultCompress
     #  [bool] Generate Report
     #   the value of the Generate Report.
     # -------------------------------
+    #>
     [bool] GetGenerateReport()
     {
         return $this.__generateReport;
@@ -184,7 +188,7 @@ class DefaultCompress
 
 
 
-    # Get Report Path
+   <# Get Report Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Report Path variable.
@@ -193,6 +197,7 @@ class DefaultCompress
     #  [bool] Report Path
     #   the value of the Report Path.
     # -------------------------------
+    #>
     [bool] GetReportPath()
     {
         return $this.__reportPath;
@@ -204,7 +209,7 @@ class DefaultCompress
 
     #region Setter Functions
 
-    # Set Compression Level
+   <# Set Compression Level
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Compression Level variable.
@@ -214,6 +219,7 @@ class DefaultCompress
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetCompressionLevel([DefaultCompressionLevel] $newVal)
     {
         # Because the value must fit within the
@@ -230,7 +236,7 @@ class DefaultCompress
 
 
 
-    # Set Provide Hash
+   <# Set Provide Hash
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Provide Hash variable.
@@ -240,6 +246,7 @@ class DefaultCompress
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetProvideHash([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -255,7 +262,7 @@ class DefaultCompress
 
 
 
-    # Set Verify Build
+   <# Set Verify Build
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Verify Build variable.
@@ -265,6 +272,7 @@ class DefaultCompress
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetVerifyBuild([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -280,7 +288,7 @@ class DefaultCompress
 
 
 
-    # Set Generate Report
+   <# Set Generate Report
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Generate Report variable.
@@ -290,6 +298,7 @@ class DefaultCompress
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetGenerateReport([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -305,7 +314,7 @@ class DefaultCompress
 
 
 
-    # Get Report Path
+   <# Get Report Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Report Path variable.
@@ -315,6 +324,7 @@ class DefaultCompress
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetReportPath([string] $newVal)
     {
         # Inspect to see if the path exists
@@ -335,11 +345,12 @@ class DefaultCompress
 
 
 
-# Default Compression Level [ENUM]
-# -------------------------------
-# Associated with what type of compression level the
-#  end-user prefers when compacting an archive datafile.
-# -------------------------------
+<# Default Compression Level [ENUM]
+ # -------------------------------
+ # Associated with what type of compression level the
+ #  end-user prefers when compacting an archive datafile.
+ # -------------------------------
+ #>
 enum DefaultCompressionLevel
 {
     Optimal = 0;         # Best Compression (takes time)
