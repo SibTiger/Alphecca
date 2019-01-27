@@ -177,9 +177,6 @@ class IOCommon
     #
     #   -251
     #    Standard Error Path was not detected.
-    #
-    #   -250
-    #    Report Path was not detected.
     # -------------------------------
     [int] ExecuteCommand([string] $command, `
                         [string] $arguments, `
@@ -241,14 +238,6 @@ class IOCommon
             # Standard Error Path does not exist, return an error.
             return -251;
         } # if : The Standard Error Path does not exist
-
-
-        # Make sure that the Report path exists
-        if ($($this.CheckPathExists("$($reportPath)")) -eq $false)
-        {
-            # Report Path does not exist, return an error.
-            return -250;
-        } # if : The Report Path does not exist
 
 
         # Make sure that the description field actually has something
