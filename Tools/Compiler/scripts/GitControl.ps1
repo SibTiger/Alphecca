@@ -1797,16 +1797,16 @@ class GitControl
         # Make sure that the git executable was detected.
         if ($($this.DetectGitExist()) -eq $false)
         {
-            # Git was not detected.
-            return $false;
+            # Git was not detected, return an error message instead.
+            return "ERR";
         } # if : Git was not detected
 
 
         # Make sure that the path exists
         if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
         {
-            # Project Path does not exist, return an error.
-            return $false;
+            # Project Path does not exist, return an error message instead.
+            return "ERR";
         } # if : the Project Path does not exist
 
 
