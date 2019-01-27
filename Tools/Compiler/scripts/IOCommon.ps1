@@ -657,9 +657,6 @@ class IOCommon
         # +++++++++++++++++++
 
 
-        # Open the document directly.
-        $wordDocument = $msWord.Documents.Open("$($sourceFile)");
-
         # Dev. Notes:
         #    Caching the data to a string (Document.TypeText) is far too taxing and
         #    causes more problems while solving - bare minimum.
@@ -669,6 +666,17 @@ class IOCommon
         #       used.
         #     > Font properties must be adjusted.
         #    It is far better to open the existing document and work with that directly.
+
+        # Open the document directly.
+        $wordDocument = $msWord.Documents.Open("$($sourceFile)");
+
+        
+
+        # Resource to change the document's orientation to Landscape.
+        #  > https://blogs.technet.microsoft.com/heyscriptingguy/2006/08/31/how-can-i-set-the-document-orientation-in-microsoft-word-to-landscape/
+        
+        # Set the document's orientation to 'Landscape'.
+        $wordDocument.PageSetup.Orientation = 1;
 
 
 
