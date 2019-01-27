@@ -234,7 +234,7 @@ class GitControl
 
     #region Getter Functions
 
-    # Get Executable Path
+   <# Get Executable Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Executable Path variable.
@@ -243,6 +243,7 @@ class GitControl
     #  [string] Executable Path
     #   the value of the Executable Path to git.exe.
     # -------------------------------
+    #>
     [string] GetExecutablePath()
     {
         return $this.__executablePath;
@@ -251,7 +252,7 @@ class GitControl
 
 
 
-    # Get Update Source Flag
+   <# Get Update Source Flag
     # -------------------------------
     # Documentation:
     #  Returns the value of the Update Source variable.
@@ -260,6 +261,7 @@ class GitControl
     #  [bool] Update Source
     #   the value of the Update Source.
     # -------------------------------
+    #>
     [bool] GetUpdateSource()
     {
         return $this.__updateSource;
@@ -268,7 +270,7 @@ class GitControl
 
 
 
-    # Get Git Commit Length
+   <# Get Git Commit Length
     # -------------------------------
     # Documentation:
     #  Returns the value of the Git Commit Length variable.
@@ -277,6 +279,7 @@ class GitControl
     #  [GitCommitLength] Git Commit Length
     #   the value of the Git Commit Length.
     # -------------------------------
+    #>
     [GitCommitLength] GetLengthCommitID()
     {
         return $this.__lengthCommitID;
@@ -285,7 +288,7 @@ class GitControl
 
 
 
-    # Get Fetch Commit ID
+   <# Get Fetch Commit ID
     # -------------------------------
     # Documentation:
     #  Returns the value of the Fetch Commit ID variable.
@@ -294,6 +297,7 @@ class GitControl
     #  [bool] Fetch Commit ID
     #   the value of the Fetch Commit ID.
     # -------------------------------
+    #>
     [bool] GetFetchCommitID()
     {
         return $this.__fetchCommitID;
@@ -302,7 +306,7 @@ class GitControl
 
 
 
-    # Get Fetch Changelog
+   <# Get Fetch Changelog
     # -------------------------------
     # Documentation:
     #  Returns the value of the Fetch Changelog variable.
@@ -311,6 +315,7 @@ class GitControl
     #  [bool] Fetch Changelog
     #   the value of the Fetch Changelog.
     # -------------------------------
+    #>
     [bool] GetFetchChangelog()
     {
         return $this.__fetchChangelog;
@@ -319,7 +324,7 @@ class GitControl
 
 
 
-    # Get Changelog Limit
+   <# Get Changelog Limit
     # -------------------------------
     # Documentation:
     #  Returns the value of the Changelog Limit variable.
@@ -328,6 +333,7 @@ class GitControl
     #  [int] Changelog Limit
     #   the value of the Changelog Limit.
     # -------------------------------
+    #>
     [int] GetChangelogLimit()
     {
         return $this.__changelogLimit;
@@ -336,7 +342,7 @@ class GitControl
 
 
 
-    # Get Source Branch
+   <# Get Source Branch
     # -------------------------------
     # Documentation:
     #  Returns the value of the Source Branch variable.
@@ -345,6 +351,7 @@ class GitControl
     #  [string] Source Branch
     #   the value of the Source Branch.
     # -------------------------------
+    #>
     [string] GetSourceBranch()
     {
         return $this.__sourceBranch;
@@ -353,7 +360,7 @@ class GitControl
 
 
 
-    # Get Fetch Contributors
+   <# Get Fetch Contributors
     # -------------------------------
     # Documentation:
     #  Returns the value of the Fetch Contributors variable.
@@ -362,6 +369,7 @@ class GitControl
     #  [bool] Fetch Contributors
     #   the value of the Fetch Contributors.
     # -------------------------------
+    #>
     [bool] GetFetchContributors()
     {
         return $this.__fetchContributors;
@@ -370,7 +378,7 @@ class GitControl
 
 
 
-    # Get Fetch Stats
+   <# Get Fetch Stats
     # -------------------------------
     # Documentation:
     #  Returns the value of the Fetch Stats variable.
@@ -379,6 +387,7 @@ class GitControl
     #  [bool] Fetch Stats
     #   the value of the Fetch Stats.
     # -------------------------------
+    #>
     [bool] GetFetchStats()
     {
         return $this.__fetchStats;
@@ -387,7 +396,7 @@ class GitControl
 
 
 
-    # Get Generate Report
+   <# Get Generate Report
     # -------------------------------
     # Documentation:
     #  Returns the value of the Generate Report variable.
@@ -396,6 +405,7 @@ class GitControl
     #  [bool] Generate Report
     #   the value of the Generate Report.
     # -------------------------------
+    #>
     [bool] GetGenerateReport()
     {
         return $this.__generateReport;
@@ -404,7 +414,7 @@ class GitControl
 
 
 
-    # Get Report Path
+   <# Get Report Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Report Path variable.
@@ -413,6 +423,7 @@ class GitControl
     #  [string] Report Path
     #   the value of the Report Path.
     # -------------------------------
+    #>
     [string] GetReportPath()
     {
         return $this.__reportPath;
@@ -421,7 +432,7 @@ class GitControl
 
 
 
-    # Get Report Path
+   <# Get Report Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Log Path variable.
@@ -430,6 +441,7 @@ class GitControl
     #  [string] Log Path
     #   the value of the Log Path.
     # -------------------------------
+    #>
     [string] GetLogPath()
     {
         return $this.__logPath;
@@ -438,7 +450,7 @@ class GitControl
 
 
 
-    # Get Root Log Path
+   <# Get Root Log Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Root Log Path variable.
@@ -447,6 +459,7 @@ class GitControl
     #  [string] Root Log Path
     #   the value of the Log Root Path.
     # -------------------------------
+    #>
     [string] GetRootLogPath()
     {
         return $this.__rootLogPath;
@@ -459,7 +472,7 @@ class GitControl
 
     #region Setter Functions
 
-    # Set Executable Path
+   <# Set Executable Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Executable Path variable.
@@ -469,6 +482,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetExecutablePath([string] $newVal)
     {
         # Declarations and Initializations
@@ -496,7 +510,7 @@ class GitControl
 
 
 
-    # Set Update Source Flag
+   <# Set Update Source Flag
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Update Source variable.
@@ -506,6 +520,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetUpdateSource([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -521,7 +536,7 @@ class GitControl
 
 
 
-    # Set Git Commit Length
+   <# Set Git Commit Length
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Git Commit Length variable.
@@ -531,6 +546,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetLengthCommitID([GitCommitLength] $newVal)
     {
         # Because the value must fit within the 'GitCommitLength'
@@ -546,7 +562,7 @@ class GitControl
 
 
 
-    # Set Fetch Commit ID
+   <# Set Fetch Commit ID
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Fetch Commit ID variable.
@@ -556,6 +572,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetFetchCommitID([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -571,7 +588,7 @@ class GitControl
 
 
 
-    # Set Fetch Changelog
+   <# Set Fetch Changelog
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Fetch Changelog variable.
@@ -581,6 +598,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetFetchChangelog([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -596,7 +614,7 @@ class GitControl
 
 
 
-    # Set Changelog Limit
+   <# Set Changelog Limit
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Changelog Limit variable.
@@ -606,6 +624,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetChangelogLimit([int] $newVal)
     {
         # Make sure the requested change is actually legal.
@@ -628,7 +647,7 @@ class GitControl
 
 
 
-    # Set Source Branch
+   <# Set Source Branch
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Source Branch variable.
@@ -638,6 +657,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetSourceBranch([string] $newVal)
     {
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -657,7 +677,7 @@ class GitControl
 
 
 
-    # Set Fetch Contributors
+   <# Set Fetch Contributors
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Fetch Contributors variable.
@@ -667,6 +687,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetFetchContributors([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -682,7 +703,7 @@ class GitControl
 
 
 
-    # Set Fetch Stats
+   <# Set Fetch Stats
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Fetch Stats variable.
@@ -692,6 +713,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetFetchStats([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -707,7 +729,7 @@ class GitControl
 
 
 
-    # Set Generate Report
+   <# Set Generate Report
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Generate Report variable.
@@ -717,6 +739,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetGenerateReport([bool] $newVal)
     {
         # Because the value is either true or false, there
@@ -732,7 +755,7 @@ class GitControl
 
 
 
-    # Set Report Path
+   <# Set Report Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Report Path variable.
@@ -742,6 +765,7 @@ class GitControl
     #   true = Success; value has been changed.
     #   false = Failure; could not set a new value.
     # -------------------------------
+    #>
     [bool] SetReportPath([string] $newVal)
     {
         # Inspect to see if the path exists
@@ -763,7 +787,7 @@ class GitControl
     #region Private Functions
 
 
-    # Thrash Logs and Reports
+   <# Thrash Logs and Reports
     # -------------------------------
     # Documentation:
     #  This function will expunge the log files as well
@@ -780,6 +804,7 @@ class GitControl
     #           OR
     #           Directories were not found
     # -------------------------------
+    #>
     Hidden [bool] __ThrashLogs([bool] $expungeReports)
     {
         # Declarations and Initializations
@@ -829,7 +854,7 @@ class GitControl
 
 
 
-    # Check Required Directories
+   <# Check Required Directories
     # -------------------------------
     # Documentation:
     #  This function was created to check the directories
@@ -847,6 +872,7 @@ class GitControl
     #    $false = One or more directories does not exist.
     #    $true = Directories exist
     # -------------------------------
+    #>
     Hidden [bool] __CheckRequiredDirectories()
     {
         # Declarations and Initializations
@@ -878,7 +904,7 @@ class GitControl
 
 
 
-    # Create Directories
+   <# Create Directories
     # -------------------------------
     # Documentation:
     #  This function will create the necessary directories
@@ -902,6 +928,7 @@ class GitControl
     #             OR
     #             Directories already existed, nothing to do.
     # -------------------------------
+    #>
     Hidden [bool] __CreateDirectories()
     {
         # Declarations and Initializations
@@ -987,7 +1014,7 @@ class GitControl
 
     #region Public Functions
 
-    # Detect Git Executable
+   <# Detect Git Executable
     # -------------------------------
     # Documentation:
     #  This function will check if the Git executable
@@ -1001,6 +1028,7 @@ class GitControl
     #    $false = Failure to detect the external executable.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
+    #>
     [bool] DetectGitExist()
     {
         # Declarations and Initializations
@@ -1022,7 +1050,7 @@ class GitControl
 
 
 
-    # Update Local Working Copy
+   <# Update Local Working Copy
     # -------------------------------
     # Documentation:
     #  This function will update the project's Local
@@ -1047,6 +1075,7 @@ class GitControl
     #    $false = Failure to detect the external executable.
     #    $true  = Successfully detected the external executable.
     # -------------------------------
+    #>
     [bool] UpdateLocalWorkingCopy([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
@@ -1117,7 +1146,7 @@ class GitControl
 
 
 
-    # Fetch Current Commit ID
+   <# Fetch Current Commit ID
     # -------------------------------
     # Documentation:
     #  This function will retrieve the latest
@@ -1148,6 +1177,7 @@ class GitControl
     #       - "ERR"
     #            Failure retrieving the commit ID.
     # -------------------------------
+    #>
     [string] FetchCommitID([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
@@ -1244,7 +1274,7 @@ class GitControl
 
 
 
-    # Fetch Commit History (Changelog)
+   <# Fetch Commit History (Changelog)
     # -------------------------------
     # Documentation:
     #  This function is designed to grab the Commit History
@@ -1274,6 +1304,7 @@ class GitControl
     #    $false = Failure to create a report.
     #    $true  = Successfully created the report.
     # -------------------------------
+    #>
     [bool] FetchCommitHistory([string] $projectPath, [bool] $logging, [string] $outputPath)
     {
         # Declarations and Initializations
@@ -1399,7 +1430,7 @@ class GitControl
 
 
 
-    # Fetch Current Branch
+   <# Fetch Current Branch
     # -------------------------------
     # Documentation:
     #  This function will retrieve the current
@@ -1422,6 +1453,7 @@ class GitControl
     #  [string] Current and Active Branch
     #    The current branch selected (or active).
     # -------------------------------
+    #>
     [string] FetchCurrentBranch([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
@@ -1494,7 +1526,7 @@ class GitControl
 
 
 
-    # Fetch all available Branches
+   <# Fetch all available Branches
     # -------------------------------
     # Documentation:
     #  This function will retrieve all of the available
@@ -1522,6 +1554,7 @@ class GitControl
     #            For example:
     #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
     # -------------------------------
+    #>
     [string] FetchAllBranches([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
@@ -1594,7 +1627,7 @@ class GitControl
 
 
 
-    # Fetch all available Branches with Last-Known Activity
+   <# Fetch all available Branches with Last-Known Activity
     # -------------------------------
     # Documentation:
     #  This function will retrieve all of the available
@@ -1634,6 +1667,7 @@ class GitControl
     #            For example:
     #            master[CR][LF]The Mega Branch![CR][LF]Lame Branch
     # -------------------------------
+    #>
     [string] FetchAllBranchesActivity([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
@@ -1724,7 +1758,7 @@ class GitControl
 
 
 
-    # Switch Local Branch
+   <# Switch Local Branch
     # -------------------------------
     # Documentation:
     #  This function will switch the project's local
@@ -1750,6 +1784,7 @@ class GitControl
     #    $false = Failure to switch to requested branch.
     #    $true  = Successfully switched to requested branch.
     # -------------------------------
+    #>
     [bool] SwitchLocalBranch([string] $projectPath, [bool] $logging, [string] $requestedBranch)
     {
         # Declarations and Initializations
@@ -1813,7 +1848,7 @@ class GitControl
 
 
 
-    # Fetch All Contributors
+   <# Fetch All Contributors
     # -------------------------------
     # Documentation:
     #  This function will retrieve all of the contributors
@@ -1843,6 +1878,7 @@ class GitControl
     #            For example:
     #            John[CR][LF]Amber[CR][LF]Hammingway
     # -------------------------------
+    #>
     [string] FetchAllContributors([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
@@ -1915,7 +1951,7 @@ class GitControl
 
 
 
-    # Generate Graph
+   <# Generate Graph
     # -------------------------------
     # Documentation:
     #  This function will retrieve a simple visual graph-line
@@ -1939,6 +1975,7 @@ class GitControl
     #    Simple line-graph with commit information
     #    - NOTE: This is a giant string.
     # -------------------------------
+    #>
     [string] MakeCommitGraphInfo([string] $projectPath, [bool] $logging)
     {
         # Declarations and Initializations
@@ -2038,7 +2075,7 @@ class GitControl
 
 
 
-    # Create a new Report
+   <# Create a new Report
     # -------------------------------
     # Documentation:
     #  This function will create a report based upon
@@ -2067,6 +2104,7 @@ class GitControl
     #    $false = Failure occurred while writing the report.
     #    $true  = Successfully created the report.
     # -------------------------------
+    #>
     [bool] CreateNewReport([string] $projectPath, `
                            [bool] $logging, `
                            [ProjectInformation] $projectInfo, `
@@ -2406,11 +2444,12 @@ class GitControl
 
 
 
-# Git Commit Type [ENUM]
-# -------------------------------
-# Associated with what type of commit ID the end-user
-#  prefers when retrieving the Commit ID.
-# -------------------------------
+<# Git Commit Type [ENUM]
+ # -------------------------------
+ # Associated with what type of commit ID the end-user
+ #  prefers when retrieving the Commit ID.
+ # -------------------------------
+ #>
 enum GitCommitLength
 {
     short = 0;   # usually contains seven chars.
