@@ -1147,6 +1147,96 @@ class GitControl
 
 
 
+   <# Switch Local Branch
+    # -------------------------------
+    # Documentation:
+    #  This function will switch the project's local
+    #   repository to the requested branch - if possible.
+    # -------------------------------
+    # Input:
+    #  [string] Project Path
+    #   The path to the project's root directory that
+    #   contains the .git directory.  If that directory
+    #   lacks that specific '.git' directory, this
+    #   will fail to work.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    #  [string] Requested Branch
+    #   The requested branch to switch to in the local
+    #    repository.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure to switch to requested branch.
+    #    $true  = Successfully switched to requested branch.
+    # -------------------------------
+    #>
+    [bool] SwitchLocalBranch([string] $projectPath, [bool] $logging, [string] $requestedBranch)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
+        [string] $extCMDArgs = "checkout $($requestedBranch)";  # Arguments for the external command
+                                                                #  This will allow us to switch to
+                                                                #  another branch.
+        [string] $execReason = "Switch Branch";                 # Description; used for logging
+        # ----------------------------------------
+
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the git executable was detected.
+        if ($($this.DetectGitExist()) -eq $false)
+        {
+            # Git was not detected.
+            return $false;
+        } # if : Git was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Execute the command
+        if ($io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($projectPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $false, `
+                            [ref]$null) -eq 0)
+        {
+            # Successfully switched from one branch to another branch.
+            return $true;
+        } # If : Switch Branches
+
+
+        # Failure to switch branches.
+        return $false;
+    } # SwitchLocalBranch()
+
+
+
+
    <# Fetch Current Commit ID
     # -------------------------------
     # Documentation:
@@ -1755,96 +1845,6 @@ class GitControl
         # Return all available Branches
         return $outputResult;
     } # FetchAllBranches()
-
-
-
-
-   <# Switch Local Branch
-    # -------------------------------
-    # Documentation:
-    #  This function will switch the project's local
-    #   repository to the requested branch - if possible.
-    # -------------------------------
-    # Input:
-    #  [string] Project Path
-    #   The path to the project's root directory that
-    #   contains the .git directory.  If that directory
-    #   lacks that specific '.git' directory, this
-    #   will fail to work.
-    #  [bool] Logging
-    #   User's preference in logging information.
-    #    When true, the program will log the
-    #    operations performed.
-    #   - Does not effect main program logging.
-    #  [string] Requested Branch
-    #   The requested branch to switch to in the local
-    #    repository.
-    # -------------------------------
-    # Output:
-    #  [bool] Status Code
-    #    $false = Failure to switch to requested branch.
-    #    $true  = Successfully switched to requested branch.
-    # -------------------------------
-    #>
-    [bool] SwitchLocalBranch([string] $projectPath, [bool] $logging, [string] $requestedBranch)
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();                     # Using functions from IO Common
-        [string] $extCMDArgs = "checkout $($requestedBranch)";  # Arguments for the external command
-                                                                #  This will allow us to switch to
-                                                                #  another branch.
-        [string] $execReason = "Switch Branch";                 # Description; used for logging
-        # ----------------------------------------
-
-
-
-        # Dependency Check
-        # - - - - - - - - - - - - - -
-        #  Make sure that all of the resources are available before trying to use them
-        #   This check is to make sure that nothing goes horribly wrong.
-        # ---------------------------
-
-        # Make sure that the git executable was detected.
-        if ($($this.DetectGitExist()) -eq $false)
-        {
-            # Git was not detected.
-            return $false;
-        } # if : Git was not detected
-
-
-        # Make sure that the path exists
-        if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
-        {
-            # Project Path does not exist, return an error.
-            return $false;
-        } # if : the Project Path does not exist
-
-        # ---------------------------
-        # - - - - - - - - - - - - - -
-
-
-        # Execute the command
-        if ($io.ExecuteCommand("$($this.__executablePath)", `
-                            "$($extCMDArgs)", `
-                            "$($projectPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__logPath)", `
-                            "$($this.__reportPath)", `
-                            "$($execReason)", `
-                            $logging, `
-                            $false, `
-                            $false, `
-                            [ref]$null) -eq 0)
-        {
-            # Successfully switched from one branch to another branch.
-            return $true;
-        } # If : Switch Branches
-
-
-        # Failure to switch branches.
-        return $false;
-    } # SwitchLocalBranch()
 
 
 
