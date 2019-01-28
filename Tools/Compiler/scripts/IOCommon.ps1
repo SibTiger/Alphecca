@@ -260,7 +260,7 @@ class IOCommon
 
 
         # Execute the Command
-        $externalCommandReturnCode = $this.ExecuteCommandRun($command, `
+        $externalCommandReturnCode = $this.__ExecuteCommandRun($command, `
                                                        $arguments, `
                                                        $projectPath, `
                                                        [ref] $containerStdOut, `
@@ -268,7 +268,7 @@ class IOCommon
 
 
         # Create the necessary logfiles or capture a specific input
-        $this.ExecuteCommandLog($stdOutLogPath, `
+        $this.__ExecuteCommandLog($stdOutLogPath, `
                                 $stdErrLogPath, `
                                 $reportPath, `
                                 $logging, `
@@ -341,7 +341,7 @@ class IOCommon
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
     #>
-    Hidden [void] ExecuteCommandLog($stdOutLogPath, `
+    Hidden [void] __ExecuteCommandLog($stdOutLogPath, `
                                     $stdErrLogPath, `
                                     $reportPath, `
                                     $logging, `
@@ -460,7 +460,7 @@ class IOCommon
     #    Command was not detected.
     # -------------------------------
     #>
-    Hidden [int] ExecuteCommandRun([string] $command, `
+    Hidden [int] __ExecuteCommandRun([string] $command, `
                                     [string] $arguments, `
                                     [string] $projectPath, `
                                     [ref] $captureStdOut, `
