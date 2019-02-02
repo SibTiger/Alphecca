@@ -433,7 +433,7 @@ class GitControl
 
 
 
-   <# Get Report Path
+   <# Get Log Path
     # -------------------------------
     # Documentation:
     #  Returns the value of the Log Path variable.
