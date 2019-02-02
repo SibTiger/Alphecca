@@ -1004,6 +1004,47 @@ class SevenZip
         return $true;
     } # __ThrashLogs()
 
+
+
+
+   <# Detect 7Zip
+    # -------------------------------
+    # Documentation:
+    #  This function will try to detect 7Zip by checking
+    #   the common locations within the host's filesystem.
+    # -------------------------------
+    # Output:
+    #  [string] 7Zip.exe Absolute Path
+    #    When the path was not discoverable,
+    #     then '$null' will be returned.
+    # -------------------------------
+    #>
+    Hidden [string] __Detect7Zip()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [string[]] $path = @("7z.exe",`                             # Location: %PATH%
+                             "7za.exe", `                           # Location: %PATH% {7Zip CLI; Stand-Alone}
+                         "${env:PROGRAMFILES}\7-Zip\7z.exe", `      # Location: %ProgramFiles%       {x86_32}
+                         "${env:PROGRAMFILES(x86)}\7-Zip\7z.exe");  # Location: %ProgramFiles(x86)%  {x86_64}
+        # ----------------------------------------
+
+        # Inspect each path in the array
+        foreach ($index in $path)
+        {
+            # Test if the executable exists at the given path
+            if($io.DetectCommand("$($index)", "Application") -eq $true)
+            {
+                return "$($index)";
+            } # if : Command Detected
+        } # Foreach : Path
+
+
+        # If and only if the executable was not found,
+        #  than will signify that we couldn't find it.
+        return $null;
+    } # __Detect7Zip()
     #endregion
 } # SevenZip
 
