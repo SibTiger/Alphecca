@@ -1015,8 +1015,8 @@ class SevenZip
     # -------------------------------
     # Output:
     #  [string] 7Zip.exe Absolute Path
-    #    When the path was not discoverable,
-    #     then '$null' will be returned.
+    #    $null = When the path was not discoverable,
+    #             then '$null' will be returned.
     # -------------------------------
     #>
     Hidden [string] __Detect7Zip()
