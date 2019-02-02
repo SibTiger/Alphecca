@@ -756,10 +756,79 @@ class GitControl
 
 
 
-   <# Set Report Path
+   <# Set Root Log Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Root Log Path variable.
+    #
+    # WARNING:
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
+    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
+    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetRootLogPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__rootLogPath = $newVal;
+            return $true;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $false;
+    } # SetRootLogPath()
+
+
+
+   <# Set Log Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Log Path variable.
+    #
+    # WARNING:
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
+    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
+    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetLogPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__logPath = $newVal;
+            return $true;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $false;
+    } # SetLogPath()
+
+
+
+    <# Set Report Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Report Path variable.
+    #
+    # WARNING:
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
+    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
+    #   UNLESS IT IS ABSOLUTELY NECESSARY!
     # -------------------------------
     # Output:
     #  [bool] Status
