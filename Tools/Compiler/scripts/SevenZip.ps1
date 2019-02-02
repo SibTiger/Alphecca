@@ -358,6 +358,43 @@ class SevenZip
         return $this.__reportPath;
     } # GetReportPath()
 
+
+
+
+   <# Get Log Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Log Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Log Path
+    #   the value of the Log Path.
+    # -------------------------------
+    #>
+    [string] GetLogPath()
+    {
+        return $this.__logPath;
+    } # GetLogPath()
+
+
+
+
+   <# Get Root Log Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Root Log Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Root Log Path
+    #   the value of the Log Root Path.
+    # -------------------------------
+    #>
+    [string] GetRootLogPath()
+    {
+        return $this.__rootLogPath;
+    } # GetRootLogPath()
+
+
     #endregion
 
 
