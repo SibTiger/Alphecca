@@ -777,6 +777,59 @@ class SevenZip
     } # SetReportPath()
 
     #endregion
+
+
+
+    #region Private Functions
+
+
+   <# Check Required Directories
+    # -------------------------------
+    # Documentation:
+    #  This function was created to check the directories
+    #   that this class requires.
+    #
+    # ----
+    #
+    #  Directories to Check:
+    #   - \7Zip
+    #   - \7Zip\logs
+    #   - \7Zip\reports
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = One or more directories does not exist.
+    #    $true = Directories exist
+    # -------------------------------
+    #>
+    Hidden [bool] __CheckRequiredDirectories()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+
+        # Check Root Log Directory
+        if ((($io.CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+
+        # Check Report Path
+        (($io.CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+
+        # Check Log Path
+        (($io.CheckPathExists("$($this.__logPath)") -eq $true)))
+        {
+            # All of the directories exists
+            return $true;
+        } # If : Check Directories Exists
+
+        else
+        {
+            # Directories does not exist.
+            return $false;
+        } # Else : Directories does not exist
+    } # __CheckRequiredDirectories()
+    #endregion
 } # SevenZip
 
 
