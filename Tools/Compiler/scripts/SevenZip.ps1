@@ -1030,12 +1030,14 @@ class SevenZip
                          "${env:PROGRAMFILES(x86)}\7-Zip\7z.exe");  # Location: %ProgramFiles(x86)%  {x86_64}
         # ----------------------------------------
 
+
         # Inspect each path in the array
         foreach ($index in $path)
         {
             # Test if the executable exists at the given path
             if($io.DetectCommand("$($index)", "Application") -eq $true)
             {
+                # We found the executable, return its location.
                 return "$($index)";
             } # if : Command Detected
         } # Foreach : Path
