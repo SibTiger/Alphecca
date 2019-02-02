@@ -28,6 +28,12 @@ class SevenZip
 
     #region Private Variables (emulated)
 
+    # 7Zip Executable Path
+    # ---------------
+    # The path in which the executable '7z.exe' resides.
+    Hidden [string] $__executablePath;
+
+
     # Compression Method
     # ---------------
     # The method in which to compact the archive datafile.
@@ -112,6 +118,9 @@ class SevenZip
     # Default Constructor
     SevenZip()
     {
+        # 7z.exe Path
+        $this.__executablePath = "7z.exe";
+
         # Compression Method
         $this.__compressionMethod = 0;
 
@@ -150,7 +159,8 @@ class SevenZip
 
 
     # User Preference : On-Load
-    SevenZip([SevenZipCompressionMethod] $compressionMethod,
+    SevenZip([string] $executablePath,
+            [SevenZipCompressionMethod] $compressionMethod,
             [SevenZipAlgorithmZip] $algorithmZip,
             [SevenZipAlgorithm7Zip] $algorithm7Zip,
             [bool] $useMultithread,
@@ -159,6 +169,9 @@ class SevenZip
             [bool] $verifyBuild,
             [bool] $generateReport)
     {
+        # 7z.exe Path
+        $this.__executablePath = $executablePath;
+
         # Compression Method
         $this.__compressionMethod = $compressionMethod;
 
@@ -198,6 +211,24 @@ class SevenZip
 
 
     #region Getter Functions
+
+    <# Get Executable Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Executable Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Executable Path
+    #   the value of the Executable Path to 7z.exe.
+    # -------------------------------
+    #>
+    [string] GetExecutablePath()
+    {
+        return $this.__executablePath;
+    } # GetExecutablePath()
+
+
+
 
    <# Get Compression Method
     # -------------------------------
@@ -400,6 +431,44 @@ class SevenZip
 
 
     #region Setter Functions
+
+   <# Set Executable Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Executable Path variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetExecutablePath([string] $newVal)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+        # Because we are testing for an actual file,
+        #  we have to assure that the file really exists
+        #  within the host's filesystem.
+        if(($io.DetectCommand("$($newVal)", "Application")) -eq $false)
+        {
+            # Could not find the executable.
+            return $false;
+        } # If : Command Not Found
+
+
+        # Set the path
+        $this.__executablePath = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetExecutablePath()
+
+
+
 
    <# Set Compression Method
     # -------------------------------
