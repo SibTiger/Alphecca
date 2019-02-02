@@ -78,10 +78,25 @@ class SevenZip
     Hidden [bool] $__generateReport;
 
 
+    # Log Root
+    # ---------------
+    # The main root of the log directories.
+    Hidden [string] $__rootLogPath;
+
+
     # Report Path
     # ---------------
-    # Store the report at a specific directory.
+    # The absolute path to store the reports that
+    #  has been generated.
     Hidden [string] $__reportPath;
+
+
+    # Log Root Path
+    # ---------------
+    # The absolute path to place the logs from the
+    #  executable.
+    Hidden [string] $__logPath;
+
 
     #endregion
 
@@ -121,8 +136,14 @@ class SevenZip
         # Generate Report
         $this.__generateReport = $false;
 
+        # Log Root Directory
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
+
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\7Zip";
+        $this.__reportPath = "$($this.__rootLogPath)\reports";
+
+        # Log Path
+        $this.__logPath = "$($this.__rootLogPath)\logs";
     } # Default Constructor
 
 
@@ -162,8 +183,14 @@ class SevenZip
         # Generate Report
         $this.__generateReport = $generateReport;
 
+        # Log Root Directory
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\7Zip";
+
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\7Zip";
+        $this.__reportPath = "$($this.__rootLogPath)\reports";
+
+        # Log Path
+        $this.__logPath = "$($this.__rootLogPath)\logs";
     } # User Preference : On-Load
 
     #endregion
