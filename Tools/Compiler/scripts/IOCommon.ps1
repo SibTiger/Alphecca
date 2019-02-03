@@ -1048,9 +1048,8 @@ class IOCommon
     #  [string] Absolute Path
     #   The absolute path of a data-file.
     #  [string] Hash Algorithm
-    #   Typical values can be: "MD5" and "SHA1".
-    #    for a complete list, please check the
-    #    documentation:
+    #   Typical values can be: "MD5" or "SHA1".
+    #    For a complete list of hash algorithms, please check the documentation:
     #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
     # -------------------------------
     # Output:
@@ -1063,7 +1062,7 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $hashValue = $null;                    # The hash value regarding specified file.
+        [string] $hashValue = $null;      # The hash value regarding specified file.
 
         # SPECIAL OBJECTS
         # - - - - - - - -
