@@ -1034,4 +1034,66 @@ class IOCommon
     } # DeleteFile
 
     #endregion
+
+
+    #region File Integrity
+
+   <# File Hash
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the hash value
+    #   in regards to a specific data-file.
+    # -------------------------------
+    # Input:
+    #  [string] Absolute Path
+    #   The absolute path of a data-file.
+    #  [string] Hash Algorithm
+    #   Typical values can be: "MD5" and "SHA1".
+    #    for a complete list, please check the
+    #    documentation:
+    #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
+    # -------------------------------
+    # Output:
+    #  [string] Hash Value code
+    #    $null = Error for File does not exist.
+    #    All other values will be the hash code.
+    # -------------------------------
+    #>
+    [string] FileHash([string] $path, [string] $hashAlgorithm)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $hashValue = $null;    # The hash value regarding specified file.
+        # ----------------------------------------
+
+
+        # First check if the file actually exists within the user's filesystem
+        if ($this.CheckPathExists("$($path)") -eq $false)
+        {
+            # Because the file was not on the user's filesystem at the specified
+            #  path, return null to signify an error.
+            return $null;
+        } # if : File not found
+        
+
+        # Try to get the hash of the file
+        try
+        {
+            # Try to get the hash of the file and cache it.
+            $hashValue = "$($(Get-FileHash -LiteralPath "$($path)" -Algorithm "$($hashAlgorithm)" -ErrorAction Stop).hash)";
+        } # Try : Get hash value
+
+        # Catch if an error occured
+        catch
+        {
+            # Failure to obtain the hash value.
+            $hashValue = $null;
+        } # Catch : Failure to fetch value
+
+
+        # If we made it this far, the file exists.
+        return "$($hashValue)";
+    } # FileHash()
+
+    #endregion
 } # IOCommon
