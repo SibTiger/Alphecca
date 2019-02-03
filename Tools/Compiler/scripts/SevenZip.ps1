@@ -119,7 +119,7 @@ class SevenZip
     SevenZip()
     {
         # 7z.exe Path
-        $this.__executablePath = "7z.exe";
+        $this.__executablePath = "$($this.__Detect7Zip())";
 
         # Compression Method
         $this.__compressionMethod = 0;
@@ -1047,6 +1047,7 @@ class SevenZip
         #  than will signify that we couldn't find it.
         return $null;
     } # __Detect7Zip()
+
     #endregion
 } # SevenZip
 
