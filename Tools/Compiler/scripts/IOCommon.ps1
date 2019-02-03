@@ -1088,7 +1088,7 @@ class IOCommon
             # Try to get the hash of the file and cache it.
             #  NOTE: Do not try to out-right store the 'hash' value explicitly as
             #        this causes a performance degrade when an issue creeps up.
-            $hashInfo = "$(Get-FileHash -LiteralPath "$($path)" -Algorithm "$($hashAlgorithm)" -ErrorAction Stop)";
+            $hashInfo = Get-FileHash -LiteralPath "$($path)" -Algorithm "$($hashAlgorithm)" -ErrorAction Stop;
 
             # From the cache data, get the hash and save it.
             $hashValue = $hashInfo.Hash;
