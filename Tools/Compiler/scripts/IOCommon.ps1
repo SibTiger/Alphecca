@@ -1063,7 +1063,13 @@ class IOCommon
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [string] $hashValue = $null;    # The hash value regarding specified file.
+        [string] $hashValue = $null;                    # The hash value regarding specified file.
+
+        # SPECIAL OBJECTS
+        # - - - - - - - -
+
+        # FileHashInfo; used for capturing the hash information from a specific data file.
+        $hashInfo = New-Object -TypeName Microsoft.PowerShell.Commands.FileHashInfo;
         # ----------------------------------------
 
 
@@ -1080,7 +1086,12 @@ class IOCommon
         try
         {
             # Try to get the hash of the file and cache it.
-            $hashValue = "$($(Get-FileHash -LiteralPath "$($path)" -Algorithm "$($hashAlgorithm)" -ErrorAction Stop).hash)";
+            #  NOTE: Do not try to out-right store the 'hash' value explicitly as
+            #        this causes a performance degrade when an issue creeps up.
+            $hashInfo = "$(Get-FileHash -LiteralPath "$($path)" -Algorithm "$($hashAlgorithm)" -ErrorAction Stop)";
+
+            # From the cache data, get the hash and save it.
+            $hashValue = $hashInfo.Hash;
         } # Try : Get hash value
 
         # Catch if an error occured
@@ -1091,7 +1102,7 @@ class IOCommon
         } # Catch : Failure to fetch value
 
 
-        # If we made it this far, the file exists.
+        # Return the value of the hash data, if it was present.
         return "$($hashValue)";
     } # FileHash()
 
