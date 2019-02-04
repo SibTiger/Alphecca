@@ -1062,6 +1062,8 @@ class SevenZip
     
     #region Public Functions
     
+    #region 7Zip Detection
+
    <# Detect 7Zip Executable
     # -------------------------------
     # Documentation:
@@ -1149,8 +1151,10 @@ class SevenZip
         return $null;
     } # Find7Zip()
 
+    #endregion
 
 
+    #region Archive File Management
 
    <# Archive-File Hash
     # -------------------------------
@@ -1319,6 +1323,9 @@ class SevenZip
         # Because we reached the end and we have the hash value, simply return it.
         return "$($matches[0])"
     } # ArchiveHash()
+
+    #endregion
+
     #endregion
 } # SevenZip
 
