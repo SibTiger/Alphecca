@@ -1028,7 +1028,7 @@ class SevenZip
     #    $true  = The hash algorithm requested is supported.
     # -------------------------------
     #>
-    [bool] SupportedHashAlgorithms([string] $hashAlgo)
+    hidden [bool] __SupportedHashAlgorithms([string] $hashAlgo)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1055,7 +1055,7 @@ class SevenZip
 
         # We didn't find a match, return false.
         return $false;
-    } # SupportedHashAlgorithms()
+    } # __SupportedHashAlgorithms()
 
     #endregion
     
@@ -1218,7 +1218,7 @@ class SevenZip
 
         # Make sure that the requested hash algorithm is
         #  supported before trying to use it.
-        if ($this.SupportedHashAlgorithms($hashAlgorithm) -eq $false)
+        if ($this.__SupportedHashAlgorithms($hashAlgorithm) -eq $false)
         {
             # The requested hash algorithm is not supported;
             #  we can not use it.
