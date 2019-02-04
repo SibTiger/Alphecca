@@ -1004,6 +1004,51 @@ class SevenZip
         return $true;
     } # __ThrashLogs()
 
+
+
+
+   <# Detect 7Zip Executable
+    # -------------------------------
+    # Documentation:
+    #  This function will check if the 7Zip executable
+    #   was detected.  To accomplish this, we will
+    #   investigate the dedicated variable that
+    #   contains the path and determine if the path
+    #   is valid or not.
+    # -------------------------------
+    # Output:
+    #  [bool] Detected Code
+    #    $false = Failure to detect the external executable.
+    #    $true  = Successfully detected the external executable.
+    # -------------------------------
+    #>
+    [bool] Detect7ZipExist()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+        # Make sure that it is not null
+        if ($this.__executablePath -eq $null)
+        {
+            # Executable does not exist or was not set properly.
+            #  Return false to signify that it doesn't exist.
+            return $false;
+        } # if : Executable Path is Null
+        
+        
+        # Check if the 7Zip executable was found
+        if (($io.DetectCommand("$($this.__executablePath)", "Application")) -eq $true)
+        {
+            return $true;
+        } # If : Detected
+        else
+        {
+            return $false;
+        } # Else : Not Detected
+    } # Detect7ZipExist()
+    
     #endregion
     
     
