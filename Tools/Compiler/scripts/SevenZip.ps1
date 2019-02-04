@@ -119,7 +119,7 @@ class SevenZip
     SevenZip()
     {
         # 7z.exe Path
-        $this.__executablePath = "$($this.__Detect7Zip())";
+        $this.__executablePath = "$($this.Find7Zip())";
 
         # Compression Method
         $this.__compressionMethod = 0;
@@ -1004,14 +1004,17 @@ class SevenZip
         return $true;
     } # __ThrashLogs()
 
-
-
-
-   <# Detect 7Zip
+    #endregion
+    
+    
+    #region Public Functions
+    
+   <# Find 7Zip
     # -------------------------------
     # Documentation:
-    #  This function will try to detect 7Zip by checking
-    #   the common locations within the host's filesystem.
+    #  This function will try to find the 7Zip executable by
+    #   checking the common locations within the host's
+    #   filesystem.
     # -------------------------------
     # Output:
     #  [string] 7Zip.exe Absolute Path
@@ -1019,11 +1022,11 @@ class SevenZip
     #             then '$null' will be returned.
     # -------------------------------
     #>
-    Hidden [string] __Detect7Zip()
+    [string] Find7Zip()
     {
         # Declarations and Initializations
         # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();             # Using functions from IO Common
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
         [string[]] $path = @("7z.exe",`                             # Location: %PATH%
                              "7za.exe", `                           # Location: %PATH% {7Zip CLI; Stand-Alone}
                          "${env:PROGRAMFILES}\7-Zip\7z.exe", `      # Location: %ProgramFiles%       {x86_32}
@@ -1046,8 +1049,7 @@ class SevenZip
         # If and only if the executable was not found,
         #  than will signify that we couldn't find it.
         return $null;
-    } # __Detect7Zip()
-
+    } # Find7Zip()
     #endregion
 } # SevenZip
 
