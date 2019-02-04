@@ -1095,6 +1095,161 @@ class SevenZip
         #  than will signify that we couldn't find it.
         return $null;
     } # Find7Zip()
+
+
+
+
+   <# Archive-File Hash
+    # -------------------------------
+    # Documentation:
+    #  This function will try to get the archive data
+    #   file's hash value directly from 7Zip.  In addition,
+    #   if the archive file is corrupted or the output
+    #   provided is not what we are expecting, this algorithm
+    #   will return a null.
+    #
+    # NOTE: Because 7Zip does NOT have a simple clean
+    #       way of just outputting the hash value only, we
+    #       have to manipulate the text a bit by using some
+    #       RegEx!
+    # -------------------------------
+    # Input:
+    #  [string] Target File
+    #   The archive file that will be used by 7Zip to get the hash value.
+    #  [string] Hashing Algorithm
+    #   The supported Hash Algorithm that will be used in 7Zip.
+    #    NOTE: For a list of supported algorithms, please check this website:
+    #          https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] Hash Value
+    #    $null = Unable to get the hash-value or the
+    #             archive data file is corrupted.
+    # -------------------------------
+    #>
+    [string] ArchiveHash([string] $file, [string] $hashAlgorithm, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"  # Working Directory when executing the
+                                                                    #  extCMD.
+        [string] $extCMDArgs = "h -scrc$($hashAlgorithm) $($file)"; # Arguments for the external command
+                                                                    #  This will get 7zip to generate the
+                                                                    #  requested hash value.
+        [string] $outputResult = $null;                             # Holds the hash value provided by the
+                                                                    #  extCMD 7z
+        [string] $execReason = "Generate $($hashAlgorithm) Hash";   # Description; used for logging
+        # ----------------------------------------
+
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the 7Zip executable was detected.
+        if ($($this.Detect7ZipExist()) -eq $false)
+        {
+            # 7Zip was not detected.
+            return $null;
+        } # if : 7Zip was not detected
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Execute the command and cache the value
+        if ($($io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($sourceDir)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$outputResult)) -ne 0)
+        {
+            # 7Zip closed with an error
+            return $null;
+        } # if : 7Zip Closed with Error
+
+
+        # Evaluation Requirement Check
+        # - - - - - - - - - - - - - -
+        # Before we perform some various operations using Regular Expression,
+        #  we first need to make sure that the output result meets the basic
+        #  requirements.  Requirements are the following:
+        #   - The data is NOT null or empty
+        #   - The data contains an expected key phrase, which is necessary to
+        #      recognize that the output is correct.  All other values could mean
+        #      that the file was corrupted, unsupported hash value, or anything else.
+        #  If the requirements are not meant, then it is not possibly to get the
+        #   hash value.
+        # ---------------------------
+
+        # Just for assurance, make sure that we actually have some
+        #  sort of data to work with before trying to evaluate it.
+        if ("$($outputResult)" -eq "$($null)")
+        {
+            # The output cannot be evaluated; there's nothing to
+            #  inspect.
+            return $null;
+        } # if : Output Result is Empty
+
+
+        # The most important part, can we try to pick up the key-phrase?
+        #  If we have that key-phrase - we have the correct output to evaluate
+        # KEY-PHRASE(RegEx): Everything\ is\ Ok\r\n$
+        if ($($($outputResult) -match "Everything Is Ok`r`n$") -eq $false)
+        {
+            # The key-phrase was not detected, we cannot evaluate the text.
+            return $null;
+        } # if : Key-Phrase not Detected
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Now, to do some RegEx'ing!
+        # - - - - - - - - - - - - - -
+        # ---------------------------
+        # To make this easier to follow, we will do one step at a time.
+        #  This is essentially a brute-force method, but best for post-maintenance.
+        #  This might be a bit costly in performance - but it is also important
+        #  to know how the algorithm is implemented.  If something breaks in the
+        #  future we need to know how to resolve the issue, and step-wise is more
+        #  easier to work with in this matter - especially more with RegEx operations.
+
+
+        # REGEX PASS 1
+        # Replace 'Everything is Okay' with nothing
+        #  NOTE: PowerShell RegEx Commands
+        #   `r`n = New Line
+        #      $ = End of Line
+        $outputResult = $($outputResult -replace "`r`n`r`nEverything Is Ok`r`n$", "")
+
+
+        # REGEX PASS 2
+        # We now want to home-in on our target, which is our Hash Value.
+        #  Just run the command, but do not output anything.
+        "$($($outputResult) -match "\s\w+$")" | Out-Null;
+
+
+        # FINAL
+        # Get the final result, which should now only be the hash value itself.
+        # Because we reached the end and we have the hash value, simply return it.
+        return "$($matches[0])"
+    } # ArchiveHash()
     #endregion
 } # SevenZip
 
