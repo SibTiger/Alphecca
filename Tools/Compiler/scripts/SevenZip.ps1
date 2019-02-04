@@ -1435,6 +1435,10 @@ class SevenZip
     #  [string] Target File
     #   The archive file that will be tested upon through the
     #    verification process.
+    #  [bool] Show Technical Information
+    #   When true, this will show All Technical Infomation.
+    #    This uses the '-slt' argument when listing all of
+    #    the files within the archive file.
     #  [bool] Logging
     #   User's preference in logging information.
     #    When true, the program will log the
@@ -1446,7 +1450,7 @@ class SevenZip
     #    List of files that exists within the archive data file.
     # -------------------------------
     #>
-    [string] ListFiles([string] $file, [bool] $logging)
+    [string] ListFiles([string] $file, [bool] $showTechInfo,[bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1456,7 +1460,7 @@ class SevenZip
                                                                     #  get to that file.
         [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"  # Working Directory when executing the
                                                                     #  extCMD.
-        [string] $extCMDArgs = "l $($file) -slt";                   # Arguments for the external command
+        [string] $extCMDArgs = "l $($file)";                        # Arguments for the external command
                                                                     #  This will get 7zip to list all of
                                                                     #  the files within the requested
                                                                     #  archive datafile.
@@ -1492,6 +1496,16 @@ class SevenZip
 
         # ---------------------------
         # - - - - - - - - - - - - - -
+
+
+        # Should the technical information be added in the output?
+        #  If requested, append the arguement to the command parameter.
+        if ($showTechInfo -eq $true)
+        {
+            # There was a request to display all of the technical information
+            #  for each file within the archive data file.
+            $extCMDArgs = "$($extCMDArgs) -slt";
+        } # if : Show Technical
 
 
         # Execute the command
