@@ -1324,6 +1324,100 @@ class SevenZip
         return "$($matches[0])"
     } # ArchiveHash()
 
+
+
+
+   <# Verify Archive
+    # -------------------------------
+    # Documentation:
+    #  This function will test the archive datafile by making sure
+    #   that it is not damaged or corrupted.  To do this, we will
+    #   use 7Zip's Verification functionality.
+    #
+    #  Test Integrity Informatoin:
+    #    https://sevenzip.osdn.jp/chm/cmdline/commands/test.htm
+    # -------------------------------
+    # Input:
+    #  [string] Target File
+    #   The archive file that will be tested upon through the
+    #    verification process.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Archive file failed verification process.
+    #    $true = Archive file passed verification process.
+    # -------------------------------
+    #>
+    [bool] VerifyArchive([string] $file, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $fileName = "$(Split-Path $file -leaf)";           # Get only the filename from $file, 
+                                                                    #  while omitting the entire path to
+                                                                    #  get to that file.
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"  # Working Directory when executing the
+                                                                    #  extCMD.
+        [string] $extCMDArgs = "t $($file)";                        # Arguments for the external command
+                                                                    #  This will get 7zip to test the
+                                                                    #  requested archive datafile.
+        [string] $execReason = "Verifing $($fileName)";             # Description; used for logging
+        # ----------------------------------------
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the 7Zip executable was detected.
+        if ($($this.Detect7ZipExist()) -eq $false)
+        {
+            # 7Zip was not detected.
+            return $false;
+        } # if : 7Zip was not detected
+
+
+        # Make sure that the target file actually exists
+        if ($($io.CheckPathExists("$($file)")) -eq $false)
+        {
+            # The archive data file does not exist, we can not
+            #  test something that simply doesn't exist.  Return
+            #  a failure.
+            return $false;
+        } # if : Target file does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Execute the command
+        if ($($io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($sourceDir)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $false, `
+                            $null)) -ne 0)
+        {
+            # Archive file did not pass the verification test
+            return $false;
+        } # if : Verification Test Failed
+
+
+        # Verification Test Passed!
+        return $true;
+    } # VerifyArchive()
     #endregion
 
     #endregion
