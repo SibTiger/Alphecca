@@ -1418,6 +1418,109 @@ class SevenZip
         # Verification Test Passed!
         return $true;
     } # VerifyArchive()
+
+
+
+
+   <# List Files in Archive
+    # -------------------------------
+    # Documentation:
+    #  This function will list all of the files that are
+    #   within the target archive file.
+    #
+    #  List Files Information:
+    #    https://sevenzip.osdn.jp/chm/cmdline/commands/list.htm
+    # -------------------------------
+    # Input:
+    #  [string] Target File
+    #   The archive file that will be tested upon through the
+    #    verification process.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] File List
+    #    List of files that exists within the archive data file.
+    # -------------------------------
+    #>
+    [string] ListFiles([string] $file, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $fileName = "$(Split-Path $file -leaf)";           # Get only the filename from $file, 
+                                                                    #  while omitting the entire path to
+                                                                    #  get to that file.
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"  # Working Directory when executing the
+                                                                    #  extCMD.
+        [string] $extCMDArgs = "l $($file) -slt";                   # Arguments for the external command
+                                                                    #  This will get 7zip to list all of
+                                                                    #  the files within the requested
+                                                                    #  archive datafile.
+        [string] $outputResult = $null;                             # This will hold the value of all of
+                                                                    #  the files that are within the archive
+                                                                    #  datafile.
+        [string] $execReason = "List From $($fileName)";            # Description; used for logging
+        # ----------------------------------------
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the 7Zip executable was detected.
+        if ($($this.Detect7ZipExist()) -eq $false)
+        {
+            # 7Zip was not detected.
+            return "ERR";
+        } # if : 7Zip was not detected
+
+
+        # Make sure that the target file actually exists
+        if ($($io.CheckPathExists("$($file)")) -eq $false)
+        {
+            # The archive data file does not exist, we can not
+            #  test something that simply doesn't exist.  Return
+            #  a failure.
+            return "ERR";
+        } # if : Target file does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Execute the command
+        $io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($sourceDir)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $true, `
+                            [ref]$outputResult) | Out-Null;
+
+
+        # Just for assurance; make sure that we have an actual list
+        #  from the archive file.  If in case the list was not
+        #  retrieved successfully, then place 'ERR' to signify that
+        #  an issue occurred, but still providing a value.
+        if ("$($outputResult)" -eq "$($null)")
+        {
+            $outputResult = "ERR";
+        } # If : List was not valid
+
+
+        # Output the final result
+        return $outputResult;
+    } # ListFiles()
     #endregion
 
     #endregion
