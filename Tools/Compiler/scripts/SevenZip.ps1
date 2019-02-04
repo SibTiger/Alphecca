@@ -1004,6 +1004,59 @@ class SevenZip
         return $true;
     } # __ThrashLogs()
     
+
+
+
+   <# Supported Hash Algorithms
+    # -------------------------------
+    # Documentation:
+    #  This function will check to make sure
+    #   that hash algorithm is supported in 7Zip.
+    #
+    #  List of available Hash Algorithms:
+    #   https://sevenzip.osdn.jp/chm/cmdline/commands/hash.htm
+    # -------------------------------
+    # Input:
+    #  [string] Requested Hash Algorithm
+    #    This will contain the requested algorithm to be used
+    #     in 7Zip.  This will be checked against a list of
+    #     available algorithms known to be supported.
+    # -------------------------------
+    # Output:
+    #  [bool] Supported Status
+    #    $false = The hash algorithm requested is not supported.
+    #    $true  = The hash algorithm requested is supported.
+    # -------------------------------
+    #>
+    [bool] SupportedHashAlgorithms([string] $hashAlgo)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string[]] $knownAlgos = @("crc32", `
+                                   "crc64", `
+                                   "sha1", `
+                                   "sha256", `
+                                   "blake2sp");
+        # ----------------------------------------
+
+
+        # Scan the list against the requested hash algorithm
+        foreach ($algo in $knownAlgos)
+        {
+            # Scan through the list and compare each algorithm
+            #  against the requested hash algorithm.
+            if ("$($algo)" -eq "$($hashAlgo)")
+            {
+                # The requested algo is supported.
+                return $true
+            } # if : Algos Matches
+        } # foreach : Compare Algos
+
+
+        # We didn't find a match, return false.
+        return $false;
+    } # SupportedHashAlgorithms()
+
     #endregion
     
     
@@ -1161,6 +1214,16 @@ class SevenZip
             # 7Zip was not detected.
             return $null;
         } # if : 7Zip was not detected
+
+
+        # Make sure that the requested hash algorithm is
+        #  supported before trying to use it.
+        if ($this.SupportedHashAlgorithms($hashAlgorithm) -eq $false)
+        {
+            # The requested hash algorithm is not supported;
+            #  we can not use it.
+            return $null;
+        } # if : Hash Algorithm not Supported
 
         # ---------------------------
         # - - - - - - - - - - - - - -
