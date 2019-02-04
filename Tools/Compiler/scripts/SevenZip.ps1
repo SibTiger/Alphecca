@@ -1241,8 +1241,14 @@ class SevenZip
 
         # REGEX PASS 2
         # We now want to home-in on our target, which is our Hash Value.
-        #  Just run the command, but do not output anything.
-        "$($($outputResult) -match "\s\w+$")" | Out-Null;
+        #  Check to make sure we are locked into the hash value explicitly,
+        #  if not - we got something else unexpectedly.
+        if ("$($($outputResult) -match "\s\w+$")" -eq $false)
+        {
+            # We got a value that was not expected, immediately leave
+            #  and return a null value.
+            return $null;
+        } # if : Unexpected Value Reached - Error
 
 
         # FINAL
