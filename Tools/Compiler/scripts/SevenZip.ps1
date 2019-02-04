@@ -1003,10 +1003,12 @@ class SevenZip
         # If we made it here, then everything went okay!
         return $true;
     } # __ThrashLogs()
-
-
-
-
+    
+    #endregion
+    
+    
+    #region Public Functions
+    
    <# Detect 7Zip Executable
     # -------------------------------
     # Documentation:
@@ -1048,12 +1050,10 @@ class SevenZip
             return $false;
         } # Else : Not Detected
     } # Detect7ZipExist()
-    
-    #endregion
-    
-    
-    #region Public Functions
-    
+
+
+
+
    <# Find 7Zip
     # -------------------------------
     # Documentation:
