@@ -1163,7 +1163,7 @@ class SevenZip
     #   file's hash value directly from 7Zip.  In addition,
     #   if the archive file is corrupted or the output
     #   provided is not what we are expecting, this algorithm
-    #   will return a null.
+    #   will return an error message or 'ERR'.
     #
     # NOTE: Because 7Zip does NOT have a simple clean
     #       way of just outputting the hash value only, we
@@ -1185,7 +1185,7 @@ class SevenZip
     # -------------------------------
     # Output:
     #  [string] Hash Value
-    #    $null = Unable to get the hash-value or the
+    #    ERR = Error; Unable to get the hash-value or the
     #             archive data file is corrupted.
     # -------------------------------
     #>
@@ -1216,7 +1216,7 @@ class SevenZip
         if ($($this.Detect7ZipExist()) -eq $false)
         {
             # 7Zip was not detected.
-            return $null;
+            return "ERR";
         } # if : 7Zip was not detected
 
 
@@ -1226,7 +1226,7 @@ class SevenZip
         {
             # The requested hash algorithm is not supported;
             #  we can not use it.
-            return $null;
+            return "ERR";
         } # if : Hash Algorithm not Supported
 
         # ---------------------------
@@ -1247,7 +1247,7 @@ class SevenZip
                             [ref]$outputResult)) -ne 0)
         {
             # 7Zip closed with an error
-            return $null;
+            return "ERR";
         } # if : 7Zip Closed with Error
 
 
@@ -1270,7 +1270,7 @@ class SevenZip
         {
             # The output cannot be evaluated; there's nothing to
             #  inspect.
-            return $null;
+            return "ERR";
         } # if : Output Result is Empty
 
 
@@ -1280,7 +1280,7 @@ class SevenZip
         if ($($($outputResult) -match "Everything Is Ok`r`n$") -eq $false)
         {
             # The key-phrase was not detected, we cannot evaluate the text.
-            return $null;
+            return "ERR";
         } # if : Key-Phrase not Detected
 
         # ---------------------------
@@ -1313,8 +1313,8 @@ class SevenZip
         if ("$($($outputResult) -match "\s\w+$")" -eq $false)
         {
             # We got a value that was not expected, immediately leave
-            #  and return a null value.
-            return $null;
+            #  and return an error.
+            return "ERR";
         } # if : Unexpected Value Reached - Error
 
 
