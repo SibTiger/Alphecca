@@ -1072,7 +1072,7 @@ class IOCommon
         # ----------------------------------------
 
 
-        # First check if the file actually exists within the user's filesystem
+        # First, check if the file actually exists within the user's filesystem
         if ($this.CheckPathExists("$($path)") -eq $false)
         {
             # Because the file was not on the user's filesystem at the specified
@@ -1080,6 +1080,15 @@ class IOCommon
             return $null;
         } # if : File not found
         
+
+        # Second, check to make sure that the requested hash algorithm is supported by
+        #  the .NET Framework.
+        if ($this.__SupportedHashAlgorithms($hashAlgorithm) -eq $false)
+        {
+            # The hash algorithm requested was not supported.
+            return $null;
+        } # if : Unsupported Hash Algorithm
+
 
         # Try to get the hash of the file
         try
@@ -1105,5 +1114,58 @@ class IOCommon
         return "$($hashValue)";
     } # FileHash()
 
+
+
+
+   <# Supported Hash Algorithms
+    # -------------------------------
+    # Documentation:
+    #  This function will check to make sure
+    #   that requested hash algorithm is supported
+    #   in the .NET Framework.
+    #
+    #  List of available Hash Algorithms:
+    #   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash
+    # -------------------------------
+    # Input:
+    #  [string] Requested Hash Algorithm
+    #    This will contain the requested algorithm to be used
+    #     in .NET Framework.  This will be checked against a
+    #     list of available algorithms known to be supported.
+    # -------------------------------
+    # Output:
+    #  [bool] Supported Status
+    #    $false = The hash algorithm requested is not supported.
+    #    $true  = The hash algorithm requested is supported.
+    # -------------------------------
+    #>
+    hidden [bool] __SupportedHashAlgorithms([string] $hashAlgo)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string[]] $knownAlgos = @("sha1", `
+                                   "sha256", `
+                                   "sha384", `
+                                   "sha512", `
+                                   "md5");
+        # ----------------------------------------
+
+
+        # Scan the list against the requested hash algorithm
+        foreach ($algo in $knownAlgos)
+        {
+            # Scan through the list and compare each algorithm
+            #  against the requested hash algorithm.
+            if ("$($algo)" -eq "$($hashAlgo)")
+            {
+                # The requested algo is supported.
+                return $true
+            } # if : Algos Matches
+        } # foreach : Compare Algos
+
+
+        # We didn't find a match, return false.
+        return $false;
+    } # __SupportedHashAlgorithms()
     #endregion
 } # IOCommon
