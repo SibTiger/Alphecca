@@ -2037,7 +2037,7 @@ class SevenZip
 
         
 
-        # EXECUTE THE 7ZIP EXTRACT TASK
+        # EXECUTE THE 7ZIP CREATION TASK
         # - - - - - - - - - - - - - - -
         # -----------------------------
         
