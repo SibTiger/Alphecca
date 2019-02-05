@@ -1666,8 +1666,8 @@ class SevenZip
         else
         {
             # Because the directory already exists, we need to make it unique.
-            #  To accomplish this - we will timestamp the directory to make it
-            #  unique while giving the data 'meaning' to it.
+            #  To accomplish this - we will use a time stamp to the directory name
+            #  to make it unique while giving the data 'meaning' to it.
             #  Date and Time
             #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
             $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
