@@ -1361,7 +1361,7 @@ class SevenZip
         [string] $fileName = "$(Split-Path $file -leaf)";           # Get only the filename from $file, 
                                                                     #  while omitting the entire path to
                                                                     #  get to that file.
-        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"  # Working Directory when executing the
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
                                                                     #  extCMD.
         [string] $extCMDArgs = "t $($file)";                        # Arguments for the external command
                                                                     #  This will get 7zip to test the
@@ -1450,7 +1450,7 @@ class SevenZip
     #    List of files that exists within the archive data file.
     # -------------------------------
     #>
-    [string] ListFiles([string] $file, [bool] $showTechInfo,[bool] $logging)
+    [string] ListFiles([string] $file, [bool] $showTechInfo, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1458,7 +1458,7 @@ class SevenZip
         [string] $fileName = "$(Split-Path $file -leaf)";           # Get only the filename from $file, 
                                                                     #  while omitting the entire path to
                                                                     #  get to that file.
-        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"  # Working Directory when executing the
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
                                                                     #  extCMD.
         [string] $extCMDArgs = "l $($file)";                        # Arguments for the external command
                                                                     #  This will get 7zip to list all of
@@ -1535,6 +1535,193 @@ class SevenZip
         # Output the final result
         return $outputResult;
     } # ListFiles()
+
+
+
+
+   <# Extract Archive
+    # -------------------------------
+    # Documentation:
+    #  This function will extract the requested archive data
+    #   file to a specific directory.  However, the directory
+    #   has to already exist in order to use that path.
+    #   Within that directory, this function will create a new
+    #   subdirectory named by the archive file to extract all
+    #   the contents from the archive file.
+    #  For Example:
+    #   E:\Project\{{DESIRED_OUTPUT}}\{{FILENAME_EXTRACTED_FILES}}
+    #
+    #  Extract Files Information:
+    #    https://sevenzip.osdn.jp/chm/cmdline/commands/extract.htm
+    # -------------------------------
+    # Input:
+    #  [string] Target File
+    #   The archive file contents that will be extracted.
+    #  [string] Output Path
+    #   The path to output all of the files from the archive file.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure occurred while extracting contents.
+    #    $true  = Successfully extracted contents.
+    # -------------------------------
+    #>
+    [bool] ExtractArchive([string] $file, [string] $outputPath, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $finalOutputPath = $null;                          # This will hold the final output
+                                                                    #  path that is unique.
+        [string] $cacheOutputPath = $null;                          # This will help guide us to the
+                                                                    #  final result; this is used as a
+                                                                    #  working variable.
+        [string] $getDateTime = $null;                              # This will hold the date and time,
+                                                                    #  though to be only used if needing
+                                                                    #  a unique directory for the output
+                                                                    #  path.
+        [string] $fileName = `                                      # Get the filename without the
+          "$([System.IO.Path]::GetFileNameWithoutExtension($file))";#  path and file extension.
+        [string] $fileNameExt = "$(Split-Path $file -leaf)";        # Get only the filename from $file, 
+                                                                    #  while omitting the entire path to
+                                                                    #  get to that file, extension is kept.
+        [string] $sourceDir = "$($(Get-Item $file).DirectoryName)"; # Working Directory when executing the
+                                                                    #  extCMD.
+        [string] $extCMDArgs = "e $($file)";                        # Arguments for the external command
+                                                                    #  This will get 7zip to list all of
+                                                                    #  the files within the requested
+                                                                    #  archive datafile.
+        [string] $execReason = "Extracting $($fileNameExt)";        # Description; used for logging
+        # ----------------------------------------
+        
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the 7Zip executable was detected.
+        if ($($this.Detect7ZipExist()) -eq $false)
+        {
+            # 7Zip was not detected.
+            return $false;
+        } # if : 7Zip was not detected
+
+
+        # Make sure that the target file actually exists
+        if ($($io.CheckPathExists("$($file)")) -eq $false)
+        {
+            # The archive data file does not exist, we can not
+            #  test something that simply doesn't exist.  Return
+            #  a failure.
+            return $false;
+        } # if : Target file does not exist
+
+
+        # Make sure that the output path exists
+        if ($($io.CheckPathExists("$($outputPath)")) -eq $false)
+        {
+            # The output path does not exist, we can not extract the contents.
+            return $false;
+        } # if : Output Directory does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+        
+
+        # CREATE THE OUTPUT DIRECTORY
+        # - - - - - - - - - - - - - -
+        # Before we can do the main operation, we
+        #  first need to make sure that the output
+        #  directory can be created and is also unique.
+        # ---------------------------
+
+        # Setup our Cache
+        #  OutputPath + Filename
+        $cacheOutputPath = "$($outputPath)\$($fileName)";
+
+
+        # Does the output directory already exists?
+        if ($io.CheckPathExists("$($cacheOutputPath)") -eq $false)
+        {
+            # Because it is a unique directory, this is our final output destination.
+            $finalOutputPath = $cacheOutputPath;
+
+            # Create the new directory
+            if($io.MakeDirectory("$($finalOutputPath)") -eq $false)
+            {
+                # A failure occurred when trying to make the directory,
+                #  we can not continue as the output is not available.
+                return $false;
+            } # INNER-if : Failed to create directory
+        } # if : Does the output already exists?
+
+        else
+        {
+            # Because the directory already exists, we need to make it unique.
+            #  To accomplish this - we will timestamp the directory to make it
+            #  unique while giving the data 'meaning' to it.
+            #  Date and Time
+            #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
+            $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
+
+            # Now put everything together
+            $finalOutputPath = "$($cacheOutputPath)_$($getDateTime)";
+
+            # Now try to make the directory, if this fails - we can't do anything more.
+            if($io.MakeDirectory("$($finalOutputPath)") -eq $false)
+            {
+                # A failure occurred when trying to make the directory,
+                #  we can not continue as the output is not available.
+                return $false;
+            } # INNER-if : Failed to create directory (x2)
+        } # else : Make a Unique Directory
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+
+        # EXECUTE THE 7ZIP EXTRACT TASK
+        # - - - - - - - - - - - - - - -
+        # -----------------------------
+
+        # Attach the output directory to the extCMD Arguments
+        $extCMDArgs = "$($extCMDArgs) -o$($finalOutputPath)";
+        
+
+        # Execute the command
+        if ($io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($sourceDir)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $false, `
+                            $null) -ne 0)
+        {
+            # 7Zip reached an error
+            return $false;
+        } # if : Extraction Operation Failed
+
+
+        # -----------------------------
+        # - - - - - - - - - - - - - - -
+
+
+        # Successfully finished the operation
+        return $true;
+    } # ExtractArchive()
     #endregion
 
     #endregion
