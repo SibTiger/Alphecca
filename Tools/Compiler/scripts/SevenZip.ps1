@@ -1499,7 +1499,7 @@ class SevenZip
 
 
         # Should the technical information be added in the output?
-        #  If requested, append the arguement to the command parameter.
+        #  If requested, append the argument to the command parameter.
         if ($showTechInfo -eq $true)
         {
             # There was a request to display all of the technical information
