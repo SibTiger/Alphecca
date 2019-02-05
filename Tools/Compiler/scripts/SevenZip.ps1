@@ -1722,8 +1722,353 @@ class SevenZip
         # Successfully finished the operation
         return $true;
     } # ExtractArchive()
-    #endregion
 
+
+
+
+   <# Create Archive File
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to
+    #   create new archive data files with the help of 7Zip!
+    #   This function is primarily intended for bulk operation
+    #   instead of small individual file additions.  Meaning,
+    #   this function mainly accepts a parent directory that
+    #   already contains all of the files and subdirectories
+    #   that will be added into the archive file.
+    #
+    #  Extract Files Information:
+    #    https://sevenzip.osdn.jp/chm/cmdline/commands/add.htm
+    # -------------------------------
+    # Input:
+    #  [string] Archive File
+    #   The archive file name that will be created.
+    #  [string] Output Path
+    #   The output path to place the archive file.
+    #  [string] Target Directory
+    #   The directory root that contains all of the data
+    #   that we want to compact into a single archive data file.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure occurred while creating the archive.
+    #    $true  = Successfully created the archive.
+    # -------------------------------
+    #>
+    [bool] CreateArchive([string] $archiveFileName, [string] $outputPath, [string] $targetDirectory, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $sourceDir = "$(Get-Item $targetDirectory)";       # Working Directory when executing the
+                                                                    #  extCMD.
+        [string] $extCMDArgs = $null;                               # Arguments for the external command
+                                                                    #  When populated, this will contain
+                                                                    #  the arguments needed to create an
+                                                                    #  archive file.  However, when built,
+                                                                    #  this will contain the user's settings
+                                                                    #  when compacting the archive file.
+                                                                    #  For example, preferred algorithm,
+                                                                    #  compression level, etc.
+        [string] $execReason = "Creating $($archiveFileName)";      # Description; used for logging
+        # = = = = = = = = = = = = = = = = = = = = =
+        [string] $getDateTime = $null;                              # This will hold the date and time,
+                                                                    #  though to be only used if needing
+                                                                    #  a unique archive file name.
+        [string] $archiveFileExtension = $null;                     # When populated, this will hold the
+                                                                    #  file extension for that archive file.
+                                                                    #  NOTE: The Extensions will be recongized
+                                                                    #  in ZDoom's standards.  Thus, ZIP == PK3
+                                                                    #  and 7Z == PK7.
+        [string] $cacheArchiveFileName = $null;                     # When populated, this will contain a draft
+                                                                    #  of the archive file name before it is
+                                                                    #  actually used.
+        [string] $finalArchiveFileName = $null;                     # When populated, this will contain the final
+                                                                    #  version of the archive file name --
+                                                                    #  essentially, this will be the archive file
+                                                                    #  name.
+        # ----------------------------------------
+        
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the 7Zip executable was detected.
+        if ($($this.Detect7ZipExist()) -eq $false)
+        {
+            # 7Zip was not detected.
+            return $false;
+        } # if : 7Zip was not detected
+
+
+        # Make sure that the output directory exists
+        if ($($io.CheckPathExists("$($outputPath)")) -eq $false)
+        {
+            # The output directory does not exist;
+            #  we need a valid location to output this archive file.
+            return $false;
+        } # if : Output directory does not exist
+
+
+        # Make sure that the target directory (the contents that will be
+        #  in our newly created archive file) exists.
+        if ($($io.CheckPathExists("$($targetDirectory)")) -eq $false)
+        {
+            # The target directory does not exist, we
+            #  can not create an archive if the directory
+            #  root simply does not exist.
+            return $false;
+        } # if : Target Directory does not exist
+        
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        
+        # DETERMINE ARCHIVE FILE EXTENSION
+        # - - - - - - - - - - - - - - - - -
+        # We will need to figure out what the preferred
+        #  file extension is before we can append it to
+        #  the filename and the main compacting process.
+        # ---------------------------------
+        
+        # Inspect user's choice
+        switch ($this.__compressionMethod)
+        {
+            "Zip"
+            {
+                # Zip {PK3} Compression Method
+                $archiveFileExtension = "pk3";
+                break;
+            } # Zip | PK3
+
+            "SevenZip"
+            {
+                # 7Zip {PK7} Compression Method
+                $archiveFileExtension = "pk7";
+                break;
+            } # 7Zip | PK7
+
+            default
+            {
+                # The compression method selected
+                #  is unknown, we must have a valid
+                #  compression method before we can
+                #  continue.
+                return $false;
+            } # Unknown
+        } # switch
+
+
+        # ---------------------------------
+        # - - - - - - - - - - - - - - - - -
+        
+
+
+        # DETERMINE ARCHIVE FILE NAME
+        # - - - - - - - - - - - - - -
+        # We need to determine the file name of the archive file,
+        #  and then we also have to make sure that it is unique
+        #  in the output directory.  If incase it is not unique,
+        #  then we will merely throw a time stamp to the file
+        #  name -- despite helping to be unique, it also gives
+        #  it a meaning as well.
+        # ---------------------------
+
+
+        # Setup the base name and check it
+        if ($io.CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)") -eq $false)
+        {
+            # Because the file does not exist, use it!
+            $finalArchiveFileName = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
+        } # if : File Doesn't Exist at Path
+        else
+        {
+            # Because the file already exists at the
+            #  given output path, we will append a time
+            #  stamp to the filename to assure that it
+            #  is much more unique.  If in case that
+            #  fails, the file already exists with that
+            #  given time stamp, we can not proceed.
+
+            # Setup the timestamp to help make it unique,
+            #  but also to help supply some meaning to
+            #  the file.
+            #  Date and Time
+            #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
+            $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
+
+            # Update the cache name for coding simplicity
+            $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
+
+            if ($io.CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)") -eq $false)
+            {
+                # Because the archive file is now unique, we can use that new name.
+                $finalArchiveFileName = "$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)";
+            } # INNER-if : Archive File does not exist
+            else
+            {
+                # Because the archive file name is still not unique enough, we
+                #  simply can not proceed anymore.  We will have to return an error.
+                return $false;
+            } # INNER-else : Archive file does exist
+        } # else : File Already Exists at Path
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+        
+
+        # BUILD-UP THE ARGUMENTS
+        # - - - - - - - - - - - -
+        # Append all of the user's settings
+        #  in the extCMD's parameter string.
+        # -----------------------
+
+
+        # Since we are going to create a new
+        #  archive file, add the 'add' switch
+        #  to the extCMD parameters.
+        $extCMDArgs = "a";
+
+
+        # Attach the archive file name
+        $extCMDArgs = "$($extCMDArgs) $($finalArchiveFileName)";
+
+
+        # Attach the target directory
+        $extCMDArgs = "$($extCMDArgs) $($targetDirectory)\*";
+        
+
+        # Now determine the compression method
+        #  that the user wanted to build and
+        #  also attach the requested compression
+        #  algorithm.
+        switch ($this.__compressionMethod)
+        {
+            "Zip"
+            {
+                # Zip {PK3} Compression Method
+                $extCMDArgs = "$($extCMDArgs) -tzip -mm=$($this.__algorithmZip)";
+                break;
+            } # Zip | PK3
+
+            "SevenZip"
+            {
+                # 7Zip {PK7} Compression Method
+                $extCMDArgs = "$($extCMDArgs) -t7z -mm=$($this.__algorithm7Zip)";
+                break;
+            } # 7Zip | PK7
+
+            default
+            {
+                # The compression method selected
+                #  is unknown, we must have a valid
+                #  compression method before we can
+                #  continue.
+                return $false;
+            } # Unknown
+        } # switch
+        
+
+        
+        # Append the Multithreading Value
+        if ($this.__useMultithread -eq $true)
+        {
+            # Ensure that multithreaded operations are enabled.
+            $extCMDArgs = "$($extCMDArgs) -mmt=ON";
+        } # if : Enable Multithreading
+
+        else
+        {
+            # Ensure that multithreaded operations are disabled.
+            $extCMDArgs = "$($extCMDArgs) -mmt=OFF";
+        } # else : Disable Multithreading
+
+        
+
+        # Now to append the compression level
+        switch ($this.__compressionLevel)
+        {
+            "Store"
+            {
+                $extCMDArgs = "$($extCMDArgs) -mx=0";
+                break;
+            } # Store {No Compression}
+
+            "Minimal"
+            {
+                $extCMDArgs = "$($extCMDArgs) -mx=3";
+                break;
+            } # Minimal Compression
+
+            "Normal"
+            {
+                $extCMDArgs = "$($extCMDArgs) -mx=5";
+                break;
+            } # Standard Compression
+
+            "Maximum"
+            {
+                $extCMDArgs = "$($extCMDArgs) -mx=9";
+                break;
+            } # Maximum Compression
+            
+            Default
+            {
+                # The compression value is unknown,
+                #  we must have a value before moving
+                #  forward.  Return an error.
+                return $false;
+            } # Unknown Value
+        } # switch : Compression Level
+        
+
+        # -----------------------
+        # - - - - - - - - - - - -
+
+        
+
+        # EXECUTE THE 7ZIP EXTRACT TASK
+        # - - - - - - - - - - - - - - -
+        # -----------------------------
+        
+        
+        # Execute the command
+        if ($io.ExecuteCommand("$($this.__executablePath)", `
+                            "$($extCMDArgs)", `
+                            "$($sourceDir)", `
+                            "$($this.__logPath)", `
+                            "$($this.__logPath)", `
+                            "$($this.__reportPath)", `
+                            "$($execReason)", `
+                            $logging, `
+                            $false, `
+                            $false, `
+                            $null) -ne 0)
+        {
+            # 7Zip reached an error
+            return $false;
+        } # if : Archive File Creation Failed
+
+
+        # -----------------------------
+        # - - - - - - - - - - - - - - -
+
+
+        # Successfully finished the operation
+        return $true;
+    } # CreateArchive()
+
+    #endregion
     #endregion
 } # SevenZip
 
