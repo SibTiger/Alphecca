@@ -1433,8 +1433,8 @@ class SevenZip
     # -------------------------------
     # Input:
     #  [string] Target File
-    #   The archive file that will be tested upon through the
-    #    verification process.
+    #   The archive file that will contain the files that we
+    #    want to list.
     #  [bool] Show Technical Information
     #   When true, this will show All Technical Infomation.
     #    This uses the '-slt' argument when listing all of
