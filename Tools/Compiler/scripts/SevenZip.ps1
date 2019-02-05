@@ -1366,7 +1366,7 @@ class SevenZip
         [string] $extCMDArgs = "t $($file)";                        # Arguments for the external command
                                                                     #  This will get 7zip to test the
                                                                     #  requested archive datafile.
-        [string] $execReason = "Verifing $($fileName)";             # Description; used for logging
+        [string] $execReason = "Verifying $($fileName)";             # Description; used for logging
         # ----------------------------------------
 
 
