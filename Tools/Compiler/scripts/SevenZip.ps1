@@ -2073,6 +2073,410 @@ class SevenZip
 
     #endregion
 
+
+    #region Report
+
+   <# Create a new Report
+    # -------------------------------
+    # Documentation:
+    #  This function will create a report based upon
+    #   the archive data file that is provided when
+    #   calling this function.
+    #  The report will contain information regarding
+    #   the archive file, such as what files are in
+    #   the file, hash information, and general
+    #   information if available.
+    # -------------------------------
+    # Input:
+    #  [string] Archive File
+    #   The archive file that we are going to generate
+    #    a report on.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    #  [ProjectInformation] Project Info
+    #   This project's information, such as
+    #   project name, project website, and much more.
+    #  [bool] Create a PDF File
+    #   When true, this will allow the ability to create
+    #    a PDF document along with the textfile
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure occurred while writing the report.
+    #    $true  = Successfully created the report.
+    # -------------------------------
+    #>
+    [bool] CreateNewReport([string] $ArchiveFile, `
+                           [bool] $logging, `
+                           [ProjectInformation] $projectInfo, `
+                           [bool] $makePDF)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        # Using functions from IO Common
+        [IOCommon] $io = [IOCommon]::new();
+
+        # Get the filename without the path and file extension.
+        [string] $fileName ="$([System.IO.Path]::GetFileNameWithoutExtension($ArchiveFile))";
+
+        # Get the filename without the path, extension is kept.
+        [string] $fileNameExt = "$(Split-Path $ArchiveFile -leaf)";
+
+
+        # This variable will hold the current date and
+        #  time from the host system.  With this, it'll be accessed
+        #  for the filename and inside the report.
+        # >> Date
+        [string] $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
+        # >> Time
+        [string] $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
+        # >> Date && Time
+        [string] $dateTime = "$($dateNow) $($timeNow)";
+
+        # This will hold the report's filename.
+        # - - - -
+        # >> Standard Textfile
+        [string] $fileNameTXT = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).txt";
+        
+        # >> Portable Document File (PDF)
+        [string] $fileNamePDF = "$($this.__reportPath)\$($fileNameExt) - $($dateTime).pdf";
+        # - - - -
+
+        # This variable will hold the output
+        #  provided by the functions.  Because
+        #  some data might be excessively large
+        #  and to help minimize requiring
+        #  massive heap space, we will only
+        #  store only ONE output at a time.
+        #  If we store MORE THAN ONE, depending
+        #  on the information given, this could demand
+        #  a lot from main memory.  Lets try to
+        #  conserve on memory.
+        # NOTE: CLR String Datatypes can reach
+        #       near 3GB of memory usage.
+        [string] $outputContent = $null;
+
+        # This will be used to jump from one case to another.
+        #  This will greatly help to keep the procedure organized
+        #  and to assure that the data is being written properly.
+        [int] $traverse = 0;
+
+        # This variable is a small placeholder for the border
+        #  that will be used for each section within this report.
+        #  With this variable, it'll help avoid redundancy - by
+        #  not having to retype the border over and over again.
+        [string] $sectionBorder = $null;
+
+        # This variable will be used to break out of the do-while
+        #  loop.  This assures that the file is being written within
+        #  the switch statement inside of the do-while loop.
+        [bool] $readyToBreak = $false;
+        # ----------------------------------------
+
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the 7Zip executable was detected.
+        if ($($this.Detect7ZipExist()) -eq $false)
+        {
+            # 7Zip was not detected.
+            return $false;
+        } # if : 7Zip was not detected
+
+
+        # Make sure that the path exists
+        if ($($io.CheckPathExists("$($ArchiveFile)")) -eq $false)
+        {
+            # Project Path does not exist, return an error.
+            return $false;
+        } # if : the Project Path does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Before we begin creating the report, lets generate the
+        #  bordering that will be used for each section in the report.
+        $sectionBorder = "------------------------------`r`n" + `
+                         "==============================`r`n" + `
+                         "==============================`r`n";
+
+        DO
+        {
+            # Begin writing the report
+            switch ($traverse)
+            {
+                # Report Header
+                0
+                {
+                    # Build the output
+                    #  Word Art provided by this website:
+                    #  http://patorjk.com/software/taag
+                    #  FONT: Big
+                    #  All other settings set to 'default'.
+                    $outputContent = "+-------------------------------------------------------------------------+`r`n" + `
+                                     "|  ______ ___________ _____    _____  ______ _____   ____  _____ _______  |`r`n" + `
+                                     "| |____  |___  /_   _|  __ \  |  __ \|  ____|  __ \ / __ \|  __ \__   __| |`r`n" + `
+                                     "|     / /   / /  | | | |__) | | |__) | |__  | |__) | |  | | |__) | | |    |`r`n" + `
+                                     "|    / /   / /   | | |  ___/  |  _  /|  __| |  ___/| |  | |  _  /  | |    |`r`n" + `
+                                     "|   / /   / /__ _| |_| |      | | \ \| |____| |    | |__| | | \ \  | |    |`r`n" + `
+                                     "|  /_/   /_____|_____|_|      |_|  \_\______|_|     \____/|_|  \_\ |_|    |`r`n" + `
+                                     "+-------------------------------------------------------------------------+`r`n" + `
+                                     "`r`n`r`n" + `
+                                     "Synopsis`r`n" + `
+                                     "----------`r`n" + `
+                                     "This report was generated on $($dateNow) at $($timeNow) for the archive file" + `
+                                     " named $($fileNameExt).  This report contains an overview of what is in the" + `
+                                     " archive data file and information regarding the archive file it self." + `
+                                     " The information provided can be helpful for validation purposes and assuring" + `
+                                     " that archive data file itself is not damaged." + `
+                                     "`r`n`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occurred while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+
+
+                    # Finished with the header
+                    break;
+                } # Case : Report Header
+
+
+                # Table of Contents
+                1
+                {
+                    # Build the output
+                    $outputContent = "Table of Contents:`r`n" + `
+                                     "---------------------`r`n" + `
+                                     "1) Project Information`r`n" + `
+                                     "2) Archive File Information`r`n" + `
+                                     "3) File Hash Details`r`n" + `
+                                     "4) List of Files inside Archive`r`n" + `
+                                     "`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occurred while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+
+
+                    # Finished with the Table of Contents
+                    break;
+                } # Case : Table of Contents
+
+
+                # SECTION - Project Information
+                2
+                {
+                    # Build the output
+                    $outputContent = "1) PROJECT INFORMATION`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "Provided below is information regarding the project itself.`r`n`r`n" + `
+                                     "Project Name:`r`n" + `
+                                     "`t$($projectInfo.GetProjectName())`r`n`r`n" + `
+                                     "Project Code Name:`r`n" + `
+                                     "`t$($projectInfo.GetCodeName())`r`n`r`n" + `
+                                     "Filename:`r`n" + `
+                                     "`t$($projectInfo.GetFilename())`r`n`r`n" + `
+                                     "Project Website:`r`n" + `
+                                     "`t$($projectInfo.GetProjectWebsite())`r`n`r`n" + `
+                                     "Project's Documentation:`r`n" + `
+                                     "`t$($projectInfo.GetProjectWiki())`r`n`r`n" + `
+                                     "Project's Repository:`r`n" + `
+                                     "`t$($projectInfo.GetProjectSource())`r`n" + `
+                                     "`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occurred while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+                    
+
+                    # Finished with the Project Info.
+                    break;
+                } # Case : SECTION - Project Information
+
+
+                # SECTION - ARCHIVE INFORMATION
+                3
+                {
+                    # Build the output
+                    $outputContent = "2) ARCHIVE FILE INFORMATION`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "Provided below is information regarding the archive" + `
+                                     " file itself.  The information can be helpful to know" + `
+                                     " the properties of the archive data file itself.`r`n`r`n" + `
+                                     "File Property Information:`r`n" + `
+
+                                     "File Base Name:`r`n" + `
+                                     "  $($(Get-Item "$($ArchiveFile)").BaseName)`r`n`r`n" + `
+                                     "File Exists in Directory:`r`n" + `
+                                     "  $($(Get-Item "$($ArchiveFile)").DirectoryName)`r`n`r`n" + `
+                                     "File Created:`r`n" + `
+                                     "  $($(Get-Item "$($ArchiveFile)").CreationTime)`r`n`r`n" + `
+                                     "File Created (UTC):`r`n" + `
+                                     "  $($(Get-Item "$($ArchiveFile)").CreationTimeUtc)`r`n`r`n" + `
+                                     "File Attributes:`r`n" + `
+                                     "  $($(Get-Item "$($ArchiveFile)").Attributes)`r`n`r`n" + `
+                                     "Size of File:`r`n" + `
+                                     "  $($(Get-Item "$($ArchiveFile)").Length) bytes`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occurred while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+                    
+
+                    # Finished with the Contributors
+                    break;
+                } # Case : SECTION - ARCHIVE INFORMATION
+
+                
+                # SECTION - FILE HASH INFORMATION
+                4
+                {
+                    # Build the output
+                    $outputContent = "3) FILE HASH INFORMATION`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "File Hash values are helpful to know if the archive" + `
+                                     " file was: corrupted, damaged, or altered.  The Hash" + `
+                                     " each file has is like a 'finger print', each hash" + `
+                                     " is generally unique to that file at the given time." + `
+                                     " When the hash value is different, in comparison to" + `
+                                     " another file, it is likely that the finger-print has" + `
+                                     " changed or the file itself was damaged\corrupted" + `
+                                     " during transfer from one location to the next.`r`n" + `
+                                     "Provided below is the list of Hash values regarding $($fileNameExt).`r`n`r`n" + `
+                                     "File Hash Information:`r`n" + `
+
+                                     "CRC32:`r`n" + `
+                                     "  $($this.ArchiveHash("$($ArchiveFile)", "crc32", "$($logging)"))`r`n`r`n" + `
+                                     "CRC64:`r`n" + `
+                                     "  $($this.ArchiveHash("$($ArchiveFile)", "crc64", "$($logging)"))`r`n`r`n" + `
+                                     "SHA1:`r`n" + `
+                                     "  $($this.ArchiveHash("$($ArchiveFile)", "sha1", "$($logging)"))`r`n`r`n" + `
+                                     "CRC256:`r`n" + `
+                                     "  $($this.ArchiveHash("$($ArchiveFile)", "sha256", "$($logging)"))`r`n`r`n" + `
+                                     "BLAKE2sp:`r`n" + `
+                                     "  $($this.ArchiveHash("$($ArchiveFile)", "blake2sp", "$($logging)"))`r`n`r`n";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occurred while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+                    
+
+                    # Finished with the Branches
+                    break;
+                } # Case : SECTION - FILE HASH INFORMATION
+
+
+                # SECTION - LIST OF FILES INSIDE ARCHIVE
+                5
+                {
+                    # Build the output
+                    $outputContent = "4) LIST OF FILES INSIDE ARCHIVE`r`n" + `
+                                     "$($sectionBorder)`r`n`r`n" + `
+                                     "Provided below is a list of files that" + `
+                                     " exists within the archive data file.`r`n`r`n" + `
+
+                                     "List of Files inside $($fileNameExt):`r`n" + `
+                                     "$($this.ListFiles("$($ArchiveFile)", $true, $logging))";
+
+
+                    # Write to file
+                    if ($io.WriteToFile("$($fileNameTXT)", "$($outputContent)") -eq $false)
+                    {
+                        # Failure occurred while writing to the file.
+                        return $false;
+                    } # If : Failure to write file
+
+
+                    # Increment the traverse variable
+                    $traverse = $traverse + 1;
+
+
+                    # Jump out of the Loop key
+                    $readyToBreak = $true;
+
+
+                    # Finished with the Commits Overview
+                    break;
+                } # Case : SECTION - LIST OF FILES INSIDE ARCHIVE
+
+
+                # Default - ERROR; Run Away
+                default
+                {
+                    # Something went horribly wrong
+                    return $false;
+                } # Case : DEFAULT
+            } # switch()
+        } While ($readyToBreak -eq $false);
+
+        
+        # Does the user also want a PDF file of the report?
+        if ($makePDF -eq $true)
+        {
+            # Create the PDF file
+            if(($io.CreatePDFFile("$($fileNameTXT)", "$($fileNamePDF)")) -eq $false)
+            {
+                # Failure occurred while creating the PDF document.
+                return $false;
+            } # If : Failure while creating PDF
+        } # If : Make PDF Report
+
+
+        # Successfully wrote to the file
+        return $true;
+
+    } # CreateNewReport()
+
+    #endregion
     #endregion
 } # SevenZip
 
