@@ -66,26 +66,6 @@ class GitControl
     Hidden [string] $__sourceBranch;
 
 
-    # Fetch All Collaborators [stats]
-    # ---------------
-    # Find all collaborators and record them.
-    Hidden [bool] $__fetchContributors;
-
-
-    # Fetch Stats
-    # ---------------
-    # Record any statistical information regarding
-    #  the project.
-    Hidden [bool] $__fetchStats;
-
-
-    # Generate Report
-    # ---------------
-    # Create a report based on the operations
-    #  performed by Git.
-    Hidden [bool] $__generateReport;
-
-
     # Log Root
     # ---------------
     # The main root of the log directories.
@@ -141,15 +121,6 @@ class GitControl
         # Repository Branch
         $this.__sourceBranch = "master";
 
-        # Fetch all contributors
-        $this.__fetchContributors = $false;
-
-        # Fetch project's statistics
-        $this.__fetchStats = $false;
-
-        # Generate a report
-        $this.__generateReport = $false;
-
         # Log Root Directory
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
 
@@ -177,10 +148,7 @@ class GitControl
                 [bool]$fetchCommitID,
                 [bool]$fetchChangelog,
                 [int]$changelogLimit,
-                [string]$sourceBranch,
-                [bool]$fetchContributors,
-                [bool]$fetchStats,
-                [bool]$generateReport)
+                [string]$sourceBranch)
     {
         # git.exe Path
         $this.__executablePath = $executablePath;
@@ -202,15 +170,6 @@ class GitControl
 
         # Repo Branch
         $this.__sourceBranch = $sourceBranch;
-
-        # Fetch contributors
-        $this.__fetchContributors = $fetchContributors;
-
-        # Fetch Repo Stats
-        $this.__fetchStats = $fetchStats;
-
-        # Generate statistical report
-        $this.__generateReport = $generateReport;
 
         # Log Root Directory
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
@@ -357,60 +316,6 @@ class GitControl
     {
         return $this.__sourceBranch;
     } # GetSourceBranch()
-
-
-
-
-   <# Get Fetch Contributors
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Fetch Contributors variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Fetch Contributors
-    #   the value of the Fetch Contributors.
-    # -------------------------------
-    #>
-    [bool] GetFetchContributors()
-    {
-        return $this.__fetchContributors;
-    } # GetFetchContributors()
-
-
-
-
-   <# Get Fetch Stats
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Fetch Stats variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Fetch Stats
-    #   the value of the Fetch Stats.
-    # -------------------------------
-    #>
-    [bool] GetFetchStats()
-    {
-        return $this.__fetchStats;
-    } # GetFetchStats()
-
-
-
-
-   <# Get Generate Report
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Generate Report variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Generate Report
-    #   the value of the Generate Report.
-    # -------------------------------
-    #>
-    [bool] GetGenerateReport()
-    {
-        return $this.__generateReport;
-    } # GetGenerateReport()
 
 
 
@@ -674,84 +579,6 @@ class GitControl
         # Successfully updated.
         return $true;
     } # SetSourceBranch()
-
-
-
-
-   <# Set Fetch Contributors
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Fetch Contributors variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetFetchContributors([bool] $newVal)
-    {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
-        $this.__fetchContributors = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetFetchContributors()
-
-
-
-
-   <# Set Fetch Stats
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Fetch Stats variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetFetchStats([bool] $newVal)
-    {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
-        $this.__fetchStats = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetFetchStats()
-
-
-
-
-   <# Set Generate Report
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Generate Report variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetGenerateReport([bool] $newVal)
-    {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
-        $this.__generateReport = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetGenerateReport()
 
 
 
