@@ -1562,6 +1562,10 @@ class SevenZip
     #   The archive file contents that will be extracted.
     #  [string] Output Path
     #   The path to output all of the files from the archive file.
+    #  [ref] {string} Directory Output
+    #   The directory in which the data was extracted to within
+    #   the filesystem.  This will hold the absolute path to the
+    #   extracted directory.
     #  [bool] Logging
     #   User's preference in logging information.
     #    When true, the program will log the
@@ -1574,7 +1578,7 @@ class SevenZip
     #    $true  = Successfully extracted contents.
     # -------------------------------
     #>
-    [bool] ExtractArchive([string] $file, [string] $outputPath, [bool] $logging)
+    [bool] ExtractArchive([string] $file, [string] $outputPath, [ref] $directoryOutput, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1686,6 +1690,14 @@ class SevenZip
                 return $false;
             } # INNER-if : Failed to create directory (x2)
         } # else : Make a Unique Directory
+
+
+        # Now save the output path to our reference (pointer) variable, this will allow the
+        #  calling function to get the absolute path of where the directory resides.
+        #  Thus, the calling function can bring the new directory to the user's
+        #  attention using whatever methods necessary.
+        $directoryOutput.Value = "$($finalOutputPath)";
+
 
         # ---------------------------
         # - - - - - - - - - - - - - -
