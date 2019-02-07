@@ -59,13 +59,6 @@ class GitControl
     Hidden [int] $__changelogLimit;
 
 
-    # Requested Branch
-    # ---------------
-    # The source Branch to work within.
-    #  It is advisable to use the Master!
-    Hidden [string] $__sourceBranch;
-
-
     # Log Root
     # ---------------
     # The main root of the log directories.
@@ -118,9 +111,6 @@ class GitControl
         # Changelog history limits
         $this.__changelogLimit = 50;
 
-        # Repository Branch
-        $this.__sourceBranch = "master";
-
         # Log Root Directory
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
 
@@ -147,8 +137,7 @@ class GitControl
                 [GitCommitLength]$lengthCommitID,
                 [bool]$fetchCommitID,
                 [bool]$fetchChangelog,
-                [int]$changelogLimit,
-                [string]$sourceBranch)
+                [int]$changelogLimit)
     {
         # git.exe Path
         $this.__executablePath = $executablePath;
@@ -167,9 +156,6 @@ class GitControl
 
         # Changelog Limit
         $this.__changelogLimit = $changelogLimit;
-
-        # Repo Branch
-        $this.__sourceBranch = $sourceBranch;
 
         # Log Root Directory
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
@@ -298,24 +284,6 @@ class GitControl
     {
         return $this.__changelogLimit;
     } # GetChangelogLimit()
-
-
-
-
-   <# Get Source Branch
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Source Branch variable.
-    # -------------------------------
-    # Output:
-    #  [string] Source Branch
-    #   the value of the Source Branch.
-    # -------------------------------
-    #>
-    [string] GetSourceBranch()
-    {
-        return $this.__sourceBranch;
-    } # GetSourceBranch()
 
 
 
@@ -549,36 +517,6 @@ class GitControl
         # Successfully updated.
         return $true;
     } # SetChangelogLimit()
-
-
-
-
-   <# Set Source Branch
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Source Branch variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetSourceBranch([string] $newVal)
-    {
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # TODO - This requires further validation that I
-        #  cannot properly setup right now.
-        #  Blindly accept it for now, regardless if the
-        #  branch exists within the project.
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        $this.__sourceBranch = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetSourceBranch()
 
 
 
