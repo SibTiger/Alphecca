@@ -1365,6 +1365,67 @@ class SevenZip
 
 
 
+    <# Fetch Hash Information
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve and return
+    #   all hash values that is associated with
+    #   the archive data file.  Hash values are
+    #   essentially a finger print of a specific
+    #   file that was generated at a specific time.
+    #   If the hash value differs to a specific
+    #   file, that could mean that the file is
+    #   different (overall) or corrupted.
+    # -------------------------------
+    # Input:
+    #  [string] Archive datafile Path
+    #   The archive file that will be inspected.
+    #    The path provided should be in absolute
+    #    form.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] Hash Values
+    #    A string list of all hash values
+    #    associated with that specific archive
+    #    file.
+    # -------------------------------
+    #>
+    [string] FetchHashInformation([string] $file, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new(); # Using functions from IO Common
+        [string] $archiveInfo = $null;      # This will hold our list of hash values
+        # ----------------------------------------
+
+        # Get all of the hash values that is associated with the archive file.
+        $archiveInfo =
+                "CRC32:`r`n" + `
+                "  $($this.ArchiveHash("$($file)", "crc32", "$($logging)"))`r`n`r`n" + `
+                "CRC64:`r`n" + `
+                "  $($this.ArchiveHash("$($file)", "crc64", "$($logging)"))`r`n`r`n" + `
+                "SHA1:`r`n" + `
+                "  $($this.ArchiveHash("$($file)", "sha1", "$($logging)"))`r`n`r`n" + `
+                "CRC256:`r`n" + `
+                "  $($this.ArchiveHash("$($file)", "sha256", "$($logging)"))`r`n`r`n" + `
+                "BLAKE2sp:`r`n" + `
+                "  $($this.ArchiveHash("$($file)", "blake2sp", "$($logging)"))`r`n`r`n" + `
+                "MD5:`r`n" + `
+                "   $($io.FileHash("$($file)", "md5"))`r`n`r`n";
+
+
+        # Return all of the hash values
+        return $archiveInfo;
+    } # FetchHashInformation()
+
+
+
+
    <# List Files in Archive
     # -------------------------------
     # Documentation:
@@ -2353,18 +2414,7 @@ class SevenZip
                                      "Provided below is the list of Hash values regarding $($fileNameExt).`r`n`r`n" + `
                                      "File Hash Information:`r`n" + `
 
-                                     "CRC32:`r`n" + `
-                                     "  $($this.ArchiveHash("$($ArchiveFile)", "crc32", "$($logging)"))`r`n`r`n" + `
-                                     "CRC64:`r`n" + `
-                                     "  $($this.ArchiveHash("$($ArchiveFile)", "crc64", "$($logging)"))`r`n`r`n" + `
-                                     "SHA1:`r`n" + `
-                                     "  $($this.ArchiveHash("$($ArchiveFile)", "sha1", "$($logging)"))`r`n`r`n" + `
-                                     "CRC256:`r`n" + `
-                                     "  $($this.ArchiveHash("$($ArchiveFile)", "sha256", "$($logging)"))`r`n`r`n" + `
-                                     "BLAKE2sp:`r`n" + `
-                                     "  $($this.ArchiveHash("$($ArchiveFile)", "blake2sp", "$($logging)"))`r`n`r`n" + `
-                                     "MD5:`r`n" + `
-                                     "   $($io.FileHash("$($ArchiveFile)", "md5"))`r`n`r`n";
+                                     "$($this.FetchHashInformation("$($ArchiveFile)", $logging))";
 
 
                     # Write to file
