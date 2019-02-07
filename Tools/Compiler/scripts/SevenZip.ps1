@@ -1763,6 +1763,10 @@ class SevenZip
     #  [string] Target Directory
     #   The directory root that contains all of the data
     #   that we want to compact into a single archive data file.
+    #  [ref] {string} Archive Path
+    #   This will hold the newly created archive file's absolute
+    #   path and file name.  This will be returned to the calling
+    #   function.
     #  [bool] Logging
     #   User's preference in logging information.
     #    When true, the program will log the
@@ -1775,7 +1779,7 @@ class SevenZip
     #    $true  = Successfully created the archive.
     # -------------------------------
     #>
-    [bool] CreateArchive([string] $archiveFileName, [string] $outputPath, [string] $targetDirectory, [bool] $logging)
+    [bool] CreateArchive([string] $archiveFileName, [string] $outputPath, [string] $targetDirectory, [ref] $archivePath, [bool] $logging)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -1936,6 +1940,14 @@ class SevenZip
                 return $false;
             } # INNER-else : Archive file does exist
         } # else : File Already Exists at Path
+
+
+        # Now save the output path to our reference (pointer) variable, this will allow the
+        #  calling function to get the absolute path of where the archive file resides.
+        #  Thus, the calling function can bring the new archive file to the user's
+        #  attention using whatever methods necessary.
+        $archivePath.Value = "$($finalArchiveFileName)";
+
 
         # ---------------------------
         # - - - - - - - - - - - - - -
