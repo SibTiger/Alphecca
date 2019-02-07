@@ -2419,7 +2419,9 @@ class SevenZip
                                      "CRC256:`r`n" + `
                                      "  $($this.ArchiveHash("$($ArchiveFile)", "sha256", "$($logging)"))`r`n`r`n" + `
                                      "BLAKE2sp:`r`n" + `
-                                     "  $($this.ArchiveHash("$($ArchiveFile)", "blake2sp", "$($logging)"))`r`n`r`n";
+                                     "  $($this.ArchiveHash("$($ArchiveFile)", "blake2sp", "$($logging)"))`r`n`r`n" + `
+                                     "MD5:`r`n" + `
+                                     "   $($io.FileHash("$($ArchiveFile)", "md5"))`r`n`r`n";
 
 
                     # Write to file
