@@ -43,16 +43,24 @@ class DefaultCompress
     Hidden [bool] $__verifyBuild;
 
 
-    # Generate Report
+    # Log Root
     # ---------------
-    # Generate a report about the archive datafile.
-    Hidden [bool] $__generateReport;
+    # The main root of the log directories.
+    Hidden [string] $__rootLogPath;
 
 
     # Report Path
     # ---------------
-    # Store the report at a specific directory.
+    # The absolute path to store the reports that
+    #  has been generated.
     Hidden [string] $__reportPath;
+
+
+    # Log Root Path
+    # ---------------
+    # The absolute path to place the logs from the
+    #  executable.
+    Hidden [string] $__logPath;
 
     #endregion
 
@@ -81,8 +89,14 @@ class DefaultCompress
         # Generate report
         $this.__generateReport = $false;
 
+        # Log Root Directory
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\dotNET_Compression";
+
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\dotNET_Compression";
+        $this.__reportPath = "$($this.__rootLogPath)\reports";
+
+        # Log Path
+        $this.__logPath = "$($this.__rootLogPath)\logs";
     } # Default Constructor
 
 
@@ -106,8 +120,14 @@ class DefaultCompress
         # Generate report
         $this.__generateReport = $generateReport;
 
+        # Log Root Directory
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\dotNET_Compression";
+
         # Report Path
-        $this.__reportPath = "$($global:_DIRECTORYLOGROOT_)\dotNET_Compression";
+        $this.__reportPath = "$($this.__rootLogPath)\reports";
+
+        # Log Path
+        $this.__logPath = "$($this.__rootLogPath)\logs";
     } # Default Constructor
 
     #endregion
@@ -194,14 +214,50 @@ class DefaultCompress
     #  Returns the value of the Report Path variable.
     # -------------------------------
     # Output:
-    #  [bool] Report Path
+    #  [string] Report Path
     #   the value of the Report Path.
     # -------------------------------
     #>
-    [bool] GetReportPath()
+    [string] GetReportPath()
     {
         return $this.__reportPath;
     } # GetReportPath()
+
+
+
+
+   <# Get Log Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Log Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Log Path
+    #   the value of the Log Path.
+    # -------------------------------
+    #>
+    [string] GetLogPath()
+    {
+        return $this.__logPath;
+    } # GetLogPath()
+
+
+
+
+   <# Get Root Log Path
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Root Log Path variable.
+    # -------------------------------
+    # Output:
+    #  [string] Root Log Path
+    #   the value of the Log Root Path.
+    # -------------------------------
+    #>
+    [string] GetRootLogPath()
+    {
+        return $this.__rootLogPath;
+    } # GetRootLogPath()
 
     #endregion
 
@@ -314,10 +370,81 @@ class DefaultCompress
 
 
 
-   <# Get Report Path
+   <# Set Root Log Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Root Log Path variable.
+    #
+    # WARNING:
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
+    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
+    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetRootLogPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__rootLogPath = $newVal;
+            return $true;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $false;
+    } # SetRootLogPath()
+
+
+
+
+   <# Set Log Path
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Log Path variable.
+    #
+    # WARNING:
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
+    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
+    #   UNLESS IT IS ABSOLUTELY NECESSARY!
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetLogPath([string] $newVal)
+    {
+        # Inspect to see if the path exists
+        if (Test-Path $newVal.trim())
+        {
+            # Path exists; use it as requested
+            $this.__logPath = $newVal;
+            return $true;
+        } # IF: Path Exists
+
+        # Failure; Path does not exist.
+        return $false;
+    } # SetLogPath()
+
+
+
+
+    <# Set Report Path
     # -------------------------------
     # Documentation:
     #  Sets a new value for the Report Path variable.
+    #
+    # WARNING:
+    #  CHANGING THE PATH CAN CAUSE CONSISTENCY ISSUES!
+    #   IT IS RECOMMENDED TO _NOT_ REVISE THIS VARIABLE
+    #   UNLESS IT IS ABSOLUTELY NECESSARY!
     # -------------------------------
     # Output:
     #  [bool] Status
