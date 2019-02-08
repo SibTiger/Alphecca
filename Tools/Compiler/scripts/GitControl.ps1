@@ -59,6 +59,13 @@ class GitControl
     Hidden [int] $__changelogLimit;
 
 
+    # Generate Report
+    # ---------------
+    # Generate a report regarding the project's
+    #  git repository.
+    Hidden [bool] $__generateReport;
+
+
     # Log Root
     # ---------------
     # The main root of the log directories.
@@ -111,6 +118,9 @@ class GitControl
         # Changelog history limits
         $this.__changelogLimit = 50;
 
+        # Generate Report
+        $this.__generateReport = $true;
+
         # Log Root Directory
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
 
@@ -137,7 +147,8 @@ class GitControl
                 [GitCommitLength]$lengthCommitID,
                 [bool]$fetchCommitID,
                 [bool]$fetchChangelog,
-                [int]$changelogLimit)
+                [int]$changelogLimit,
+                [bool]$generateReport)
     {
         # git.exe Path
         $this.__executablePath = $executablePath;
@@ -156,6 +167,9 @@ class GitControl
 
         # Changelog Limit
         $this.__changelogLimit = $changelogLimit;
+
+        # Generate Report
+        $this.__generateReport = $generateReport;
 
         # Log Root Directory
         $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\git";
@@ -284,6 +298,24 @@ class GitControl
     {
         return $this.__changelogLimit;
     } # GetChangelogLimit()
+
+
+
+
+   <# Get Generate Report
+    # -------------------------------
+    # Documentation:
+    #  Returns the value of the Generate Report variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Generate Report
+    #   the value of the Generate Report.
+    # -------------------------------
+    #>
+    [bool] GetGenerateReport()
+    {
+        return $this.__generateReport;
+    } # GetGenerateReport()
 
 
 
@@ -517,6 +549,32 @@ class GitControl
         # Successfully updated.
         return $true;
     } # SetChangelogLimit()
+
+
+
+
+   <# Set Generate Report
+    # -------------------------------
+    # Documentation:
+    #  Sets a new value for the Generate Report variable.
+    # -------------------------------
+    # Output:
+    #  [bool] Status
+    #   true = Success; value has been changed.
+    #   false = Failure; could not set a new value.
+    # -------------------------------
+    #>
+    [bool] SetGenerateReport([bool] $newVal)
+    {
+        # Because the value is either true or false, there
+        #  really is no point in checking if the new requested
+        #  value is 'legal'.  Thus, we are going to trust the
+        #  value and automatically return success.
+        $this.__generateReport = $newVal;
+
+        # Successfully updated.
+        return $true;
+    } # SetGenerateReport()
 
 
 
@@ -1937,7 +1995,8 @@ class GitControl
     # Output:
     #  [bool] Status Code
     #    $false = Failure occurred while writing the report.
-    #    $true  = Successfully created the report.
+    #    $true  = Successfully created the report or user
+    #              did not request to generate a report.
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $projectPath, `
@@ -1999,6 +2058,16 @@ class GitControl
         #  the switch statement inside of the do-while loop.
         [bool] $readyToBreak = $false;
         # ----------------------------------------
+
+
+
+        # Did the user wanted a report of an archive data file?
+        if ($this.__generateReport -eq $false)
+        {
+            # Because the user did not want a report generated,
+            #  merely return 'true'.
+            return $true;
+        } # if : Do not create report
 
 
 
