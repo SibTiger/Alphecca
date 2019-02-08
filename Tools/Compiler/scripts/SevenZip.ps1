@@ -144,6 +144,13 @@ class SevenZip
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+
+        # ==================
+        # Functions
+
+        # Create the necessary directories
+        $this.__CreateDirectories() | Out-Null;
     } # Default Constructor
 
 
@@ -191,6 +198,13 @@ class SevenZip
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+
+
+        # ==================
+        # Functions
+
+        # Create the necessary directories
+        $this.__CreateDirectories() | Out-Null;
     } # User Preference : On-Load
 
     #endregion
