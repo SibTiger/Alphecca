@@ -2145,7 +2145,8 @@ class SevenZip
     # Output:
     #  [bool] Status Code
     #    $false = Failure occurred while writing the report.
-    #    $true  = Successfully created the report.
+    #    $true  = Successfully created the report or user
+    #              did not request to generate a report.
     # -------------------------------
     #>
     [bool] CreateNewReport([string] $ArchiveFile, `
