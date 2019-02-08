@@ -1293,7 +1293,9 @@ class SevenZip
     # Output:
     #  [bool] Exit code
     #    $false = Archive file failed verification process.
-    #    $true = Archive file passed verification process.
+    #    $true = Archive file passed verification process
+    #             or user did not request the file archive
+    #             to be tested.
     # -------------------------------
     #>
     [bool] VerifyArchive([string] $file, [bool] $logging)
@@ -1311,6 +1313,15 @@ class SevenZip
                                                                     #  requested archive datafile.
         [string] $execReason = "Verifying $($fileName)";            # Description; used for logging
         # ----------------------------------------
+
+
+        # Did the user want the archive file tested?
+        if ($this.__verifyBuild -eq $false)
+        {
+            # Because the user did not want the file tested,
+            #  just return 'true' instead.
+            return $true;
+        } # if : Do not test archive file
 
 
         # Dependency Check
