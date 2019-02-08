@@ -2217,6 +2217,15 @@ class SevenZip
 
 
 
+        # Did the user wanted a report of an archive data file?
+        if ($this.__generateReport -eq $false)
+        {
+            # Because the user did not want a report generated,
+            #  merely return 'true'.
+            return $true;
+        } # if : Do not create report
+
+
         # Dependency Check
         # - - - - - - - - - - - - - -
         #  Make sure that all of the resources are available before trying to use them
