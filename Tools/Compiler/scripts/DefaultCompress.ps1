@@ -80,9 +80,6 @@ class DefaultCompress
         # Compression Level
         $this.__compressionLevel = 0;
 
-        # Provide Hash
-        $this.__provideHash = $false;
-
         # Verify Build
         $this.__verifyBuild = $true;
 
@@ -117,9 +114,6 @@ class DefaultCompress
     {
         # Compression Level
         $this.__compressionLevel = $compressionLevel;
-
-        # Provide Hash
-        $this.__provideHash = $provideHash;
 
         # Verify Build
         $this.__verifyBuild = $verifyBuild;
@@ -164,24 +158,6 @@ class DefaultCompress
     {
         return $this.__compressionLevel;
     } # GetCompressionLevel()
-
-
-
-
-   <# Get Provide Hash
-    # -------------------------------
-    # Documentation:
-    #  Returns the value of the Provide Hash variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Provide Hash
-    #   the value of the Provide Hash.
-    # -------------------------------
-    #>
-    [bool] GetProvideHash()
-    {
-        return $this.__provideHash;
-    } # GetProvideHash()
 
 
 
@@ -302,32 +278,6 @@ class DefaultCompress
         # Successfully updated.
         return $true;
     } # SetCompressionLevel()
-
-
-
-
-   <# Set Provide Hash
-    # -------------------------------
-    # Documentation:
-    #  Sets a new value for the Provide Hash variable.
-    # -------------------------------
-    # Output:
-    #  [bool] Status
-    #   true = Success; value has been changed.
-    #   false = Failure; could not set a new value.
-    # -------------------------------
-    #>
-    [bool] SetProvideHash([bool] $newVal)
-    {
-        # Because the value is either true or false, there
-        #  really is no point in checking if the new requested
-        #  value is 'legal'.  Thus, we are going to trust the
-        #  value and automatically return success.
-        $this.__provideHash = $newVal;
-
-        # Successfully updated.
-        return $true;
-    } # SetProvideHash()
 
 
 
