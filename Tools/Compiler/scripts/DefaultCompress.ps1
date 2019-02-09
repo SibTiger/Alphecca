@@ -657,6 +657,60 @@ class DefaultCompress
     } # __ThrashLogs()
 
     #endregion
+
+
+    #region Public Functions
+
+   <# Fetch Hash Information
+    # -------------------------------
+    # Documentation:
+    #  This function will retrieve and return
+    #   all hash values that is associated with
+    #   the archive data file.  Hash values are
+    #   essentially a finger print of a specific
+    #   file that was generated at a specific time.
+    #   If the hash value differs to a specific
+    #   file, that could mean that the file is
+    #   different (overall) or corrupted.
+    # -------------------------------
+    # Input:
+    #  [string] Archive datafile Path
+    #   The archive file that will be inspected.
+    #    The path provided should be in absolute
+    #    form.
+    # -------------------------------
+    # Output:
+    #  [string] Hash Values
+    #    A string list of all hash values
+    #    associated with that specific archive
+    #    file.
+    # -------------------------------
+    #>
+    [string] FetchHashInformation([string] $file)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new(); # Using functions from IO Common
+        [string] $archiveInfo = $null;      # This will hold our list of hash values
+        # ----------------------------------------
+
+        # Get all of the hash values that is associated with the archive file.
+        $archiveInfo =
+                "SHA256:`r`n" + `
+                "  $($io.FileHash("$($file)", "sha256"))`r`n`r`n" + `
+                "SHA384:`r`n" + `
+                "  $($io.FileHash("$($file)", "sha384"))`r`n`r`n" + `
+                "SHA512:`r`n" + `
+                "  $($io.FileHash("$($file)", "sha512"))`r`n`r`n" + `
+                "MD5:`r`n" + `
+                "  $($io.FileHash("$($file)", "md5"))`r`n`r`n";
+
+
+        # Return all of the hash values
+        return $archiveInfo;
+    } # FetchHashInformation()
+
+    #endregion
 } # DefaultCompress
 
 
