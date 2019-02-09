@@ -30,12 +30,6 @@ class DefaultCompress
     Hidden [DefaultCompressionLevel] $__compressionLevel;
 
 
-    # Provide Hash
-    # ---------------
-    # Retrieve the Hash of the archive datafile.
-    Hidden [bool] $__provideHash;
-
-
     # Verify Build
     # ---------------
     # Test the archive datafile to assure it is not
