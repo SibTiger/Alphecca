@@ -684,6 +684,7 @@ class DefaultCompress
         #  PowerShell instance.  If not, we will have
         #  to return 'false'.
         # NOTE: If there is ANY output, than this function will return true.
+        # Reference: https://stackoverflow.com/a/28740512
         if ($(Get-Module -ListAvailable -Name Microsoft.PowerShell.Archive))
         {
             # Detected the module
