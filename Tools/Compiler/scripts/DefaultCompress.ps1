@@ -43,6 +43,12 @@ class DefaultCompress
     Hidden [bool] $__verifyBuild;
 
 
+    # Generate Report
+    # ---------------
+    # Generate a report about the archive datafile.
+    Hidden [bool] $__generateReport;
+
+
     # Log Root
     # ---------------
     # The main root of the log directories.
