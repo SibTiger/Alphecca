@@ -90,13 +90,20 @@ class DefaultCompress
         $this.__generateReport = $false;
 
         # Log Root Directory
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\dotNET_Compression";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
 
         # Report Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+        
+
+        # ==================
+        # Functions
+
+        # Create the necessary directories
+        $this.__CreateDirectories() | Out-Null;
     } # Default Constructor
 
 
@@ -121,13 +128,20 @@ class DefaultCompress
         $this.__generateReport = $generateReport;
 
         # Log Root Directory
-        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\dotNET_Compression";
+        $this.__rootLogPath = "$($global:_PROGRAMDATA_LOGS_PATH_)\PSArchive";
 
         # Report Path
         $this.__reportPath = "$($this.__rootLogPath)\reports";
 
         # Log Path
         $this.__logPath = "$($this.__rootLogPath)\logs";
+        
+
+        # ==================
+        # Functions
+
+        # Create the necessary directories
+        $this.__CreateDirectories() | Out-Null;
     } # Default Constructor
 
     #endregion
@@ -465,6 +479,166 @@ class DefaultCompress
         # Failure; Path does not exist.
         return $false;
     } # SetReportPath()
+
+    #endregion
+
+
+    #region Private Functions
+
+
+   <# Create Directories
+    # -------------------------------
+    # Documentation:
+    #  This function will create the necessary directories
+    #   required for this class to operate successfully.
+    #  If the directories do not exist, then the directories
+    #   are to be created on the user's filesystem.
+    #  If the directories does exist, then nothing will be
+    #   created nor changed.
+    #
+    # ----
+    #
+    #  Directories to be created:
+    #   - \PSArchive
+    #   - \PSArchive\logs
+    #   - \PSArchive\reports
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failure creating the new directories.
+    #    $true  = Successfully created the new directories
+    #             OR
+    #             Directories already existed, nothing to do.
+    # -------------------------------
+    #>
+    Hidden [bool] __CreateDirectories()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+
+        # First, check if the directories already exist?
+        if(($this.__CheckRequiredDirectories())-eq $true)
+        {
+            # The directories exist, no action is required.
+            return $true;
+        } # IF : Check if Directories Exists
+
+
+        # ----
+
+
+        # Because one or all of the directories does not exist, we must first
+        #  check which directory does not exist and then try to create it.
+
+        # Root Log Directory
+        if(($io.CheckPathExists("$($this.__rootLogPath)")) -eq $false)
+        {
+            # Root Log Directory does not exist, try to create it.
+            if (($io.MakeDirectory("$($this.__rootLogPath)")) -eq $false)
+            {
+                # Failure occurred.
+                return $false;
+            } # If : Failed to Create Directory
+        } # Root Log Directory
+
+
+        # ----
+
+
+        # Log Directory
+        if(($io.CheckPathExists("$($this.__logPath)")) -eq $false)
+        {
+            # Root Log Directory does not exist, try to create it.
+            if (($io.MakeDirectory("$($this.__logPath)")) -eq $false)
+            {
+                # Failure occurred.
+                return $false;
+            } # If : Failed to Create Directory
+        } # Log Directory
+
+
+        # ----
+
+
+        # Report Directory
+        if(($io.CheckPathExists("$($this.__reportPath)")) -eq $false)
+        {
+            # Root Log Directory does not exist, try to create it.
+            if (($io.MakeDirectory("$($this.__reportPath)")) -eq $false)
+            {
+                # Failure occurred.
+                return $false;
+            } # If : Failed to Create Directory
+        } # Report Directory
+
+
+        # ----
+
+
+        # Fail-safe; final assurance that the directories have been created successfully.
+        if(($this.__CheckRequiredDirectories())-eq $true)
+        {
+            # The directories exist
+            return $true;
+        } # IF : Check if Directories Exists
+
+        
+        # A general error occurred, the directories could not be created.
+        return $false;
+    } # __CreateDirectories()
+
+
+
+
+   <# Check Required Directories
+    # -------------------------------
+    # Documentation:
+    #  This function was created to check the directories
+    #   that this class requires.
+    #
+    # ----
+    #
+    #  Directories to Check:
+    #   - \PSArchive
+    #   - \PSArchive\logs
+    #   - \PSArchive\reports
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = One or more directories does not exist.
+    #    $true = Directories exist
+    # -------------------------------
+    #>
+    Hidden [bool] __CheckRequiredDirectories()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+
+        # Check Root Log Directory
+        if ((($io.CheckPathExists("$($this.__rootLogPath)")) -eq $true) -and `
+
+        # Check Report Path
+        (($io.CheckPathExists("$($this.__reportPath)")) -eq $true) -and `
+
+        # Check Log Path
+        (($io.CheckPathExists("$($this.__logPath)") -eq $true)))
+        {
+            # All of the directories exists
+            return $true;
+        } # If : Check Directories Exists
+
+        else
+        {
+            # Directories does not exist.
+            return $false;
+        } # Else : Directories does not exist
+    } # __CheckRequiredDirectories()
 
     #endregion
 } # DefaultCompress
