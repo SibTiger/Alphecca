@@ -108,7 +108,6 @@ class DefaultCompress
 
     # User Preference : On-Load
     DefaultCompress([DefaultCompressionLevel] $compressionLevel,
-                    [bool] $provideHash,
                     [bool] $verifyBuild,
                     [bool] $generateReport)
     {
@@ -656,7 +655,6 @@ class DefaultCompress
         # If we made it here, then everything went okay!
         return $true;
     } # __ThrashLogs()
-
 
     #endregion
 } # DefaultCompress
