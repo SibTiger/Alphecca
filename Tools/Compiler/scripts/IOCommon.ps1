@@ -1026,7 +1026,7 @@ class IOCommon
                 } # Inner-If : Check if Unique
 
                 # Did we exceed our repetition limit?
-                elseif (($status -eq $true) -and ($repetitionMax -ge $repetitionCount))
+                elseif (($status -eq $true) -and ($repetitionMax -le $repetitionCount))
                 {
                     # Because we reached our max, something went horribly wrong.
                     #  We must abort this operation as it was unnsuccessful.
