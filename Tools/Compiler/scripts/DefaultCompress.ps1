@@ -698,6 +698,9 @@ class DefaultCompress
 
 
 
+    #region Inspect Archive
+
+
 
    <# Fetch Hash Information
     # -------------------------------
@@ -748,6 +751,105 @@ class DefaultCompress
         return $archiveInfo;
     } # FetchHashInformation()
 
+
+
+
+   <# Verify Archive
+    # -------------------------------
+    # Documentation:
+    #  This function will test the archive data file by making
+    #   sure that all of the contents within the archive are
+    #   readable.  If the files within the archive are corrupted
+    #   or damaged, the test will fail - as the integrity of the
+    #   archive file has been compromised.
+    #
+    # NOTE: Because the .NET Framework does not include a test
+    #        functionality, the only way to really perform an
+    #        integrity test - we have to extract all of the data.
+    #       - Some individuals suggest using 'listing' as a way to
+    #         check if the archive file was corrupted.  With my
+    #         testing of manipulating an archive file via HexEditor,
+    #         I can safely say that it isn't enough.  The best way
+    #         to tell if the archive file is corrupted, is to
+    #         extract all the contents.  If the extract operation
+    #         fails, then the archive file is damaged or corrupted.
+    #
+    # Extract Information:
+    #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/Expand-Archive
+    # -------------------------------
+    #  [string] Target File
+    #   The archive file that will be tested upon through the
+    #    verification process.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Archive file failed verification process.
+    #    $true = Archive file passed verification process
+    #             or user did not request the file archive
+    #             to be tested.
+    # -------------------------------
+    #>
+    [bool] VerifyArchive([string] $targetFile, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
+        [string] $tmpDirectory = $null;         # This will hold the directory path in
+                                                #  %TEMP% that we will use to temporarily
+                                                #  extract the contents.
+        [bool] $testResult = $true;             # This will hold our test result if the
+                                                #  operation was successful or failed.
+        # ----------------------------------------
+
+
+        # First, lets request a new directory in the %TEMP%;
+        #  this is necessary to extract the contents from the
+        #  archive file.
+        if ($($io.MakeTempDirectory("Verify", [ref] $tmpDirectory)) -eq $false)
+        {
+            # Because we couldn't make a temporary directory, we
+            #  cannot test the archive data file.
+            return $false;
+        } # if : Failure creating Temp. Directory
+        
+
+        # Secondly, now lets test the archive file by actually extracting all of the contents.
+        try
+        {
+            # Extract the contents
+            Expand-Archive -LiteralPath "$($targetFile)" -DestinationPath "$($tmpDirectory)" -ErrorAction Stop
+        } # try : Execute Extract Task
+
+        # - Error
+        catch
+        {
+            # A failure occurred while extracting the contents, we
+            #  will assume that the archive file was corrupted.
+            $testResult = $false;
+
+            # Display error
+            Write-Host "ERROR CAUGHT: $($_)";
+        } # catch : Caught Error in Extract Task
+
+        # - Finally-Do
+        finally
+        {
+            # Thrash the temporary directory, we no longer need it.
+            $io.DeleteDirectory("$($tmpDirectory)") | Out-Null;
+        } # Final : Delete the temporary data
+
+
+
+        # Return the results
+        return $testResult;
+    } # VerifyArchive()
+
+    #endregion
     #endregion
 } # DefaultCompress
 
