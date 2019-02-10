@@ -807,6 +807,7 @@ class DefaultCompress
         # ----------------------------------------
 
 
+
         # First, lets request a new directory in the %TEMP%;
         #  this is necessary to extract the contents from the
         #  archive file.
@@ -817,6 +818,7 @@ class DefaultCompress
             return $false;
         } # if : Failure creating Temp. Directory
         
+
 
         # Secondly, now lets test the archive file by actually extracting all of the contents.
         try
