@@ -827,6 +827,227 @@ class IOCommon
 
     #region Directory and File Management Functions
 
+   <# Create Temporary Directory (Roaming Profile)
+    # -------------------------------
+    # Documentation:
+    #  This function will assist in trying to create
+    #   a temporary directory in the user's roaming
+    #   profile region.  With using a temporary directory,
+    #   we can be able to momentarily house within the
+    #   directory for the required operations.  After the
+    #   operation has been successfully completed, ideally
+    #   - we can then discard the data.  Remember, the
+    #   data here is temporary and will be thrashed by
+    #   either this program or Windows cleanmgr or whatever
+    #   the Metro variant is now.
+    #
+    # Directory Naming Scheme Note:
+    #  The directory must be unique, we can NEVER have
+    #   duplicated directories to assure that the data
+    #   is correct.  With that in mind, we will have
+    #   to think future and past tenses.  Meaning, we
+    #   will need to assert the 'What-If' card.
+    #    What-If:
+    #     - The user added a directory that has the EXACT
+    #        same name as to what we are going to add?
+    #     - The user reconfigures the System Time and
+    #        System Date (rolling back in time), we are
+    #        trying to create a directory that has the EXACT
+    #        same name (combined with date and time).
+    #     - The System Time and System Date is stalled,
+    #        time and the date never changes.  Yes, this is
+    #        purgatory and has never really happened
+    #        (because the System Board would be severally
+    #         damaged as the crystal timer that organizes the
+    #         time in between IO would corrupt the machine
+    #         beyond the state of repair.)
+    #        but we must think of this case as it is still
+    #        possible to occur -- we must think of all possible
+    #        cases.
+    #     - The System Date and System Time configured by the
+    #        user originally was changed when the time and date
+    #        was syncronized by the remote server, with that
+    #        change - the directory contains the EXACT same
+    #        name (combined with date and time). 
+    #     - I'm probably thinking too much?
+    #   But with this in mind, we must assure that the directory
+    #   name is unique at all costs.
+    #
+    # Directory Naming Scheme:
+    #  GENERAL FORM:
+    #   [NOUN|VERB].[DATE:DD-MMM-YY].[TIME:HH-MM-SS](.[REPETITION_KEY])
+    #  EXAMPLE
+    #    Extracting.1-Jan-18.01-00-00
+    #   OR (if that directory already exists):
+    #    Extracting.1-Jan-18.01-00-00.1
+    #
+    # 
+    # NOTE: This region is classified as 'Program Data'.
+    # -------------------------------
+    # Input:
+    #  [string] Noun or Verb Key Term
+    #   This will be included in the directory's name.
+    #    This is only useful for debugging, nothing more.
+    #  [ref] {STRING} Newly Created Directory's Absolute Path
+    #   This will contain the newly created directory's
+    #    absolute path.  This will be returned along with the
+    #    function's status code.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #    $false = Failure to create the directory.
+    #    $true = Successfully created the directory.
+    # -------------------------------
+    #>
+    [bool] MakeTempDirectory([string] $keyTerm, [ref] $directoryPath)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $tempDirectoryPath = $null;   # Absolute Path of the Temporary directory.
+        [string] $tempDirectoryName = $null;   # The name of the directory that we going
+                                               #  to create.
+        [string] $finalDirectoryPath = $null;  # This will hold the absolute path to the
+                                               #  new requested directory.
+        [string] $timeNow = $null;             # Holds the current time
+        [string] $dateNow = $null;             # Holds the current date
+        [string] $dateTime = $null;            # This will hold a time-stamp of when the
+                                               #  directory was requested to be created.
+        [int] $repetitionMax = 50;             # We should never really need this, but
+                                               #  if incase we do - we have it.
+                                               #  If in case the user needs more than the,
+                                               #  max that is defined - then something is
+                                               #  HORRIBLY wrong.
+        [int] $repetitionCount = 0;            # The repetition counter; this will be
+                                               #  incremented to help assure uniqueness for
+                                               #  the directory name.
+        # ----------------------------------------
+
+        
+
+        # Initialize the Variables
+        # - - - - - - - - - - - - - -
+        #  Initialize the variables so that
+        #   they can be used in the operations
+        #   later on.
+        # ---------------------------
+
+
+        # First, we need to figure out the temporary directory
+        #  To do this, we will use the environment variables
+        #  to lock into the user's roaming profile temporary
+        #  directory.  After that, append the program's name.
+        $tempDirectoryPath = "$($env:TEMP)\$($Global:_PROGRAMNAME_)";
+
+
+        # Second, get the Date and Time (this is our request time)
+        # >> Date
+        $dateNow = "$(Get-Date -UFormat "%d-%b-%y")";
+        # >> Time
+        $timeNow = "$(Get-Date -UFormat "%H.%M.%S")";
+        
+        # Now put the stamp together
+        $dateTime = "$($dateNow).$($timeNow)";
+
+
+        # Third, put the directory name together
+        $tempDirectoryName = "$($keyTerm).$($dateTime)";
+
+
+        # Finally, put the entire directory paths together
+        $finalDirectoryPath = "$($tempDirectoryPath)\$($tempDirectoryName)";
+
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+
+        # Setup the Main Directory %TEMP%
+        # - - - - - - - - - - - - - -
+        #  Make sure that this program has a directory
+        #   within the user's %TEMP%.  If it does not
+        #   exist - create it, otherwise move forward.
+        #   However, if the %Temp% directory is locked,
+        #   this entire operation will be aborted.
+        # ---------------------------
+
+
+        # First, does the directory already exist?
+        if ($($this.CheckPathExists("$($tempDirectoryPath)")) -eq $false)
+        {
+            # Because the directory does not exist, try to create it.
+            if ($($this.MakeDirectory("$($tempDirectoryPath)")) -eq $false)
+            {
+                # We couldn't create the parent directory.  It might be
+                #  possible that the User's LocalAppData\Temp is locked.
+                return $false;
+            } # inner-if : Create Directory Failed
+        } # if : Path does NOT exist
+        
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+
+        # Create the Requested Directory in %TEMP%
+        # - - - - - - - - - - - - - -
+        # Try to create the requested directory within
+        #  the User's roaming profile %TEMP% directory.
+        #  If in case all else fails, we must abort the
+        #  operation.
+        # Reasons for failure:
+        #  - Directory is locked
+        #  - Depth exceeds NTFS requirements
+        #    (256char from root to leaf)
+        #  - Directory and all repetitions exists
+        #    (Something is SERIOUSLY wrong)
+        # ---------------------------
+
+        # First, does the leaf directory already exists?
+        if ($($this.CheckPathExists("$($finalDirectoryPath)")) -eq $true)
+        {
+            # Because the path already exists and may still be in use,
+            #  we will have to deal with repetitions in this case.
+            # This Do-While loop will increment the counter, but the
+            #  conditions are as follows:
+            #   - If the directory _IS_ unqiue, BREAK out of loop
+            #   OR
+            #   - If the counter is greater than or equal to the max counter, BREAK
+            do
+            {
+                # Increment the counter
+                $repetitionCount = $repetitionCount + 1;
+            } while (($($this.CheckPathExists("$($finalDirectoryPath).$($repetitionCount)")) -eq $false) -or `
+                        ($repetitionMax -ge $repetitionCount));
+        } # if : Directory already exists
+
+
+
+
+
+
+
+
+
+        elseif ($($this.MakeDirectory("$($finalDirectoryPath)")) -eq $true)
+        {
+            # For final assurance sakes, make sure that the directory really was created
+            if ($($this.CheckPathExists("$($finalDirectoryPath)") -eq $true)
+            {
+                # Because the path exists, we're done now!
+            } # Inner-If : Path Really Exists
+
+        } # else-if : Directory Created Successfully (no repetitions)
+
+        else
+        {
+        } # else : Failure to create directory
+    } # MakeTempDirectory()
+
+
+
+
    <# Make a New Directory
     # -------------------------------
     # Documentation:
