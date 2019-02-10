@@ -1004,45 +1004,76 @@ class IOCommon
         #    (Something is SERIOUSLY wrong)
         # ---------------------------
 
-        # First, does the leaf directory already exists?
+        # First, we should check if the directory already exists.
+        #  If the directory exists, try to make it unique.
         if ($($this.CheckPathExists("$($finalDirectoryPath)")) -eq $true)
         {
-            # Because the path already exists and may still be in use,
-            #  we will have to deal with repetitions in this case.
-            # This Do-While loop will increment the counter, but the
-            #  conditions are as follows:
-            #   - If the directory _IS_ unqiue, BREAK out of loop
-            #   OR
-            #   - If the counter is greater than or equal to the max counter, BREAK
-            do
+            # This variable will help us break out of the loop
+            #  if we can successfully find a unique name.  Otherwise,
+            #  we reached a failure.
+            [bool] $status = $true;
+
+            # Find a unique name
+            while($status)
             {
+                if($($this.CheckPathExists("$($finalDirectoryPath).$($repetitionCount)")) -eq $false)
+                {
+                    # We found a unique name, now record it
+                    $finalDirectoryPath = "$($finalDirectoryPath).$($repetitionCount)";
+
+                    # Change the status variable; we can leave the loop.
+                    $status = $false;
+                } # Inner-If : Check if Unique
+
+                # Did we exceed our repetition limit?
+                elseif (($status -eq $true) -and ($repetitionMax -ge $repetitionCount))
+                {
+                    # Because we reached our max, something went horribly wrong.
+                    #  We must abort this operation as it was unnsuccessful.
+                    return $false;
+                } # Inner-Else : Check if Max Reached
+                
                 # Increment the counter
                 $repetitionCount = $repetitionCount + 1;
-            } while (($($this.CheckPathExists("$($finalDirectoryPath).$($repetitionCount)")) -eq $false) -or `
-                        ($repetitionMax -ge $repetitionCount));
-        } # if : Directory already exists
+            } # while : trying to find unique name
+        } # if : Directory already Exists
 
 
 
-
-
-
-
-
-
-        elseif ($($this.MakeDirectory("$($finalDirectoryPath)")) -eq $true)
+        # Now that we have the name, create the directory
+        if ($($this.MakeDirectory("$($finalDirectoryPath)")) -eq $false)
         {
-            # For final assurance sakes, make sure that the directory really was created
-            if ($($this.CheckPathExists("$($finalDirectoryPath)") -eq $true)
-            {
-                # Because the path exists, we're done now!
-            } # Inner-If : Path Really Exists
+            # There was a failure while creating the directory.
+            return $false;
+        } # if : Failure Creating Directory
 
-        } # else-if : Directory Created Successfully (no repetitions)
 
-        else
+
+        # Just for assurance sakes, does the directory exist?
+        if ($($this.CheckPathExists("$($finalDirectoryPath)")) -eq $false)
         {
-        } # else : Failure to create directory
+            # Because the directory does not exist, we cannot
+            #  simply use something that isn't there.
+            return $false;
+        } # if : Directory does not exist
+
+
+
+        # Finalizing and Concluding
+        # - - - - - - - - - - - - - -
+        # Now that everything was set up and we now have
+        #  the directory ready for general use now, we
+        #  will do the final touches and close this
+        #  function successfully.
+        # ---------------------------
+        
+
+        # Record the absolute directory name
+        $directoryPath.Value = "$($finalDirectoryPath)";
+
+
+        # Successfully finished with this function
+        return $true;
     } # MakeTempDirectory()
 
 
