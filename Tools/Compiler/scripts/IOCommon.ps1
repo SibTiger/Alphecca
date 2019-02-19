@@ -341,13 +341,13 @@ class IOCommon
     #            Output can be at maximum of 2GB of space. (Defined by CLR)
     # -------------------------------
     #>
-    Hidden [void] __ExecuteCommandLog($stdOutLogPath, `
-                                    $stdErrLogPath, `
-                                    $reportPath, `
-                                    $logging, `
-                                    $isReport, `
-                                    $captureSTDOUT, `
-                                    $description, `
+    Hidden [void] __ExecuteCommandLog([string] $stdOutLogPath, `
+                                    [string] $stdErrLogPath, `
+                                    [string] $reportPath, `
+                                    [bool] $logging, `
+                                    [bool] $isReport, `
+                                    [bool] $captureSTDOUT, `
+                                    [string] $description, `
                                     [ref] $stringOutput, `
                                     [ref] $outputResultOut, `
                                     [ref] $outputResultErr)
