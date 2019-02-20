@@ -804,6 +804,21 @@ class DefaultCompress
                                                 #  extract the contents.
         [bool] $testResult = $true;             # This will hold our test result if the
                                                 #  operation was successful or failed.
+        [string] $pipeErr = $null;              # When an error occurs, this will hold
+                                                #  the error message that will be displayed
+                                                #  on screen.
+        # - - - - - - - - - - -
+        # The archive file name; used for the description of the logfiles.
+        [string] $targetFileName = "$($(Get-Item $targetFile).Name)";
+
+        # Description; used for logging.
+        [string] $execReason = "Verifying $($targetFileName)";
+
+        # This will hold the STDOUT from PowerShell's CMDLet.
+        [System.Object] $execSTDOUT = [System.Object]::new();
+
+        # This will hold the STDERR from PowerShell's CMDLet.
+        [System.Object] $execSTDERR = [System.Object]::new();
         # ----------------------------------------
 
 
@@ -817,14 +832,18 @@ class DefaultCompress
             #  cannot test the archive data file.
             return $false;
         } # if : Failure creating Temp. Directory
-        
 
 
         # Secondly, now lets test the archive file by actually extracting all of the contents.
         try
         {
             # Extract the contents
-            Expand-Archive -LiteralPath "$($targetFile)" -DestinationPath "$($tmpDirectory)" -ErrorAction Stop
+            Expand-Archive -LiteralPath "$($targetFile)" `
+                           -DestinationPath "$($tmpDirectory)" `
+                           -ErrorAction Stop `
+                           -PassThru `
+                           -OutVariable execSTDOUT `
+                           -ErrorVariable execSTDERR;
         } # try : Execute Extract Task
 
         # - Error
@@ -843,8 +862,19 @@ class DefaultCompress
         {
             # Thrash the temporary directory, we no longer need it.
             $io.DeleteDirectory("$($tmpDirectory)") | Out-Null;
-        } # Final : Delete the temporary data
 
+            # Create the logfiles
+            $io.PSCMDLetLogging($this.__logPath, `
+                                $this.__logPath, `
+                                $this.__reportPath, `
+                                $logging, `
+                                $false, `
+                                $true, `
+                                "$($execReason)", `
+                                $null, `
+                                [ref] $execSTDOUT, `
+                                [ref] $execSTDERR );
+        } # Final : Delete the temporary data
 
 
         # Return the results
