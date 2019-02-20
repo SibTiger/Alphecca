@@ -559,6 +559,104 @@ class IOCommon
         return $processExec.ExitCode;
     } # ExecuteCommandRun()
 
+
+
+
+   <# PowerShell CMDLet - Logging
+    # -------------------------------
+    # Documentation:
+    #  This function will take the outputs provided by the
+    #   PowerShell's CMDLets and either place the data in
+    #   the respected logfiles or redirect the output to
+    #   a specific reference variable upon request.
+    # -------------------------------
+    # Inputs:
+    #  [string] STDOUT Log Path
+    #   Absolute path to store the log file containing
+    #    the CMDLet's STDOUT output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] STDERR Log Path
+    #   Absolute path to store the log file containing
+    #    the CMDLet's STDERR output.
+    #   - NOTE: Filename is provided by this function.
+    #  [string] Report Path
+    #   Absolute path and filename to store the report file.
+    #   - NOTE: Filename MUST BE INCLUDED!
+    #  [bool] Logging
+    #   User's request to log
+    #  [bool] Is Report
+    #   When true, this will assure that the information
+    #    is logged as a report.
+    #  [bool] Capture STDOUT
+    #   When true, the STDOUT will not be logged in a
+    #    text file, instead it will be captured into
+    #    a reference string.
+    #  [string] Description
+    #   Used for logging and for information purposes only.
+    #  [ref] {string} Output String
+    #   When Capture STDOUT is true, this parameter will
+    #    carry the STDOUT from the executable.  The
+    #    information provided will be available for use
+    #    from the calling function.
+    #  [ref] {string} Output Result STDOUT
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Trying to conserve main memory space by using referencing.
+    #            Output can be at maximum of 2GB of space. (Defined by CLR)
+    #  [ref] {string} Output Result STDERR
+    #   The STDOUT provided by the extCMD.
+    #   - NOTE: Trying to conserve main memory space by using referencing.
+    #            Output can be at maximum of 2GB of space. (Defined by CLR)
+    # -------------------------------
+    #>
+    [void] PSCMDLetLogging([string] $stdOutLogPath, `
+                        [string] $stdErrLogPath, `
+                        [string] $reportPath, `
+                        [bool] $logging, `
+                        [bool] $isReport, `
+                        [bool] $captureSTDOUT, `
+                        [string] $description, `
+                        [ref] $stringOutput, `
+                        [ref] $outputResultOut, `
+                        [ref] $outputResultErr)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [string] $callBack = $null;                          # Allocate memory address if the stdout
+                                                             #  needs to be relocated, this is our
+                                                             #  medium in order to accomplish this.
+        [string] $cacheSTDOUT = "$($outputResultOut.Value)"; # Cache the STDOUT; because it is a
+                                                             #  pointer - we can not directly use
+                                                             #  it as a pointer in another function
+                                                             #  call (Atleast in PowerShell).
+        [string] $cacheSTDERR = "$($outputResultErr.Value)"; # Cache the STDERR; because it is a
+                                                             #  pointer - we can not directly use
+                                                             #  it as a pointer in another function
+                                                             #  call (Atleast in PowerShell).
+        # ----------------------------------------
+
+        # We will use the function named '__ExecuteCommandLog()'
+        #  because the functionality already exists and works as
+        #  intended.  Instead of simply just copying and pasting
+        #  the same code, we will merely use the function.
+        $this.__ExecuteCommandLog($stdOutLogPath, `
+                                $stdErrLogPath, `
+                                $reportPath, `
+                                $logging, `
+                                $isReport, `
+                                $captureSTDOUT, `
+                                $description, `
+                                [ref] $callBack, `
+                                [ref] $cacheSTDOUT, `
+                                [ref] $cacheSTDERR);
+
+        # Are we redirecting the output?
+        if ($captureSTDOUT -eq $true)
+        {
+            # Redirect the output by saving the callback value.
+            $stringOutput.Value = $callBack;
+        } # if : Redirecting the output
+    } # PSCMDLetLogging()
+
     #endregion
     
 
