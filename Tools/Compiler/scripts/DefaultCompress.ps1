@@ -869,7 +869,7 @@ class DefaultCompress
                                 $this.__reportPath, `
                                 $logging, `
                                 $false, `
-                                $true, `
+                                $false, `
                                 "$($execReason)", `
                                 $null, `
                                 [ref] $execSTDOUT, `
