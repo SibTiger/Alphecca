@@ -814,11 +814,19 @@ class DefaultCompress
         # Description; used for logging.
         [string] $execReason = "Verifying $($targetFileName)";
 
-        # This will hold the STDOUT from PowerShell's CMDLet.
+        # This will hold the STDOUT Obj. from PowerShell's CMDLet.
         [System.Object] $execSTDOUT = [System.Object]::new();
 
-        # This will hold the STDERR from PowerShell's CMDLet.
+        # This will hold the STDERR Obj. from PowerShell's CMDLet.
         [System.Object] $execSTDERR = [System.Object]::new();
+
+        # This will hold the STDOUT as a normal string datatype;
+        #  converted output result from the STDOUT Object.
+        [string] $strSTDOUT = $null;
+
+        # This will hold the STDERR as a normal string datatype;
+        #  Converted output result from the STDERR Object.
+        [string] $strSTDERR = $null;
         # ----------------------------------------
 
 
@@ -862,19 +870,86 @@ class DefaultCompress
         {
             # Thrash the temporary directory, we no longer need it.
             $io.DeleteDirectory("$($tmpDirectory)") | Out-Null;
-
-            # Create the logfiles
-            $io.PSCMDLetLogging($this.__logPath, `
-                                $this.__logPath, `
-                                $this.__reportPath, `
-                                $logging, `
-                                $false, `
-                                $false, `
-                                "$($execReason)", `
-                                $null, `
-                                [ref] $execSTDOUT, `
-                                [ref] $execSTDERR );
         } # Final : Delete the temporary data
+
+
+
+        # Logging Section
+        # =================
+        # - - - - - - - - -
+
+        # If the STDOUT contains an array-list, then we will
+        #  convert it as a typical string.  If necessary,
+        #  add any remarks that should be in the logfile.
+        if ($execSTDOUT -ne $null)
+        {
+            # Because some data exists in the STDOUT, we will
+            #  now try to make it readable in the logfile.  We
+            #  want to assure that if the user does look over
+            #  the logfile - they should be able to understand
+            #  it clearly.
+                
+            # HEADER
+            # - - - - - -
+            # Logfile Header
+
+            $strSTDOUT = "Successfully verified archive data file named $($targetFileName).`r`n" + `
+                            "Below is a list files that resides within the archive file and has been tested:`r`n" + `
+                            "`r`n" + `
+                            " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n" + `
+                            "`r`n";
+
+            # BODY
+            # - - - - - -
+            # Logfile Body (List of files)
+
+            foreach ($item in $execSTDOUT)
+            {
+                $strSTDOUT = "$($strSTDOUT)" + `
+                                "File: $([string]$($item))`r`n";
+            } # foreach : File in List
+
+            # FOOTER
+            # - - - - - -
+            # Logfile Footer
+            $strSTDOUT = "$($strSTDOUT)" + `
+                            "`r`n" + `
+                            "`r`n" + `
+                            " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n";
+        } # if : STDOUT Is not null
+
+
+
+        # If the STDERR contains information, then store
+        #  it as a standard string datatype.  Luckily the
+        #  informaiton provided within the object requires
+        #  no real changes or data manipulation, we can
+        #  just cast it and it works like magic!  I love
+        #  the simplicity!
+        if ($execSTDERR -ne $null)
+        {
+            # No need to filter or manipulate the data, just
+            #  cast it as is.  Everything we need is already
+            #  available and readable.
+            $strSTDERR = "$([string]$($execSTDERR))";
+        } # if : STDERR Is not null
+
+
+        # Create the logfiles
+        $io.PSCMDLetLogging($this.__logPath, `
+                            $this.__logPath, `
+                            $this.__reportPath, `
+                            $logging, `
+                            $false, `
+                            $false, `
+                            "$($execReason)", `
+                            $null, `
+                            [ref] $strSTDOUT, `
+                            [ref] $strSTDERR );
+
+        
+        # - - - - - - - - -
+        # =================
 
 
         # Return the results
