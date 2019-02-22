@@ -700,8 +700,6 @@ class DefaultCompress
 
     #region Inspect Archive
 
-
-
    <# Fetch Hash Information
     # -------------------------------
     # Documentation:
@@ -1100,6 +1098,8 @@ class DefaultCompress
         # Return the file list
         return $strFileList;
     } # ListFiles()
+
+    #endregion
 
 
     #endregion
