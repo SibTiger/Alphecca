@@ -985,6 +985,123 @@ class DefaultCompress
         return $testResult;
     } # VerifyArchive()
 
+
+
+
+   <# List Files in Archive
+    # -------------------------------
+    # Documentation:
+    #  This function will list all of the files that are
+    #   within the target archive data file.
+    #
+    #  List Files Information:
+    #    https://stackoverflow.com/a/14204577
+    # -------------------------------
+    # Input:
+    #  [string] Target File
+    #   The archive file that will contain the files that we
+    #    want to list.
+    #  [bool] Show Technical Information
+    #   When true, this will show all of the technical
+    #    information regarding each file within the data
+    #    archive file.
+    #   Technical Information will contain some of the following:
+    #    - CRC32 checksum
+    #    - FullName
+    #    - Name
+    #    - Compressed Size
+    #    - Size
+    #    - Last Write-Time
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [string] File List
+    #    List of files that exists within the archive data file.
+    #    NOTE: "ERR" signifies that an error occurred.
+    # -------------------------------
+    #>
+    [string] ListFiles([string] $file, [bool] $showTechInfo, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [System.IO.Compression.ZipArchive] $archiveData = $null;    # This will hold the archive data file information
+        [string] $strFileList = $null;                              # This will contain a list of files that is within
+                                                                    #  the source archive file, with or without
+                                                                    #  technical information.
+        # ----------------------------------------
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Check to make sure that the host-system support the archive functionality.
+        if ($this.DetectCompressModule() -eq $false)
+        {
+            # Because the archive support functionality was not found, we can
+            #  not proceed.  For the validation process.
+            return "ERR";
+        } # if : PowerShell Archive Support Missing
+
+
+        # Make sure that the archive file actually exists
+        if ($($io.CheckPathExists("$($file)")) -eq $false)
+        {
+            # The archive data file does not exist, we can not
+            #  examine something that simply doesn't exist.  Return
+            #  a failure.
+            return "ERR";
+        } # if : Target file does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Read the file information that currently exists within the source
+        #  archive data file.
+        $archiveData = $([IO.Compression.ZipFile]::OpenRead("$($file)"));
+
+
+        # Now determine what kind of information was requested:
+        # Technical Information
+        if ($showTechInfo -eq $true)
+        {
+            # The user requested to view the technical information.
+            foreach ($item in $archiveData.Entries)
+            {
+                # Iterate through each object in the ZipArchive type
+                #  and save all information regarding each entry.
+                $strFileList = "$($strFileList)" + `
+                                $($item | Out-String | Foreach-Object {$_});
+            } # foreach : Get technical info. for each file entry
+        } # if : Technical Information
+
+        # Simple File Information
+        else
+        {
+            # The user requested to view only the list of files.
+            foreach ($item in $archiveData.Entries)
+            {
+                # Save the file name.
+                $strFileList = "$($strFileList)" + `
+                                "File: " + $item.FullName + `
+                                "`r`n";
+            } # foreach : Get files in each file entry
+        } # else : Standard File List
+
+
+        # Return the file list
+        return $strFileList;
+    } # ListFiles()
+
+
     #endregion
     #endregion
 } # DefaultCompress
