@@ -1044,7 +1044,7 @@ class DefaultCompress
         if ($this.DetectCompressModule() -eq $false)
         {
             # Because the archive support functionality was not found, we can
-            #  not proceed.  For the validation process.
+            #  not proceed with the validation process.
             return "ERR";
         } # if : PowerShell Archive Support Missing
 
