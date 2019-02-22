@@ -845,6 +845,16 @@ class DefaultCompress
             return $false;
         } # if : PowerShell Archive Support Missing
 
+
+        # Make sure that the target file actually exists
+        if ($($io.CheckPathExists("$($targetFile)")) -eq $false)
+        {
+            # The archive data file does not exist, we can not
+            #  test something that simply doesn't exist.  Return
+            #  a failure.
+            return $false;
+        } # if : Target file does not exist
+
         # ---------------------------
         # - - - - - - - - - - - - - -
         
