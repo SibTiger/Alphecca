@@ -831,6 +831,25 @@ class DefaultCompress
 
 
 
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Check to make sure that the host-system support the archive functionality.
+        if ($this.DetectCompressModule() -eq $false)
+        {
+            # Because the archive support functionality was not found, we can
+            #  not proceed.  For the validation process.
+            return $false;
+        } # if : PowerShell Archive Support Missing
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+        
+
+
         # First, lets request a new directory in the %TEMP%;
         #  this is necessary to extract the contents from the
         #  archive file.
