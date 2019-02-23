@@ -1831,7 +1831,7 @@ class SevenZip
                                                                     #  a unique archive file name.
         [string] $archiveFileExtension = $null;                     # When populated, this will hold the
                                                                     #  file extension for that archive file.
-                                                                    #  NOTE: The Extensions will be recongized
+                                                                    #  NOTE: The Extensions will be recognized
                                                                     #  in ZDoom's standards.  Thus, ZIP == PK3
                                                                     #  and 7Z == PK7.
         [string] $cacheArchiveFileName = $null;                     # When populated, this will contain a draft
@@ -1926,7 +1926,7 @@ class SevenZip
         # - - - - - - - - - - - - - -
         # We need to determine the file name of the archive file,
         #  and then we also have to make sure that it is unique
-        #  in the output directory.  If incase it is not unique,
+        #  in the output directory.  If in case it is not unique,
         #  then we will merely throw a time stamp to the file
         #  name -- despite helping to be unique, it also gives
         #  it a meaning as well.
