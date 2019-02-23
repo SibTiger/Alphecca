@@ -1573,7 +1573,7 @@ class DefaultCompress
         try
         {
             # Create the archive datafile.
-            Compress-Archive -LiteralPath "$($targetDirectory)" `
+            Compress-Archive -Path "$($targetDirectory)" `
                              -DestinationPath "$($finalArchiveFileName)" `
                              -CompressionLevel $this.__compressionLevel `
                              -ErrorAction Stop `
