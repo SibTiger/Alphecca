@@ -1415,6 +1415,11 @@ class DefaultCompress
         # Declarations and Initializations
         # ----------------------------------------
         [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $targetDirectoryFiltered = `                       # This will contain a filtered version of the
+            "$(Split-Path -Path "$($targetDirectory)" -Parent)";    #  targetDirectory variable.  The filtered
+                                                                    #  version is mainly to ignore any wild-cards
+                                                                    #  that might cause issues with directory
+                                                                    #  validations.
         [string] $execReason = "Creating $($archiveFileName)";      # Description; used for logging
         [string] $getDateTime = $null;                              # This will hold the date and time,
                                                                     #  though to be only used if needing
@@ -1485,7 +1490,7 @@ class DefaultCompress
 
         # Make sure that the target directory (the contents that will be
         #  in our newly created archive file) exists.
-        if ($($io.CheckPathExists("$($targetDirectory)")) -eq $false)
+        if ($($io.CheckPathExists("$($targetDirectoryFiltered)")) -eq $false)
         {
             # The target directory does not exist, we
             #  can not create an archive if the directory
