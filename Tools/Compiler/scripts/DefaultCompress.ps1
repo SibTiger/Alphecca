@@ -802,9 +802,6 @@ class DefaultCompress
                                                 #  extract the contents.
         [bool] $testResult = $true;             # This will hold our test result if the
                                                 #  operation was successful or failed.
-        [string] $pipeErr = $null;              # When an error occurs, this will hold
-                                                #  the error message that will be displayed
-                                                #  on screen.
         # - - - - - - - - - - -
         # The archive file name; used for the description of the logfiles.
         [string] $targetFileName = "$($(Get-Item $targetFile).Name)";
