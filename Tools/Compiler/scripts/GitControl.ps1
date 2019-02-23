@@ -1903,7 +1903,7 @@ class GitControl
         # Make sure that the path exists
         if ($($io.CheckPathExists("$($projectPath)")) -eq $false)
         {
-            # Project Path does not exist, return an error messeage instead.
+            # Project Path does not exist, return an error message instead.
             return "ERR";
         } # if : the Project Path does not exist
 
