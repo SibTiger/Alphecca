@@ -905,75 +905,78 @@ class DefaultCompress
         # =================
         # - - - - - - - - -
 
-        # If the STDOUT contains an array-list, then we will
-        #  convert it as a typical string.  If necessary,
-        #  add any remarks that should be in the logfile.
-        if ($execSTDOUT -ne $null)
+        # Did the user wanted logfiles?
+        if ($logging -eq $true)
         {
-            # Because some data exists in the STDOUT, we will
-            #  now try to make it readable in the logfile.  We
-            #  want to assure that if the user does look over
-            #  the logfile - they should be able to understand
-            #  it clearly.
-                
-            # HEADER
-            # - - - - - -
-            # Logfile Header
-
-            $strSTDOUT = "Successfully verified archive data file named $($targetFileName).`r`n" + `
-                            "Below is a list files that resides within the archive file and has been tested:`r`n" + `
-                            "`r`n" + `
-                            " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n" + `
-                            "`r`n";
-
-            # BODY
-            # - - - - - -
-            # Logfile Body (List of files)
-
-            foreach ($item in $execSTDOUT)
+            # If the STDOUT contains an array-list, then we will
+            #  convert it as a typical string.  If necessary,
+            #  add any remarks that should be in the logfile.
+            if ($execSTDOUT -ne $null)
             {
+                # Because some data exists in the STDOUT, we will
+                #  now try to make it readable in the logfile.  We
+                #  want to assure that if the user does look over
+                #  the logfile - they should be able to understand
+                #  it clearly.
+                
+                # HEADER
+                # - - - - - -
+                # Logfile Header
+
+                $strSTDOUT = "Successfully verified archive data file named $($targetFileName).`r`n" + `
+                                "Below is a list files that resides within the archive file and has been tested:`r`n" + `
+                                "`r`n" + `
+                                " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n" + `
+                                "`r`n";
+
+                # BODY
+                # - - - - - -
+                # Logfile Body (List of files)
+
+                foreach ($item in $execSTDOUT)
+                {
+                    $strSTDOUT = "$($strSTDOUT)" + `
+                                    "File: $([string]$($item))`r`n";
+                } # foreach : File in List
+
+                # FOOTER
+                # - - - - - -
+                # Logfile Footer
                 $strSTDOUT = "$($strSTDOUT)" + `
-                                "File: $([string]$($item))`r`n";
-            } # foreach : File in List
-
-            # FOOTER
-            # - - - - - -
-            # Logfile Footer
-            $strSTDOUT = "$($strSTDOUT)" + `
-                            "`r`n" + `
-                            "`r`n" + `
-                            " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n";
-        } # if : STDOUT Is not null
+                                "`r`n" + `
+                                "`r`n" + `
+                                " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`r`n";
+            } # if : STDOUT Is not null
 
 
 
-        # If the STDERR contains information, then store
-        #  it as a standard string datatype.  Luckily the
-        #  informaiton provided within the object requires
-        #  no real changes or data manipulation, we can
-        #  just cast it and it works like magic!  I love
-        #  the simplicity!
-        if ($execSTDERR -ne $null)
-        {
-            # No need to filter or manipulate the data, just
-            #  cast it as is.  Everything we need is already
-            #  available and readable.
-            $strSTDERR = "$([string]$($execSTDERR))";
-        } # if : STDERR Is not null
+            # If the STDERR contains information, then store
+            #  it as a standard string datatype.  Luckily the
+            #  informaiton provided within the object requires
+            #  no real changes or data manipulation, we can
+            #  just cast it and it works like magic!  I love
+            #  the simplicity!
+            if ($execSTDERR -ne $null)
+            {
+                # No need to filter or manipulate the data, just
+                #  cast it as is.  Everything we need is already
+                #  available and readable.
+                $strSTDERR = "$([string]$($execSTDERR))";
+            } # if : STDERR Is not null
 
 
-        # Create the logfiles
-        $io.PSCMDLetLogging($this.__logPath, `
-                            $this.__logPath, `
-                            $this.__reportPath, `
-                            $logging, `
-                            $false, `
-                            $false, `
-                            "$($execReason)", `
-                            $null, `
-                            [ref] $strSTDOUT, `
-                            [ref] $strSTDERR );
-
+            # Create the logfiles
+            $io.PSCMDLetLogging($this.__logPath, `
+                                $this.__logPath, `
+                                $this.__reportPath, `
+                                $logging, `
+                                $false, `
+                                $false, `
+                                "$($execReason)", `
+                                $null, `
+                                [ref] $strSTDOUT, `
+                                [ref] $strSTDERR );
+        } # if : User Requested Logging
         
         # - - - - - - - - -
         # =================
