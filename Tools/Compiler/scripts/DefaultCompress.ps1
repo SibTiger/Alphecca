@@ -1368,6 +1368,288 @@ class DefaultCompress
         # Successfully finished the operation
         return $exitCode;
     } # ExtractArchive()
+
+
+
+
+   <# Create Archive File
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to create a new
+    #   archive datafile.  This function is primarily intended
+    #   for bulk operation instead of small individual file
+    #   additions.  Meaning, this function mainly accepts a
+    #   parent directory that already contains all of the files
+    #   and subdirectories that will be added into the archive
+    #   file.
+    #
+    #  Extract Files Information:
+    #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/compress-archive
+    # -------------------------------
+    # Input:
+    #  [string] Archive File
+    #   The archive file name that will be created.
+    #  [string] Output Path
+    #   The output path to place the archive file.
+    #  [string] Target Directory
+    #   The directory root that contains all of the data
+    #   that we want to compact into a single archive data file.
+    #  [ref] {string} Archive Path
+    #   This will hold the newly created archive file's absolute
+    #   path and file name.  This will be returned to the calling
+    #   function.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure occurred while creating the archive.
+    #    $true  = Successfully created the archive.
+    # -------------------------------
+    #>
+    [bool] CreateArchive([string] $archiveFileName, [string] $outputPath, [string] $targetDirectory, [ref] $archivePath, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $execReason = "Creating $($archiveFileName)";      # Description; used for logging
+        [string] $getDateTime = $null;                              # This will hold the date and time,
+                                                                    #  though to be only used if needing
+                                                                    #  a unique archive file name.
+        [string] $archiveFileExtension = "pk3";                     # This will hold the file extension for
+                                                                    #  that archive file.  Because ZipFile class
+                                                                    #  only supports Zip, we'll merely be using
+                                                                    #  'pk3' as our default value.
+                                                                    # NOTE: The Extensions will be recongized
+                                                                    #  in ZDoom's standards.
+                                                                    #   - ZIP == PK3
+                                                                    #   - 7Z == PK7
+        [string] $cacheArchiveFileName = $null;                     # When populated, this will contain a draft
+                                                                    #  of the archive file name before it is
+                                                                    #  actually used.
+        [string] $finalArchiveFileName = $null;                     # When populated, this will contain the final
+                                                                    #  version of the archive file name --
+                                                                    #  essentially, this will be the archive file
+                                                                    #  name.
+        [bool] $exitCode = $false;                                  # The exit code status provided by the
+                                                                    #  Compress-Archive operation status.  If
+                                                                    #  the operation was successfull then
+                                                                    #  true will be set, otherwise it'll be
+                                                                    #  false to signify an error.
+
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        # This will hold the STDOUT Obj. from PowerShell's CMDLet.
+        [System.Object] $execSTDOUT = [System.Object]::new();
+
+        # This will hold the STDERR Obj. from PowerShell's CMDLet.
+        [System.Object] $execSTDERR = [System.Object]::new();
+
+        # This will hold the STDOUT as a normal string datatype;
+        #  converted output result from the STDOUT Object.
+        [string] $strSTDOUT = $null;
+
+        # This will hold the STDERR as a normal string datatype;
+        #  Converted output result from the STDERR Object.
+        [string] $strSTDERR = $null;
+
+        # ----------------------------------------
+        
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Check to make sure that the host-system support the archive functionality.
+        if ($this.DetectCompressModule() -eq $false)
+        {
+            # Because the archive support functionality was not found, we can
+            #  not proceed to extract the archive datafile.
+            return $false;
+        } # if : PowerShell Archive Support Missing
+
+
+        # Make sure that the output directory exists
+        if ($($io.CheckPathExists("$($outputPath)")) -eq $false)
+        {
+            # The output directory does not exist;
+            #  we need a valid location to output this archive file.
+            return $false;
+        } # if : Output directory does not exist
+
+
+        # Make sure that the target directory (the contents that will be
+        #  in our newly created archive file) exists.
+        if ($($io.CheckPathExists("$($targetDirectory)")) -eq $false)
+        {
+            # The target directory does not exist, we
+            #  can not create an archive if the directory
+            #  root simply does not exist.
+            return $false;
+        } # if : Target Directory does not exist
+        
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        
+        # DETERMINE ARCHIVE FILE NAME
+        # - - - - - - - - - - - - - -
+        # We need to determine the file name of the archive file,
+        #  and then we also have to make sure that it is unique
+        #  in the output directory.  If incase it is not unique,
+        #  then we will merely throw a time stamp to the file
+        #  name -- despite helping to be unique, it also gives
+        #  it a meaning as well.
+        # ---------------------------
+
+
+        # Setup the base name and check it
+        if ($io.CheckPathExists("$($outputPath)\$($archiveFileName).$($archiveFileExtension)") -eq $false)
+        {
+            # Because the file does not exist, use it!
+            $finalArchiveFileName = "$($outputPath)\$($archiveFileName).$($archiveFileExtension)";
+        } # if : File Doesn't Exist at Path
+        else
+        {
+            # Because the file already exists at the
+            #  given output path, we will append a time
+            #  stamp to the filename to assure that it
+            #  is much more unique.  If in case that
+            #  fails, the file already exists with that
+            #  given time stamp, we can not proceed.
+
+            # Setup the timestamp to help make it unique,
+            #  but also to help supply some meaning to
+            #  the file.
+            #  Date and Time
+            #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
+            $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
+
+            # Update the cache name for coding simplicity
+            $cacheArchiveFileName = "$($archiveFileName)_$($getDateTime)";
+
+            if ($io.CheckPathExists("$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)") -eq $false)
+            {
+                # Because the archive file is now unique, we can use that new name.
+                $finalArchiveFileName = "$($outputPath)\$($cacheArchiveFileName).$($archiveFileExtension)";
+            } # INNER-if : Archive File does not exist
+            else
+            {
+                # Because the archive file name is still not unique enough, we
+                #  simply can not proceed anymore.  We will have to return an error.
+                return $false;
+            } # INNER-else : Archive file does exist
+        } # else : File Already Exists at Path
+
+
+        # Now save the output path to our reference (pointer) variable, this will allow the
+        #  calling function to get the absolute path of where the archive file resides.
+        #  Thus, the calling function can bring the new archive file to the user's
+        #  attention using whatever methods necessary.
+        $archivePath.Value = "$($finalArchiveFileName)";
+
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+
+        # CREATE ARCHIVE DATAFILE
+        # - - - - - - - - - - - - - - -
+        # -----------------------------
+        
+        # Execute the Compress-Archive CMDLet
+        try
+        {
+            # Create the archive datafile.
+            Compress-Archive -LiteralPath "$($targetDirectory)" `
+                             -DestinationPath "$($finalArchiveFileName)" `
+                             -CompressionLevel $this.__compressionLevel `
+                             -ErrorAction Stop `
+                             -PassThru `
+                             -OutVariable execSTDOUT `
+                             -ErrorVariable execSTDERR;
+
+            # Update the Exit Code status; the operation was successful.
+            $exitCode = $true;
+        } # try : Execute Compression Task
+
+        # An error happened
+        catch
+        {
+            # Display error
+            Write-Host "ERROR CAUGHT: $($_)";
+
+            # Update the Exit Code status; the operation failed.
+            $exitCode = $false;
+        } # catch : Caught Error in Compression Task
+
+        # Log the activity in the logfiles (if requested)
+        finally
+        {
+            # Does the user want logfiles?
+            if ($logging -eq $true)
+            {
+                # If the STDOUT contains an array-list, then we will
+                #  convert it as a typical string.  If necessary,
+                #  add any remarks that should be in the logfile.
+                if ($execSTDOUT -ne $null)
+                {
+                    # Get each file full name from the array-list
+                    foreach ($item in $execSTDOUT)
+                    {
+                        $strSTDOUT = "$($strSTDOUT)" + `
+                                        "File: $([string]$($item))`r`n";
+                    } # foreach : File in List
+                } # if : STDOUT Is not null
+
+
+
+                # If the STDERR contains information, then store
+                #  it as a standard string datatype.  Luckily the
+                #  informaiton provided within the object requires
+                #  no real changes or data manipulation, we can
+                #  just cast it and it works like magic!  I love
+                #  the simplicity!
+                if ($execSTDERR -ne $null)
+                {
+                    # No need to filter or manipulate the data, just
+                    #  cast it as is.  Everything we need is already
+                    #  available and readable.
+                    $strSTDERR = "$([string]$($execSTDERR))";
+                } # if : STDERR Is not null
+
+
+                # Create the logfiles
+                $io.PSCMDLetLogging($this.__logPath, `
+                                    $this.__logPath, `
+                                    $this.__reportPath, `
+                                    $logging, `
+                                    $false, `
+                                    $false, `
+                                    "$($execReason)", `
+                                    $null, `
+                                    [ref] $strSTDOUT, `
+                                    [ref] $strSTDERR );
+            } # if : User requested logging
+        } # finally : Log the activity in the log files
+
+
+
+        # -----------------------------
+        # - - - - - - - - - - - - - - -
+
+
+        # Successfully finished the operation
+        return $exitCode;
+    } # CreateArchive()
+
     #endregion
     #endregion
 } # DefaultCompress
