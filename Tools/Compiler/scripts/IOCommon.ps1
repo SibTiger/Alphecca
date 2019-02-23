@@ -627,11 +627,11 @@ class IOCommon
         [string] $cacheSTDOUT = "$($outputResultOut.Value)"; # Cache the STDOUT; because it is a
                                                              #  pointer - we can not directly use
                                                              #  it as a pointer in another function
-                                                             #  call (Atleast in PowerShell).
+                                                             #  call (At least in PowerShell).
         [string] $cacheSTDERR = "$($outputResultErr.Value)"; # Cache the STDERR; because it is a
                                                              #  pointer - we can not directly use
                                                              #  it as a pointer in another function
-                                                             #  call (Atleast in PowerShell).
+                                                             #  call (At least in PowerShell).
         # ----------------------------------------
 
         # We will use the function named '__ExecuteCommandLog()'
@@ -771,7 +771,7 @@ class IOCommon
         # Declarations and Initializations
         # ----------------------------------------
         [float] $wordVersion = 0.0;         # Microsoft Word Version
-                                            #  May not be needed, but incase
+                                            #  May not be needed, but in case
                                             #  differences between versions
                                             #  causes problems, we can try to
                                             #  deter that from happening.
@@ -1011,7 +1011,7 @@ class IOCommon
         [string] $dateTime = $null;            # This will hold a time-stamp of when the
                                                #  directory was requested to be created.
         [int] $repetitionMax = 50;             # We should never really need this, but
-                                               #  if incase we do - we have it.
+                                               #  if in case we do - we have it.
                                                #  If in case the user needs more than the,
                                                #  max that is defined - then something is
                                                #  HORRIBLY wrong.
@@ -1127,7 +1127,7 @@ class IOCommon
                 elseif (($status -eq $true) -and ($repetitionMax -le $repetitionCount))
                 {
                     # Because we reached our max, something went horribly wrong.
-                    #  We must abort this operation as it was unnsuccessful.
+                    #  We must abort this operation as it was unsuccessful.
                     return $false;
                 } # Inner-Else : Check if Max Reached
                 
@@ -1452,7 +1452,7 @@ class IOCommon
             $hashValue = $hashInfo.Hash;
         } # Try : Get hash value
 
-        # Catch if an error occured
+        # Catch if an error occurred
         catch
         {
             # Failure to obtain the hash value.
