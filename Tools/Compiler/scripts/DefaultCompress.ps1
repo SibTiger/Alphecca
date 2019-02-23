@@ -949,7 +949,7 @@ class DefaultCompress
 
             # If the STDERR contains information, then store
             #  it as a standard string datatype.  Luckily the
-            #  informaiton provided within the object requires
+            #  information provided within the object requires
             #  no real changes or data manipulation, we can
             #  just cast it and it works like magic!  I love
             #  the simplicity!
@@ -1162,7 +1162,7 @@ class DefaultCompress
         [string] $execReason = "Extracting $($fileNameExt)";        # Description; used for logging
         [bool] $exitCode = $false;                                  # The exit code status provided by the
                                                                     #  Expand-Archive operation status.  If
-                                                                    #  the operation was successfull then
+                                                                    #  the operation was successful then
                                                                     #  true will be set, otherwise it'll be
                                                                     #  false to signify an error.
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1333,7 +1333,7 @@ class DefaultCompress
 
                 # If the STDERR contains information, then store
                 #  it as a standard string datatype.  Luckily the
-                #  informaiton provided within the object requires
+                #  information provided within the object requires
                 #  no real changes or data manipulation, we can
                 #  just cast it and it works like magic!  I love
                 #  the simplicity!
@@ -1428,7 +1428,7 @@ class DefaultCompress
                                                                     #  that archive file.  Because ZipFile class
                                                                     #  only supports Zip, we'll merely be using
                                                                     #  'pk3' as our default value.
-                                                                    # NOTE: The Extensions will be recongized
+                                                                    # NOTE: The Extensions will be recognized
                                                                     #  in ZDoom's standards.
                                                                     #   - ZIP == PK3
                                                                     #   - 7Z == PK7
@@ -1441,7 +1441,7 @@ class DefaultCompress
                                                                     #  name.
         [bool] $exitCode = $false;                                  # The exit code status provided by the
                                                                     #  Compress-Archive operation status.  If
-                                                                    #  the operation was successfull then
+                                                                    #  the operation was successful then
                                                                     #  true will be set, otherwise it'll be
                                                                     #  false to signify an error.
 
@@ -1507,7 +1507,7 @@ class DefaultCompress
         # - - - - - - - - - - - - - -
         # We need to determine the file name of the archive file,
         #  and then we also have to make sure that it is unique
-        #  in the output directory.  If incase it is not unique,
+        #  in the output directory.  If in case it is not unique,
         #  then we will merely throw a time stamp to the file
         #  name -- despite helping to be unique, it also gives
         #  it a meaning as well.
@@ -1618,7 +1618,7 @@ class DefaultCompress
 
                 # If the STDERR contains information, then store
                 #  it as a standard string datatype.  Luckily the
-                #  informaiton provided within the object requires
+                #  information provided within the object requires
                 #  no real changes or data manipulation, we can
                 #  just cast it and it works like magic!  I love
                 #  the simplicity!
