@@ -1102,6 +1102,272 @@ class DefaultCompress
     #endregion
 
 
+    #region Archive File Management
+
+   <# Extract Archive
+    # -------------------------------
+    # Documentation:
+    #  This function will extract the requested archive data
+    #   file to a specific directory.  However, the directory
+    #   has to already exist in order to use that path.
+    #   Within that directory, this function will create a new
+    #   subdirectory named by the archive file to extract all
+    #   the contents from the archive file.
+    #  For Example:
+    #   E:\Project\{{DESIRED_OUTPUT}}\{{FILENAME_EXTRACTED_FILES}}
+    #
+    #  Extract Files Information:
+    #    https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.archive/expand-archive
+    # -------------------------------
+    # Input:
+    #  [string] Target File
+    #   The archive file contents that will be extracted.
+    #  [string] Output Path
+    #   The path to output all of the files from the archive file.
+    #  [ref] {string} Directory Output
+    #   The directory in which the data was extracted to within
+    #   the filesystem.  This will hold the absolute path to the
+    #   extracted directory.
+    #  [bool] Logging
+    #   User's preference in logging information.
+    #    When true, the program will log the
+    #    operations performed.
+    #   - Does not effect main program logging.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Failure occurred while extracting contents.
+    #    $true  = Successfully extracted contents.
+    # -------------------------------
+    #>
+    [bool] ExtractArchive([string] $file, [string] $outputPath, [ref] $directoryOutput, [bool] $logging)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
+        [string] $finalOutputPath = $null;                          # This will hold the final output
+                                                                    #  path that is unique.
+        [string] $cacheOutputPath = $null;                          # This will help guide us to the
+                                                                    #  final result; this is used as a
+                                                                    #  working variable.
+        [string] $getDateTime = $null;                              # This will hold the date and time,
+                                                                    #  though to be only used if needing
+                                                                    #  a unique directory for the output
+                                                                    #  path.
+        [string] $fileName = `                                      # Get the filename without the
+          "$([System.IO.Path]::GetFileNameWithoutExtension($file))";#  path and file extension.
+        [string] $fileNameExt = "$(Split-Path $file -leaf)";        # Get only the filename from $file, 
+                                                                    #  while omitting the entire path to
+                                                                    #  get to that file, extension is kept.
+        [string] $execReason = "Extracting $($fileNameExt)";        # Description; used for logging
+        [bool] $exitCode = $false;                                  # The exit code status provided by the
+                                                                    #  Expand-Archive operation status.  If
+                                                                    #  the operation was successfull then
+                                                                    #  true will be set, otherwise it'll be
+                                                                    #  false to signify an error.
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        # This will hold the STDOUT Obj. from PowerShell's CMDLet.
+        [System.Object] $execSTDOUT = [System.Object]::new();
+
+        # This will hold the STDERR Obj. from PowerShell's CMDLet.
+        [System.Object] $execSTDERR = [System.Object]::new();
+
+        # This will hold the STDOUT as a normal string datatype;
+        #  converted output result from the STDOUT Object.
+        [string] $strSTDOUT = $null;
+
+        # This will hold the STDERR as a normal string datatype;
+        #  Converted output result from the STDERR Object.
+        [string] $strSTDERR = $null;
+        # ----------------------------------------
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Check to make sure that the host-system support the archive functionality.
+        if ($this.DetectCompressModule() -eq $false)
+        {
+            # Because the archive support functionality was not found, we can
+            #  not proceed to extract the archive datafile.
+            return $false;
+        } # if : PowerShell Archive Support Missing
+
+
+        # Make sure that the archive file actually exists
+        if ($($io.CheckPathExists("$($file)")) -eq $false)
+        {
+            # The archive data file does not exist, we can not
+            #  extract the archive that simply doesn't exist.
+            return $false;
+        } # if : Target file does not exist
+
+
+        # Make sure that the output path exists
+        if ($($io.CheckPathExists("$($outputPath)")) -eq $false)
+        {
+            # The output path does not exist, we can not extract the contents.
+            return $false;
+        } # if : Output Directory does not exist
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+
+        # CREATE THE OUTPUT DIRECTORY
+        # - - - - - - - - - - - - - -
+        # Before we can do the main operation, we
+        #  first need to make sure that the output
+        #  directory can be created and is also unique.
+        # ---------------------------
+
+        # Setup our Cache
+        #  OutputPath + Filename
+        $cacheOutputPath = "$($outputPath)\$($fileName)";
+
+
+        # Does the output directory already exists?
+        if ($io.CheckPathExists("$($cacheOutputPath)") -eq $false)
+        {
+            # Because it is a unique directory, this is our final output destination.
+            $finalOutputPath = $cacheOutputPath;
+
+            # Create the new directory
+            if($io.MakeDirectory("$($finalOutputPath)") -eq $false)
+            {
+                # A failure occurred when trying to make the directory,
+                #  we can not continue as the output is not available.
+                return $false;
+            } # INNER-if : Failed to create directory
+        } # if : Does the output already exists?
+
+        # The output directory already exists
+        else
+        {
+            # Because the directory already exists, we need to make it unique.
+            #  To accomplish this - we will timestamp the directory to make it
+            #  unique while giving the data 'meaning' to it.
+            #  Date and Time
+            #  DD-MMM-YYYY_HH-MM-SS ~~> 09-Feb-2007_01-00-00
+            $getDateTime = "$(Get-Date -UFormat "%d-%b-%Y_%H-%M-%S")";
+
+            # Now put everything together
+            $finalOutputPath = "$($cacheOutputPath)_$($getDateTime)";
+
+            # Now try to make the directory, if this fails - we can't do anything more.
+            if($io.MakeDirectory("$($finalOutputPath)") -eq $false)
+            {
+                # A failure occurred when trying to make the directory,
+                #  we can not continue as the output is not available.
+                return $false;
+            } # INNER-if : Failed to create directory (x2)
+        } # else : Make a Unique Directory
+
+
+        # Now save the output path to our reference (pointer) variable, this will allow the
+        #  calling function to get the absolute path of where the directory resides.
+        #  Thus, the calling function can bring the new directory to the user's
+        #  attention using whatever methods necessary.
+        $directoryOutput.Value = "$($finalOutputPath)";
+
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+
+        # EXTRACT THE ARCHIVE DATAFILE
+        # - - - - - - - - - - - - - - -
+        # -----------------------------
+
+        # Execute the Expand-Archive CMDLet
+        try
+        {
+            # Extract the contents
+            Expand-Archive -LiteralPath "$($file)" `
+                           -DestinationPath "$($finalOutputPath)" `
+                           -ErrorAction Stop `
+                           -PassThru `
+                           -OutVariable execSTDOUT `
+                           -ErrorVariable execSTDERR;
+
+            # Update the Exit Code status; the operation was successful.
+            $exitCode = $true;
+        } # try : Execute Extract Task
+
+        # An error happened
+        catch
+        {
+            # Display error
+            Write-Host "ERROR CAUGHT: $($_)";
+
+            # Update the Exit Code status; the operation failed.
+            $exitCode = $false;
+        } # catch : Caught Error in Extract Task
+
+        # Log the activity in the logfiles (if requested)
+        finally
+        {
+            # Does the user want logfiles?
+            if ($logging -eq $true)
+            {
+                # If the STDOUT contains an array-list, then we will
+                #  convert it as a typical string.  If necessary,
+                #  add any remarks that should be in the logfile.
+                if ($execSTDOUT -ne $null)
+                {
+                    # Get each file full name from the array-list
+                    foreach ($item in $execSTDOUT)
+                    {
+                        $strSTDOUT = "$($strSTDOUT)" + `
+                                        "File: $([string]$($item))`r`n";
+                    } # foreach : File in List
+                } # if : STDOUT Is not null
+
+
+
+                # If the STDERR contains information, then store
+                #  it as a standard string datatype.  Luckily the
+                #  informaiton provided within the object requires
+                #  no real changes or data manipulation, we can
+                #  just cast it and it works like magic!  I love
+                #  the simplicity!
+                if ($execSTDERR -ne $null)
+                {
+                    # No need to filter or manipulate the data, just
+                    #  cast it as is.  Everything we need is already
+                    #  available and readable.
+                    $strSTDERR = "$([string]$($execSTDERR))";
+                } # if : STDERR Is not null
+
+
+                # Create the logfiles
+                $io.PSCMDLetLogging($this.__logPath, `
+                                    $this.__logPath, `
+                                    $this.__reportPath, `
+                                    $logging, `
+                                    $false, `
+                                    $false, `
+                                    "$($execReason)", `
+                                    $null, `
+                                    [ref] $strSTDOUT, `
+                                    [ref] $strSTDERR );
+            } # if : User requested logging
+        } # finally : Log the activity in the log files
+
+
+        # -----------------------------
+        # - - - - - - - - - - - - - - -
+
+
+        # Successfully finished the operation
+        return $exitCode;
+    } # ExtractArchive()
     #endregion
     #endregion
 } # DefaultCompress
