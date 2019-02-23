@@ -1699,6 +1699,7 @@ class SevenZip
             } # INNER-if : Failed to create directory
         } # if : Does the output already exists?
 
+        # The output directory already exists
         else
         {
             # Because the directory already exists, we need to make it unique.
