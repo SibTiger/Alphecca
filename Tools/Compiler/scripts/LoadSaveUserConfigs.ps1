@@ -314,9 +314,17 @@
     # -------------------------------
     # Parameters:
     #  [UserPreferences] User Preferences
+    #     User's general preferences when interacting
+    #      within the program.
     #  [GitControl] Git Object
+    #     User's preferences and settings for using the
+    #      Git functionality.
     #  [SevenZip] 7Zip Object
+    #     User's preferences and settings for using the
+    #      7Zip functionality.
     #  [DefaultCompress] PowerShell's Archive Object
+    #     User's preferences and settings for using the
+    #      PowerShell Archive functionality.
     # -------------------------------
     # Output:
     #  [bool] Exit code
