@@ -223,6 +223,7 @@ function MakeCompilerDriver()
                         "ProjectInformation.ps1", `
                         "SevenZip.ps1", `
                         "UserPreferences.ps1", `
+                        "LoadSaveUserConfigs.ps1", `
                         "main.ps1");
 
     # Loop through each index in the array
