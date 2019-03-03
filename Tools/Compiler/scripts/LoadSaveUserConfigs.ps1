@@ -290,4 +290,94 @@
     } # __CheckRequiredDirectories()
 
     #endregion
+
+
+
+    #region Public Functions
+
+   <# Save User Configuration
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to save
+    #  all of the user's settings and preferences to
+    #  a specific file.
+    #
+    # NOTE:
+    #  All program data and objects must be known in
+    #   order to use this function!
+    # -------------------------------
+    # Parameters:
+    #  [UserPreferences] User Preferences
+    #  [GitControl] Git Object
+    #  [SevenZip] 7Zip Object
+    #  [DefaultCompress] PowerShell's Archive Object
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failure to write save file.
+    #   $true = Successfully wrote the save file.
+    # -------------------------------
+    #>
+    [bool] Save([UserPreferences] $userPref, `
+                [GitControl] $gitObj, `
+                [SevenZip] $sevenZipObj, `
+                [DefaultCompress] $psArchive)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;      # Operation status of the execution performed.
+        # ----------------------------------------
+
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the user config. directory exists
+        if ($this.__CheckRequiredDirectories() -eq $false)
+        {
+            # Because the directory does not exist, try to create it.
+            if ($this.__CreateDirectories() -eq $false)
+            {
+                # Because we could not create the directory, we
+                #  can not save the user's configuration.
+
+                # Nothing more can be done, return an error.
+                return $false;
+            } # Inner-If : Try to Create Directories
+        } # If : User Config. Directory Exists
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Try to export the preferences and settings to the requested file.
+        try{
+            Export-Clixml -Path "$($this.__configPath)$($this.__configFileName)" `
+                          -InputObject @($userPref, $gitObj, $sevenZipObj, $psArchive) `
+                          -Encoding UTF8NoBOM `
+                          -ErrorAction Stop;
+
+            # Update the status as successful
+            $exitCode = $true;
+        } # TRY : EXECUTION
+
+        catch
+        {
+            # Print a message that there was an error
+            Write-Host "Error Caught: $($_)";
+
+            # Update the status as failure
+            $exitCode = $false;
+        } # CATCH : ERROR
+
+
+        # Return the results
+        return $exitCode;
+    } # Save()
+
+    #endregion
  } # LoadSaveUserConfiguration
