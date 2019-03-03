@@ -128,10 +128,16 @@
     #>
     [bool] SetConfigPath([string] $newVal)
     {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+        # ----------------------------------------
+
+
         # Before we can use the newly requested directory, we
         #  must first create it to assure that we can use that
         #  requested path.
-        if ($this.__CreateDirectories("$new") -eq $true)
+        if (($io.MakeDirectory("$($newVal)")) -eq $true)
         {
             # Directory was successfully created, we will now
             #  use that path as requested.
