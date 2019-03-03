@@ -362,7 +362,7 @@
 
         # Try to export the preferences and settings to the requested file.
         try{
-            Export-Clixml -Path "$($this.__configPath)$($this.__configFileName)" `
+            Export-Clixml -Path "$($this.__configPath)\$($this.__configFileName)" `
                           -InputObject @($userPref, $gitObj, $sevenZipObj, $psArchive) `
                           -Encoding UTF8NoBOM `
                           -ErrorAction Stop;
