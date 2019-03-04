@@ -430,9 +430,6 @@
     #   $true = Successfully loaded user's configurations.
     # -------------------------------
     #>
-    [bool] Load([ref] $userPref, `
-                [ref] $gitObj, `
-                [ref] $sevenZipObj, `
     [bool] Load([UserPreferences] $userPref, `
                 [GitControl] $gitObj, `
                 [SevenZip] $sevenZipObj, `
