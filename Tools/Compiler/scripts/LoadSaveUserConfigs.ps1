@@ -393,5 +393,276 @@
         return $exitCode;
     } # Save()
 
+
+
+
+   <# Load User Configuration
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to load
+    #   all of the user's settings and preferences
+    #   that was previously stored in a specific
+    #   file.
+    #
+    # NOTE:
+    #  All program data and objects will be updated
+    #   to adjust to user's preferred settings and
+    #   configurations.
+    # -------------------------------
+    # Parameters:
+    #  [ref] {UserPreferences} User Preferences
+    #     User's general preferences when interacting
+    #      within the program.
+    #  [ref] {GitControl} Git Object
+    #     User's preferences and settings for using the
+    #      Git functionality.
+    #  [ref] {SevenZip} 7Zip Object
+    #     User's preferences and settings for using the
+    #      7Zip functionality.
+    #  [ref] {DefaultCompress} PowerShell's Archive Object
+    #     User's preferences and settings for using the
+    #      PowerShell Archive functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failure to properly load configuration
+    #             file.
+    #   $true = Successfully loaded user's configurations.
+    # -------------------------------
+    #>
+    [bool] Load([ref] $userPref, `
+                [ref] $gitObj, `
+                [ref] $sevenZipObj, `
+                [ref] $psArchive)
+    {
+        # Declarations and Initializations
+        # -----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
+        [bool] $exitCode = $false;              # Operation status of the execution performed.
+        [Object[]] $cacheUserConfig = $null;    # This will hold the deserialized XML data
+                                                #  containing the user's preferred settings and
+                                                #  configurations regarding each object.
+        # - - - - - - - - - - - - - - - - - - - - -
+        # Objects:
+
+        # User Preferences
+        [UserPreferences] $userPrefNew = [UserPreferences]::new();
+
+        # Git Settings
+        [GitControl] $gitObjNew = [GitControl]::new();
+
+        # 7Zip Settings
+        [SevenZip] $sevenZipObjNew = [SevenZip]::new();
+
+        # PowerShell's Archive Settings
+        [DefaultCompress] $psArchiveNew = [DefaultCompress]::new();
+        # -----------------------------------------
+
+
+
+        # Dependency Check
+        # - - - - - - - - - - - - - -
+        #  Make sure that all of the resources are available before trying to use them
+        #   This check is to make sure that nothing goes horribly wrong.
+        # ---------------------------
+
+        # Make sure that the file exists at the given location.
+        if ($io.CheckPathExists("$($this.__configPath)\$($this.__configFileName)") -eq $false)
+        {
+            # Because either the file or directory does not exist
+            #  at the provided location, we simply can not load
+            #  anything.
+
+            # return an error
+            return $false;
+        } # If : Path exists
+
+        # ---------------------------
+        # - - - - - - - - - - - - - -
+
+
+        # Try to import the preferences and settings from the requested file.
+        #  Then try to update all settings to match with user's request.
+        try
+        {
+            $cacheUserConfig = Import-Clixml -Path "$($this.__configPath)\$($this.__configFileName)" `
+                                             -ErrorAction Stop;
+Write-Host "Starting Value: $($psArchive.Value.__compressionLevel)";
+            # Try to load the user's configuration into the objects safely.
+            if ($this.LoadStepWise($cacheUserConfig, `
+                                   $userPref, `
+                                   $gitObj, `
+                                   $sevenZipObj, `
+                                   $psArchive) -eq $true)
+            {
+                Write-Host "Returned Value: $($psArchive.Value.__compressionLevel)";
+                # Try to load the environment
+                #$userPref.value = $userPrefNew;           # User's Preferences
+                #$gitObj.value = $gitObjNew;               # Git Settings
+                #$sevenZipObj.value = $sevenZipObjNew;     # 7Zip Settings
+                #$psArchive.value = $psArchiveNew;         # PowerShell's Archive Settings
+
+                # Update the status as successful
+                $exitCode = $true;
+            } # if : Successfully loaded environment
+
+            # If there was a general failure while loading the environment,
+            #  immedately stop - use the current environment.  User might
+            #  have to redo the entire environment again and re-save the file.
+            else
+            {
+                # Display error message
+                Write-Host "General Error: A failure occurred when trying to " + `
+                            "load previously saved user configuration file!";
+
+                # Update the status as failure
+                $exitCode = $false;
+            } # else : Failure to load environment
+        } # TRY : EXECUTION
+
+        catch
+        {
+            # Print a message that there was an error
+            Write-Host "Error Caught: $($_)";
+
+            # Update the status as failure
+            $exitCode = $false;
+        } # CATCH : ERROR
+
+
+        # Return the results
+        return $exitCode;
+    } # Load()
+
+
+
+
+   <# Load User Configuration - Stepwise
+    # -------------------------------
+    # Documentation:
+    #  This function will try to properly load the user's
+    #  configuration to the program through a stepwise
+    #  process, this is a tedious process but assures that
+    #  the settings are accurately loaded into the environment.
+    #
+    # NOTE:
+    #  This function will require validation to assure the
+    #  values are 'correct' to the program's specifications,
+    #  yet are also what the user wants.  The point of
+    #  validation is to assure that if the user variables
+    #  changed or contain data that does not meet with the
+    #  program's constraints, then the program will
+    #  automatically adjust the variables to meet with the
+    #  needs that the program is expecting.
+    # -------------------------------
+    # Parameters:
+    #  [Object[]] Cached User Configuration
+    #     The user's configuration that was deserialized.
+    #  [ref] {UserPreferences} User Preferences
+    #     User's general preferences when interacting
+    #      within the program.
+    #  [ref] {GitControl} Git Object
+    #     User's preferences and settings for using the
+    #      Git functionality.
+    #  [ref] {SevenZip} 7Zip Object
+    #     User's preferences and settings for using the
+    #      7Zip functionality.
+    #  [ref] {DefaultCompress} PowerShell's Archive Object
+    #     User's preferences and settings for using the
+    #      PowerShell Archive functionality.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = Failure to properly load configuration
+    #             file.
+    #   $true = Successfully loaded user's configurations.
+    # -------------------------------
+    #>
+    [bool] LoadStepWise([Object[]]$cachedUserConfig, `
+                        [ref] $userPref, `
+                        [ref] $gitObj, `
+                        [ref] $sevenZipObj, `
+                        [ref] $psArchive)
+    {
+        # Declarations and Initializations
+        # -----------------------------------------
+        # User Preferences
+        [UserPreferences] $userPrefNew = [UserPreferences]::new();
+
+        # Git Settings
+        [GitControl] $gitObjNew = [GitControl]::new();
+
+        # 7Zip Settings
+        [SevenZip] $sevenZipObjNew = [SevenZip]::new();
+
+        # PowerShell's Archive Settings
+        [DefaultCompress] $psArchiveNew = [DefaultCompress]::new();
+        # -----------------------------------------
+        
+
+        # STEPWISE ALGORITHM
+        # =====================================
+        # - - - - - - - - - - - - - - - - - - -
+        # =====================================
+
+        # STEP 1 - USER PREFERENCES
+        $userPrefNew.__compressionTool      = [int32]  $cachedUserConfig[0][0].__compressionTool;
+        $userPrefNew.__logging              = [bool]   $cachedUserConfig[0][0].__logging;
+        $userPrefNew.__notificationType     = [int32]  $cachedUserConfig[0][0].__notificationType;
+        $userPrefNew.__outputBuildsPath     = [string] $cachedUserConfig[0][0].__outputBuildsPath;
+        $userPrefNew.__projectPath          = [string] $cachedUserConfig[0][0].__projectPath;
+        $userPrefNew.__ringMyDingaling      = [bool]   $cachedUserConfig[0][0].__ringMyDingaling;
+        $userPrefNew.__useGitFeatures       = [bool]   $cachedUserConfig[0][0].__useGitFeatures;
+        $userPrefNew.__useWindowsExplorer   = [bool]   $cachedUserConfig[0][0].__useWindowsExplorer;
+
+
+        # STEP 2 - GIT SETTINGS
+        $gitObjNew.__changelogLimit         = [int32]  $cachedUserConfig[0][1].__changelogLimit;
+        $gitObjNew.__executablePath         = [string] $cachedUserConfig[0][1].__executablePath;
+        $gitObjNew.__fetchChangelog         = [bool]   $cachedUserConfig[0][1].__fetchChangelog;
+        $gitObjNew.__fetchCommitID          = [bool]   $cachedUserConfig[0][1].__fetchCommitID;
+        $gitObjNew.__generateReport         = [bool]   $cachedUserConfig[0][1].__generateReport;
+        $gitObjNew.__lengthCommitID         = [int32]  $cachedUserConfig[0][1].__lengthCommitID;
+        $gitObjNew.__logPath                = [string] $cachedUserConfig[0][1].__logPath;
+        $gitObjNew.__reportPath             = [string] $cachedUserConfig[0][1].__reportPath;
+        $gitObjNew.__rootLogPath            = [string] $cachedUserConfig[0][1].__rootLogPath;
+        $gitObjNew.__updateSource           = [bool]   $cachedUserConfig[0][1].__updateSource;
+
+
+        # STEP 3 - 7ZIP SETTINGS
+        $sevenZipObjNew.__algorithm7Zip     = [int32]  $cachedUserConfig[0][2].__algorithm7Zip;
+        $sevenZipObjNew.__algorithmZip      = [int32]  $cachedUserConfig[0][2].__algorithmZip;
+        $sevenZipObjNew.__compressionLevel  = [int32]  $cachedUserConfig[0][2].__compressionLevel;
+        $sevenZipObjNew.__compressionMethod = [int32]  $cachedUserConfig[0][2].__compressionMethod;
+        $sevenZipObjNew.__executablePath    = [string] $cachedUserConfig[0][2].__executablePath;
+        $sevenZipObjNew.__generateReport    = [bool]   $cachedUserConfig[0][2].__generateReport;
+        $sevenZipObjNew.__logPath           = [string] $cachedUserConfig[0][2].__logPath;
+        $sevenZipObjNew.__reportPath        = [string] $cachedUserConfig[0][2].__reportPath;
+        $sevenZipObjNew.__rootLogPath       = [string] $cachedUserConfig[0][2].__rootLogPath;
+        $sevenZipObjNew.__useMultithread    = [bool]   $cachedUserConfig[0][2].__useMultithread;
+        $sevenZipObjNew.__verifyBuild       = [bool]   $cachedUserConfig[0][2].__verifyBuild;
+
+
+        # STEP 4 - POWERSHELL'S ARCHIVE SETTINGS
+        $psArchiveNew.__compressionLevel    = [int32]  $cachedUserConfig[0][3].__compressionLevel;
+        $psArchiveNew.__generateReport      = [bool]   $cachedUserConfig[0][3].__generateReport;
+        $psArchiveNew.__logPath             = [string] $cachedUserConfig[0][3].__logPath;
+        $psArchiveNew.__reportPath          = [string] $cachedUserConfig[0][3].__reportPath;
+        $psArchiveNew.__rootLogPath         = [string] $cachedUserConfig[0][3].__rootLogPath;
+        $psArchiveNew.__verifyBuild         = [bool]   $cachedUserConfig[0][3].__verifyBuild;
+
+
+        # STEP 5 - MIRROR THE OBJECTS TO THE REFERENCES
+        $userPref    = $userPrefNew;             # User Preferences
+        $gitObj      = $gitObjNew;                 # Git Settings
+        $sevenZipObj = $sevenZipObjNew;       # 7Zip Settings
+        $psArchive   = $psArchiveNew;           # PowerShell's Archive Setting
+
+        $psArchiveNew | Get-Member -MemberType All | Out-Host;
+        Write-Host "$($psArchive.Value.__compressionLevel)";
+        Write-Host "Value: $($psArchive.__compressionLevel)";
+        # Everything was okay, return successful operation
+        return $true;
+    } # LoadStepWise()
     #endregion
  } # LoadSaveUserConfiguration
