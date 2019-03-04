@@ -572,7 +572,7 @@
     #   $true = Successfully loaded user's configurations.
     # -------------------------------
     #>
-    [bool] LoadStepWise([Object[]]$cachedUserConfig, `
+    [bool] LoadStepWise([Object[]] $cachedUserConfig, `
                         [UserPreferences] $userPref, `
                         [GitControl] $gitObj, `
                         [SevenZip] $sevenZipObj, `
@@ -584,50 +584,50 @@
         # =====================================
 
         # STEP 1 - USER PREFERENCES
-        $userPref.__compressionTool      = [int32]  $cachedUserConfig[0][0].__compressionTool;
-        $userPref.__logging              = [bool]   $cachedUserConfig[0][0].__logging;
-        $userPref.__notificationType     = [int32]  $cachedUserConfig[0][0].__notificationType;
-        $userPref.__outputBuildsPath     = [string] $cachedUserConfig[0][0].__outputBuildsPath;
-        $userPref.__projectPath          = [string] $cachedUserConfig[0][0].__projectPath;
-        $userPref.__ringMyDingaling      = [bool]   $cachedUserConfig[0][0].__ringMyDingaling;
-        $userPref.__useGitFeatures       = [bool]   $cachedUserConfig[0][0].__useGitFeatures;
-        $userPref.__useWindowsExplorer   = [bool]   $cachedUserConfig[0][0].__useWindowsExplorer;
+        $userPref.__compressionTool      = [int32]  $cachedUserConfig[0].__compressionTool;
+        $userPref.__logging              = [bool]   $cachedUserConfig[0].__logging;
+        $userPref.__notificationType     = [int32]  $cachedUserConfig[0].__notificationType;
+        $userPref.__outputBuildsPath     = [string] $cachedUserConfig[0].__outputBuildsPath;
+        $userPref.__projectPath          = [string] $cachedUserConfig[0].__projectPath;
+        $userPref.__ringMyDingaling      = [bool]   $cachedUserConfig[0].__ringMyDingaling;
+        $userPref.__useGitFeatures       = [bool]   $cachedUserConfig[0].__useGitFeatures;
+        $userPref.__useWindowsExplorer   = [bool]   $cachedUserConfig[0].__useWindowsExplorer;
 
-        write-host "$($([int32]$cachedUserConfig[0][1].__changelogLimit))"
+
         # STEP 2 - GIT SETTINGS
-        $gitObj.__changelogLimit         = [int32]  $cachedUserConfig[0][1].__changelogLimit;
-        $gitObj.__executablePath         = [string] $cachedUserConfig[0][1].__executablePath;
-        $gitObj.__fetchChangelog         = [bool]   $cachedUserConfig[0][1].__fetchChangelog;
-        $gitObj.__fetchCommitID          = [bool]   $cachedUserConfig[0][1].__fetchCommitID;
-        $gitObj.__generateReport         = [bool]   $cachedUserConfig[0][1].__generateReport;
-        $gitObj.__lengthCommitID         = [int32]  $cachedUserConfig[0][1].__lengthCommitID;
-        $gitObj.__logPath                = [string] $cachedUserConfig[0][1].__logPath;
-        $gitObj.__reportPath             = [string] $cachedUserConfig[0][1].__reportPath;
-        $gitObj.__rootLogPath            = [string] $cachedUserConfig[0][1].__rootLogPath;
-        $gitObj.__updateSource           = [bool]   $cachedUserConfig[0][1].__updateSource;
+        $gitObj.__changelogLimit         = [int32]  $cachedUserConfig[1].__changelogLimit;
+        $gitObj.__executablePath         = [string] $cachedUserConfig[1].__executablePath;
+        $gitObj.__fetchChangelog         = [bool]   $cachedUserConfig[1].__fetchChangelog;
+        $gitObj.__fetchCommitID          = [bool]   $cachedUserConfig[1].__fetchCommitID;
+        $gitObj.__generateReport         = [bool]   $cachedUserConfig[1].__generateReport;
+        $gitObj.__lengthCommitID         = [int32]  $cachedUserConfig[1].__lengthCommitID;
+        $gitObj.__logPath                = [string] $cachedUserConfig[1].__logPath;
+        $gitObj.__reportPath             = [string] $cachedUserConfig[1].__reportPath;
+        $gitObj.__rootLogPath            = [string] $cachedUserConfig[1].__rootLogPath;
+        $gitObj.__updateSource           = [bool]   $cachedUserConfig[1].__updateSource;
 
 
         # STEP 3 - 7ZIP SETTINGS
-        $sevenZipObj.__algorithm7Zip     = [int32]  $cachedUserConfig[0][2].__algorithm7Zip;
-        $sevenZipObj.__algorithmZip      = [int32]  $cachedUserConfig[0][2].__algorithmZip;
-        $sevenZipObj.__compressionLevel  = [int32]  $cachedUserConfig[0][2].__compressionLevel;
-        $sevenZipObj.__compressionMethod = [int32]  $cachedUserConfig[0][2].__compressionMethod;
-        $sevenZipObj.__executablePath    = [string] $cachedUserConfig[0][2].__executablePath;
-        $sevenZipObj.__generateReport    = [bool]   $cachedUserConfig[0][2].__generateReport;
-        $sevenZipObj.__logPath           = [string] $cachedUserConfig[0][2].__logPath;
-        $sevenZipObj.__reportPath        = [string] $cachedUserConfig[0][2].__reportPath;
-        $sevenZipObj.__rootLogPath       = [string] $cachedUserConfig[0][2].__rootLogPath;
-        $sevenZipObj.__useMultithread    = [bool]   $cachedUserConfig[0][2].__useMultithread;
-        $sevenZipObj.__verifyBuild       = [bool]   $cachedUserConfig[0][2].__verifyBuild;
+        $sevenZipObj.__algorithm7Zip     = [int32]  $cachedUserConfig[2].__algorithm7Zip;
+        $sevenZipObj.__algorithmZip      = [int32]  $cachedUserConfig[2].__algorithmZip;
+        $sevenZipObj.__compressionLevel  = [int32]  $cachedUserConfig[2].__compressionLevel;
+        $sevenZipObj.__compressionMethod = [int32]  $cachedUserConfig[2].__compressionMethod;
+        $sevenZipObj.__executablePath    = [string] $cachedUserConfig[2].__executablePath;
+        $sevenZipObj.__generateReport    = [bool]   $cachedUserConfig[2].__generateReport;
+        $sevenZipObj.__logPath           = [string] $cachedUserConfig[2].__logPath;
+        $sevenZipObj.__reportPath        = [string] $cachedUserConfig[2].__reportPath;
+        $sevenZipObj.__rootLogPath       = [string] $cachedUserConfig[2].__rootLogPath;
+        $sevenZipObj.__useMultithread    = [bool]   $cachedUserConfig[2].__useMultithread;
+        $sevenZipObj.__verifyBuild       = [bool]   $cachedUserConfig[2].__verifyBuild;
 
 
         # STEP 4 - POWERSHELL'S ARCHIVE SETTINGS
-        $psArchive.__compressionLevel    = [int32]  $cachedUserConfig[0][3].__compressionLevel;
-        $psArchive.__generateReport      = [bool]   $cachedUserConfig[0][3].__generateReport;
-        $psArchive.__logPath             = [string] $cachedUserConfig[0][3].__logPath;
-        $psArchive.__reportPath          = [string] $cachedUserConfig[0][3].__reportPath;
-        $psArchive.__rootLogPath         = [string] $cachedUserConfig[0][3].__rootLogPath;
-        $psArchive.__verifyBuild         = [bool]   $cachedUserConfig[0][3].__verifyBuild;
+        $psArchive.__compressionLevel    = [int32]  $cachedUserConfig[3].__compressionLevel;
+        $psArchive.__generateReport      = [bool]   $cachedUserConfig[3].__generateReport;
+        $psArchive.__logPath             = [string] $cachedUserConfig[3].__logPath;
+        $psArchive.__reportPath          = [string] $cachedUserConfig[3].__reportPath;
+        $psArchive.__rootLogPath         = [string] $cachedUserConfig[3].__rootLogPath;
+        $psArchive.__verifyBuild         = [bool]   $cachedUserConfig[3].__verifyBuild;
 
 
         # Everything was okay, return successful operation
