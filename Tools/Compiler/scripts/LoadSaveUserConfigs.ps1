@@ -433,7 +433,10 @@
     [bool] Load([ref] $userPref, `
                 [ref] $gitObj, `
                 [ref] $sevenZipObj, `
-                [ref] $psArchive)
+    [bool] Load([UserPreferences] $userPref, `
+                [GitControl] $gitObj, `
+                [SevenZip] $sevenZipObj, `
+                [DefaultCompress] $psArchive)
     {
         # Declarations and Initializations
         # -----------------------------------------
@@ -487,7 +490,7 @@
         {
             $cacheUserConfig = Import-Clixml -Path "$($this.__configPath)\$($this.__configFileName)" `
                                              -ErrorAction Stop;
-Write-Host "Starting Value: $($psArchive.Value.__compressionLevel)";
+
             # Try to load the user's configuration into the objects safely.
             if ($this.LoadStepWise($cacheUserConfig, `
                                    $userPref, `
@@ -495,12 +498,6 @@ Write-Host "Starting Value: $($psArchive.Value.__compressionLevel)";
                                    $sevenZipObj, `
                                    $psArchive) -eq $true)
             {
-                Write-Host "Returned Value: $($psArchive.Value.__compressionLevel)";
-                # Try to load the environment
-                #$userPref.value = $userPrefNew;           # User's Preferences
-                #$gitObj.value = $gitObjNew;               # Git Settings
-                #$sevenZipObj.value = $sevenZipObjNew;     # 7Zip Settings
-                #$psArchive.value = $psArchiveNew;         # PowerShell's Archive Settings
 
                 # Update the status as successful
                 $exitCode = $true;
@@ -579,88 +576,63 @@ Write-Host "Starting Value: $($psArchive.Value.__compressionLevel)";
     # -------------------------------
     #>
     [bool] LoadStepWise([Object[]]$cachedUserConfig, `
-                        [ref] $userPref, `
-                        [ref] $gitObj, `
-                        [ref] $sevenZipObj, `
-                        [ref] $psArchive)
+                        [UserPreferences] $userPref, `
+                        [GitControl] $gitObj, `
+                        [SevenZip] $sevenZipObj, `
+                        [DefaultCompress] $psArchive)
     {
-        # Declarations and Initializations
-        # -----------------------------------------
-        # User Preferences
-        [UserPreferences] $userPrefNew = [UserPreferences]::new();
-
-        # Git Settings
-        [GitControl] $gitObjNew = [GitControl]::new();
-
-        # 7Zip Settings
-        [SevenZip] $sevenZipObjNew = [SevenZip]::new();
-
-        # PowerShell's Archive Settings
-        [DefaultCompress] $psArchiveNew = [DefaultCompress]::new();
-        # -----------------------------------------
-        
-
         # STEPWISE ALGORITHM
         # =====================================
         # - - - - - - - - - - - - - - - - - - -
         # =====================================
 
         # STEP 1 - USER PREFERENCES
-        $userPrefNew.__compressionTool      = [int32]  $cachedUserConfig[0][0].__compressionTool;
-        $userPrefNew.__logging              = [bool]   $cachedUserConfig[0][0].__logging;
-        $userPrefNew.__notificationType     = [int32]  $cachedUserConfig[0][0].__notificationType;
-        $userPrefNew.__outputBuildsPath     = [string] $cachedUserConfig[0][0].__outputBuildsPath;
-        $userPrefNew.__projectPath          = [string] $cachedUserConfig[0][0].__projectPath;
-        $userPrefNew.__ringMyDingaling      = [bool]   $cachedUserConfig[0][0].__ringMyDingaling;
-        $userPrefNew.__useGitFeatures       = [bool]   $cachedUserConfig[0][0].__useGitFeatures;
-        $userPrefNew.__useWindowsExplorer   = [bool]   $cachedUserConfig[0][0].__useWindowsExplorer;
+        $userPref.__compressionTool      = [int32]  $cachedUserConfig[0][0].__compressionTool;
+        $userPref.__logging              = [bool]   $cachedUserConfig[0][0].__logging;
+        $userPref.__notificationType     = [int32]  $cachedUserConfig[0][0].__notificationType;
+        $userPref.__outputBuildsPath     = [string] $cachedUserConfig[0][0].__outputBuildsPath;
+        $userPref.__projectPath          = [string] $cachedUserConfig[0][0].__projectPath;
+        $userPref.__ringMyDingaling      = [bool]   $cachedUserConfig[0][0].__ringMyDingaling;
+        $userPref.__useGitFeatures       = [bool]   $cachedUserConfig[0][0].__useGitFeatures;
+        $userPref.__useWindowsExplorer   = [bool]   $cachedUserConfig[0][0].__useWindowsExplorer;
 
-
+        write-host "$($([int32]$cachedUserConfig[0][1].__changelogLimit))"
         # STEP 2 - GIT SETTINGS
-        $gitObjNew.__changelogLimit         = [int32]  $cachedUserConfig[0][1].__changelogLimit;
-        $gitObjNew.__executablePath         = [string] $cachedUserConfig[0][1].__executablePath;
-        $gitObjNew.__fetchChangelog         = [bool]   $cachedUserConfig[0][1].__fetchChangelog;
-        $gitObjNew.__fetchCommitID          = [bool]   $cachedUserConfig[0][1].__fetchCommitID;
-        $gitObjNew.__generateReport         = [bool]   $cachedUserConfig[0][1].__generateReport;
-        $gitObjNew.__lengthCommitID         = [int32]  $cachedUserConfig[0][1].__lengthCommitID;
-        $gitObjNew.__logPath                = [string] $cachedUserConfig[0][1].__logPath;
-        $gitObjNew.__reportPath             = [string] $cachedUserConfig[0][1].__reportPath;
-        $gitObjNew.__rootLogPath            = [string] $cachedUserConfig[0][1].__rootLogPath;
-        $gitObjNew.__updateSource           = [bool]   $cachedUserConfig[0][1].__updateSource;
+        $gitObj.__changelogLimit         = [int32]  $cachedUserConfig[0][1].__changelogLimit;
+        $gitObj.__executablePath         = [string] $cachedUserConfig[0][1].__executablePath;
+        $gitObj.__fetchChangelog         = [bool]   $cachedUserConfig[0][1].__fetchChangelog;
+        $gitObj.__fetchCommitID          = [bool]   $cachedUserConfig[0][1].__fetchCommitID;
+        $gitObj.__generateReport         = [bool]   $cachedUserConfig[0][1].__generateReport;
+        $gitObj.__lengthCommitID         = [int32]  $cachedUserConfig[0][1].__lengthCommitID;
+        $gitObj.__logPath                = [string] $cachedUserConfig[0][1].__logPath;
+        $gitObj.__reportPath             = [string] $cachedUserConfig[0][1].__reportPath;
+        $gitObj.__rootLogPath            = [string] $cachedUserConfig[0][1].__rootLogPath;
+        $gitObj.__updateSource           = [bool]   $cachedUserConfig[0][1].__updateSource;
 
 
         # STEP 3 - 7ZIP SETTINGS
-        $sevenZipObjNew.__algorithm7Zip     = [int32]  $cachedUserConfig[0][2].__algorithm7Zip;
-        $sevenZipObjNew.__algorithmZip      = [int32]  $cachedUserConfig[0][2].__algorithmZip;
-        $sevenZipObjNew.__compressionLevel  = [int32]  $cachedUserConfig[0][2].__compressionLevel;
-        $sevenZipObjNew.__compressionMethod = [int32]  $cachedUserConfig[0][2].__compressionMethod;
-        $sevenZipObjNew.__executablePath    = [string] $cachedUserConfig[0][2].__executablePath;
-        $sevenZipObjNew.__generateReport    = [bool]   $cachedUserConfig[0][2].__generateReport;
-        $sevenZipObjNew.__logPath           = [string] $cachedUserConfig[0][2].__logPath;
-        $sevenZipObjNew.__reportPath        = [string] $cachedUserConfig[0][2].__reportPath;
-        $sevenZipObjNew.__rootLogPath       = [string] $cachedUserConfig[0][2].__rootLogPath;
-        $sevenZipObjNew.__useMultithread    = [bool]   $cachedUserConfig[0][2].__useMultithread;
-        $sevenZipObjNew.__verifyBuild       = [bool]   $cachedUserConfig[0][2].__verifyBuild;
+        $sevenZipObj.__algorithm7Zip     = [int32]  $cachedUserConfig[0][2].__algorithm7Zip;
+        $sevenZipObj.__algorithmZip      = [int32]  $cachedUserConfig[0][2].__algorithmZip;
+        $sevenZipObj.__compressionLevel  = [int32]  $cachedUserConfig[0][2].__compressionLevel;
+        $sevenZipObj.__compressionMethod = [int32]  $cachedUserConfig[0][2].__compressionMethod;
+        $sevenZipObj.__executablePath    = [string] $cachedUserConfig[0][2].__executablePath;
+        $sevenZipObj.__generateReport    = [bool]   $cachedUserConfig[0][2].__generateReport;
+        $sevenZipObj.__logPath           = [string] $cachedUserConfig[0][2].__logPath;
+        $sevenZipObj.__reportPath        = [string] $cachedUserConfig[0][2].__reportPath;
+        $sevenZipObj.__rootLogPath       = [string] $cachedUserConfig[0][2].__rootLogPath;
+        $sevenZipObj.__useMultithread    = [bool]   $cachedUserConfig[0][2].__useMultithread;
+        $sevenZipObj.__verifyBuild       = [bool]   $cachedUserConfig[0][2].__verifyBuild;
 
 
         # STEP 4 - POWERSHELL'S ARCHIVE SETTINGS
-        $psArchiveNew.__compressionLevel    = [int32]  $cachedUserConfig[0][3].__compressionLevel;
-        $psArchiveNew.__generateReport      = [bool]   $cachedUserConfig[0][3].__generateReport;
-        $psArchiveNew.__logPath             = [string] $cachedUserConfig[0][3].__logPath;
-        $psArchiveNew.__reportPath          = [string] $cachedUserConfig[0][3].__reportPath;
-        $psArchiveNew.__rootLogPath         = [string] $cachedUserConfig[0][3].__rootLogPath;
-        $psArchiveNew.__verifyBuild         = [bool]   $cachedUserConfig[0][3].__verifyBuild;
+        $psArchive.__compressionLevel    = [int32]  $cachedUserConfig[0][3].__compressionLevel;
+        $psArchive.__generateReport      = [bool]   $cachedUserConfig[0][3].__generateReport;
+        $psArchive.__logPath             = [string] $cachedUserConfig[0][3].__logPath;
+        $psArchive.__reportPath          = [string] $cachedUserConfig[0][3].__reportPath;
+        $psArchive.__rootLogPath         = [string] $cachedUserConfig[0][3].__rootLogPath;
+        $psArchive.__verifyBuild         = [bool]   $cachedUserConfig[0][3].__verifyBuild;
 
 
-        # STEP 5 - MIRROR THE OBJECTS TO THE REFERENCES
-        $userPref    = $userPrefNew;             # User Preferences
-        $gitObj      = $gitObjNew;                 # Git Settings
-        $sevenZipObj = $sevenZipObjNew;       # 7Zip Settings
-        $psArchive   = $psArchiveNew;           # PowerShell's Archive Setting
-
-        $psArchiveNew | Get-Member -MemberType All | Out-Host;
-        Write-Host "$($psArchive.Value.__compressionLevel)";
-        Write-Host "Value: $($psArchive.__compressionLevel)";
         # Everything was okay, return successful operation
         return $true;
     } # LoadStepWise()
