@@ -1518,4 +1518,72 @@ class IOCommon
         return $false;
     } # __SupportedHashAlgorithms()
     #endregion
+
+
+    #region Web Control
+
+   <# Open Web Page
+    # -------------------------------
+    # Documentation:
+    #  This function will allow the ability to access
+    #   a specific webpage that was requested.  In
+    #   order to access the webpage, we will merely
+    #   use the default or preferred web browser
+    #   as defined by the user's settings from the
+    #   host system.
+    # -------------------------------
+    # Input:
+    #  [string] URL Address
+    #   The webpage's URL Address
+    # -------------------------------
+    #  [bool] Exit code
+    #    $false = Failure to access webpage.
+    #    $true = Successfully accessed webpage.
+    # -------------------------------
+    #>
+    [bool] AccessWebpage([string] $URLAddress)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [bool] $exitCode = $false;  # The operation exit code.
+        # ----------------------------------------
+
+
+        # Make sure that the URL Address provided is actually
+        #  a legitimate URL address.
+        if ((($URLAddress -like 'http://*') -eq $true) -or `
+            (($URLAddress -like 'www.*') -eq $true))
+        {
+            # The address is legal.
+            # Try to open the web site
+            try
+            {
+                # Open the webpage
+                Start-Process -FilePath "$($URLAddress)";
+            
+                # Update the exit code status
+                $exitCode = $true;
+            } # Try : Execute Task
+
+            catch
+            {
+                # Operation failed.
+                Write-Host "Catch: Failed"
+                # Update the exit code status.
+                $exitCode = $false;
+            } # Catch : Error
+        } # If : URL Address is Legitimate
+
+        else
+        {
+            # The address is not legal
+            $exitCode = $false;
+        } # Else : URL Address is NOT Legitimate
+
+
+
+        # Return the operation status
+        return $exitCode;
+    } # AccessWebpage()
+    #endregion
 } # IOCommon
