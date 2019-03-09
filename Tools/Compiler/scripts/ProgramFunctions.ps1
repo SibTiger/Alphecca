@@ -36,6 +36,11 @@
  #>
 function CreateDirectories()
 {
+    # Declarations and Initializations
+    # ----------------------------------------
+    [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+    # ----------------------------------------
+
     # First, check if the special directories exists.
     if((CheckSpecialDirectories) -eq $false)
     {
@@ -75,7 +80,7 @@ function CreateDirectories()
 
 
     # Program Root Directory
-    if((MakeDirectory "$($_USERDATA_ROOT_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_USERDATA_ROOT_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -84,7 +89,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Builds Directory
-    if((MakeDirectory "$($_USERDATA_BUILDS_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_USERDATA_BUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -93,7 +98,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Release Builds Directory
-    if((MakeDirectory "$($_USERDATA_RELEASEBUILDS_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -102,7 +107,7 @@ function CreateDirectories()
     # ----
 
     # Program Output Dev. Builds Directory
-    if((MakeDirectory "$($_USERDATA_DEVBUILDS_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -116,7 +121,7 @@ function CreateDirectories()
 
 
     # Program Data Root [Local]
-    if((MakeDirectory "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -125,7 +130,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Logs [Local]
-    if((MakeDirectory "$($_PROGRAMDATA_LOGS_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -134,7 +139,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Root [Roaming]
-    if((MakeDirectory "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -143,7 +148,7 @@ function CreateDirectories()
     # ----
 
     # Program Data Configs [Roaming]
-    if((MakeDirectory "$($_PROGRAMDATA_CONFIGS_PATH_)") -eq $false)
+    if(($io.MakeDirectory("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $false)
     {
         # Directory could not be created.
         return $false;
@@ -188,13 +193,18 @@ function CreateDirectories()
  #>
 function CheckProgramDirectories()
 {
+    # Declarations and Initializations
+    # ----------------------------------------
+    [IOCommon] $io = [IOCommon]::new();       # Using functions from IO Common
+    # ----------------------------------------
+
     # User-Data Directories
     # -----
 
-    if (((CheckPathExists "$($_USERDATA_ROOT_PATH_)") -eq $true) -and `
-        ((CheckPathExists "$($_USERDATA_BUILDS_PATH_)") -eq $true) -and `
-        ((CheckPathExists "$($_USERDATA_RELEASEBUILDS_PATH_)") -eq $true) -and `
-        ((CheckPathExists "$($_USERDATA_DEVBUILDS_PATH_)") -eq $true))
+    if ((($io.CheckPathExists("$($_USERDATA_ROOT_PATH_)")) -eq $true) -and `
+        (($io.CheckPathExists("$($_USERDATA_BUILDS_PATH_)")) -eq $true) -and `
+        (($io.CheckPathExists("$($_USERDATA_RELEASEBUILDS_PATH_)")) -eq $true) -and `
+        (($io.CheckPathExists("$($_USERDATA_DEVBUILDS_PATH_)")) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -217,10 +227,10 @@ function CheckProgramDirectories()
     # Program-Data Directories
     # ----
 
-    if (((CheckPathExists "$($_PROGRAMDATA_ROOT_LOCAL_PATH_)") -eq $true) -and `
-        ((CheckPathExists "$($_PROGRAMDATA_LOGS_PATH_)") -eq $true) -and `
-        ((CheckPathExists "$($_PROGRAMADATA_ROOT_ROAMING_PATH_)") -eq $true) -and `
-        ((CheckPathExists "$($_PROGRAMDATA_CONFIGS_PATH_)") -eq $true))
+    if ((($io.CheckPathExists("$($_PROGRAMDATA_ROOT_LOCAL_PATH_)")) -eq $true) -and `
+        (($io.CheckPathExists("$($_PROGRAMDATA_LOGS_PATH_)")) -eq $true) -and `
+        (($io.CheckPathExists("$($_PROGRAMADATA_ROOT_ROAMING_PATH_)")) -eq $true) -and `
+        (($io.CheckPathExists("$($_PROGRAMDATA_CONFIGS_PATH_)")) -eq $true))
     {
         # The directories exists.
         #  Nothing to do.
@@ -269,6 +279,7 @@ function CheckSpecialDirectories()
 {
     # Declarations and Initializations
     # ----------------------------------------
+    [IOCommon] $io = [IOCommon]::new();                         # Using functions from IO Common
     [string] $pathMyDocuments = "$(FetchPathUserDocuments)";    # My Documents
     [string] $pathLocalAppData = "$(FetchPathAppDataLocal)";    # Local AppData
     [string] $pathRoamingAppData = "$(FetchPathAppDataRoaming)";# Roaming AppData
@@ -277,7 +288,7 @@ function CheckSpecialDirectories()
 
     # Check the following:
     # My Documents
-    if ((CheckPathExists "$($pathMyDocuments)") -eq $false)
+    if (($io.CheckPathExists("$($pathMyDocuments)")) -eq $false)
     {
         return $false;
     } # If : My Documents
@@ -287,7 +298,7 @@ function CheckSpecialDirectories()
 
 
     # Local AppData
-    if ((CheckPathExists "$($pathLocalAppData)") -eq $false)
+    if (($io.CheckPathExists("$($pathLocalAppData)")) -eq $false)
     {
         return $false;
     } # If : Local AppData
@@ -297,7 +308,7 @@ function CheckSpecialDirectories()
 
 
     # Roaming AppData
-    if ((CheckPathExists "$($pathRoamingAppData)") -eq $false)
+    if (($io.CheckPathExists("$($pathRoamingAppData)")) -eq $false)
     {
         return $false;
     } # If : Roaming AppData
@@ -309,112 +320,3 @@ function CheckSpecialDirectories()
     # Everything was successful
     return $true;
 } # CheckSpecialDirectories()
-
-
-
-
-<# Make a New Directory
- # -------------------------------
- # Documentation:
- #  This function will make a new directory with the
- #   absolute path provided.
- # -------------------------------
- # Input:
- #  [string] Absolute Path
- #   The absolute path of a directory that is to be
- #   created by request.
- # -------------------------------
- # Output:
- #  [bool] Exit code
- #    $false = Failure to create the directory.
- #    $true = Successfully created the directory.
- #            OR
- #            Directory already exists; nothing to do.
- # -------------------------------
- #>
-function MakeDirectory()
-{
-    # Parameters for this function
-    Param
-    (
-        [Parameter(Mandatory=$true, Position=0)]
-        [string] $path
-    );
-
-
-    # Declarations and Initializations
-    # ----------------------------------------
-    [bool] $exitCode = $true;    # Exit code that will be returned.
-    # ----------------------------------------
-
-
-    # Check to see if the path already exists;
-    #  if it already exists - then nothing to do.
-    #  If it does not exist, then try to create it.
-    if ((CheckPathExists "$($path)") -eq $false)
-    {
-        # The requested path does not exist, try to create it.
-        try
-        {
-            # Try to create the directory; if failure - stop.
-            New-Item -Path "$($path)" -ItemType Directory -ErrorAction Stop;
-        } # try : Create directory.
-        catch
-        {
-            # Failure occurred.
-            $exitCode = $false;
-        } # Catch : Failed to Create Directory
-    } # If : Directory does not exist
-
-
-    # Return the exit code
-    return $exitCode;
-} # MakeDirectory()
-
-
-
-
-<# Check Path Exists
- # -------------------------------
- # Documentation:
- #  This function will check if the provided
- #   directory (absolute path) exists on the
- #   host's filesystem.
- # -------------------------------
- # Input:
- #  [string] Directory (Absolute Path)
- #    The path to check if it exists in the
- #     filesystem.
- # -------------------------------
- # Output:
- #  [bool] Exit code
- #    $false = Directory does not exist.
- #    $true = Directory exist
- # -------------------------------
- #>
-function CheckPathExists()
-{
-    # Parameters for this function
-    Param
-    (
-        [Parameter(Mandatory=$true, Position=0)]
-        [string] $path
-    );
-
-
-    # Declarations and Initializations
-    # ----------------------------------------
-    [bool] $exitCode = $false;    # Exit code that will be returned.
-    # ----------------------------------------
-
-    # Check if the path exists
-    if((Test-Path -LiteralPath "$($path)" -ErrorAction SilentlyContinue) -eq $true)
-    {
-        # Directory exists
-        $exitCode = $true;
-    } # If : Directory exists
-
-
-    # Return with exit code
-    return $exitCode;
-} # CheckPathExists()
