@@ -743,6 +743,12 @@ class Logging
     # Input:
     #  [string] Message
     #   The readable message that will be sent to the logfile.
+    #  [bool] User Preferences - Logging
+    #   This merely holds the user's setting if they wish for
+    #   the activity to be logged or not.
+    #  [bool] Force Writing (Override Switch)
+    #   When true, the provided information will be recorded
+    #    - regardless of the user's logging preferences.
     # -------------------------------
     # Output:
     #  [bool] Status Code
@@ -750,7 +756,7 @@ class Logging
     #    $true  = Operation was successful 
     # -------------------------------
     #>
-    [bool] WriteLogFile([string] $message)
+    [bool] WriteLogFile([string] $message, [bool] $userPrefLog, [bool] $forceWrite)
     {
         # Declarations and Initializations
         # ----------------------------------------
@@ -758,6 +764,16 @@ class Logging
         [string] $timestamp = $null;            # Timestamp of the message
         [string] $messageToWrite = $null;       # Message with added information
         # ----------------------------------------
+
+
+        # Did the user want the information logged?
+        if (($userPrefLog -eq $false) -and ($forceWrite -eq $false))
+        {
+            # As requested, nothing is to be written on file.
+            #  Return as successful, because there really was no error.
+            return $true;
+        } # If : User Requests not Logging
+
 
 
         # Get the timestamp
