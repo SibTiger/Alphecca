@@ -1299,7 +1299,7 @@ class IOCommon
     {
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if((CheckPathExists("$($path)")) -eq $false)
+        if(($this.CheckPathExists("$($path)")) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
             return $true;
@@ -1360,7 +1360,7 @@ class IOCommon
     {
         # First check to see if the directory actually exists,
         #  if not, then there is nothing to do.
-        if((CheckPathExists("$($path)")) -eq $false)
+        if(($this.CheckPathExists("$($path)")) -eq $false)
         {
             # The directory does not exist, there's nothing to do.
             return $true;
