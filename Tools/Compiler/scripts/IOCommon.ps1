@@ -1207,7 +1207,7 @@ class IOCommon
         # Check to see if the path already exists;
         #  if it already exists - then nothing to do.
         #  If it does not exist, then try to create it.
-        if ((CheckPathExists "$($path)") -eq $false)
+        if (($this.CheckPathExists("$($path)")) -eq $false)
         {
             # The requested path does not exist, try to create it.
             try
