@@ -731,5 +731,53 @@ class Logging
         return $exitCode;
     } # CaptureBufferStop()
 
+
+
+
+   <# Write to Logfile [Program Activity]
+    # -------------------------------
+    # Documentation:
+    #  This function will provide the ability to write
+    #   readable data to the Program's Activity logfile.
+    # -------------------------------
+    # Input:
+    #  [string] Message
+    #   The readable message that will be sent to the logfile.
+    # -------------------------------
+    # Output:
+    #  [bool] Status Code
+    #    $false = Operation failed
+    #    $true  = Operation was successful 
+    # -------------------------------
+    #>
+    [bool] WriteLogFile([string] $message)
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
+        [string] $timestamp = $null;            # Timestamp of the message
+        [string] $messageToWrite = $null;       # Message with added information
+        # ----------------------------------------
+
+
+        # Get the timestamp
+        $timestamp = "$($this.__GenerateSessionTimestamp())";
+
+        # Apply the timestamp to the message
+        $messageToWrite = "[$($timestamp)] $($message)";
+
+
+        # Write the readable data to the logfile.
+        if (($io.WriteToFile("$($this.__logProgramPath)\$($this.__fileNameProgramActivity)", "$($messageToWrite)")) -eq $false)
+        {
+            # The message failed to be written to file,
+            #  return false to signify failure.
+            return $false;
+        } # If : Operation Failed
+        
+
+        # If we made it here, everything was successful.
+        return $true;
+    } # WriteLogFile()
     #endregion
 } # Logging
