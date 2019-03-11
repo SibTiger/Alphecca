@@ -224,6 +224,7 @@ function MakeCompilerDriver()
                         "SevenZip.ps1", `
                         "UserPreferences.ps1", `
                         "LoadSaveUserConfigs.ps1", `
+                        "Logging.ps1", `
                         "main.ps1");
 
     # Loop through each index in the array
