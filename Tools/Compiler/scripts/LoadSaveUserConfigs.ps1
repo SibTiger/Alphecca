@@ -501,7 +501,7 @@
             } # if : Successfully loaded environment
 
             # If there was a general failure while loading the environment,
-            #  immedately stop - use the current environment.  User might
+            #  immediately stop - use the current environment.  User might
             #  have to redo the entire environment again and re-save the file.
             else
             {
