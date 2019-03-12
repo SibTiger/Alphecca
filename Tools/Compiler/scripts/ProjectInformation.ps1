@@ -51,11 +51,11 @@ class ProjectInformation
 
     # Project's Help Documentation
     # ---------------
-    # The project's official wikipedia; which can be accessed by the
+    # The project's official Wikipedia; which can be accessed by the
     # end-user by request.  This can greatly be helpful to the user,
     # as they may view the project's help-documentation for abroad
     # reasons but not limited to using this very tool.
-    #  NOTE: Wiki's are usually provided in some Developer\Repo
+    #  NOTE: Wiki's are usually provided in some Developer\Repositories
     #  Web-Services, such as GitHub.
     Hidden [string] $__urlWiki;
 
@@ -99,7 +99,7 @@ class ProjectInformation
         # Project's Wiki URL
         $this.__urlWiki = "https://github.com/SibTiger/Alphecca/wiki";
 
-        # Project's Source (Repo) URL
+        # Project's Source (Repository) URL
         $this.__urlSource = "https://github.com/SibTiger/Alphecca";
     } # Default Constructor
 
