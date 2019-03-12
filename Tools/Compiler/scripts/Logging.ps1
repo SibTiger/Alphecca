@@ -425,71 +425,8 @@ class Logging
 
         # Return the timestamp
         return "$($timestamp)";
-    } # __GenerateSessionTimestamp()
+    } # __GenerateSessionTimestamp()    
 
-
-
-
-   <# Thrash Logs and Reports
-    # -------------------------------
-    # Documentation:
-    #  This function will expunge the log files that
-    #   are present in sub-directories that are
-    #   managed within the class.
-    # -------------------------------
-    # Output:
-    #  [bool] Exit code
-    #   $false = One or more operations failed
-    #   $true = Successfully expunged the files.
-    #           OR
-    #           Directories were not found
-    # -------------------------------
-    #>
-    Hidden [bool] __ThrashLogs()
-    {
-        # Declarations and Initializations
-        # ----------------------------------------
-        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
-        [string[]] $extLogs = @('*.txt');       # Array of log extensions
-        # ----------------------------------------
-
-
-        # First, make sure that the directories exist.
-        #  If the directories are not available, than there
-        #  is nothing that can be done.
-        if (($this.__CheckRequiredDirectories()) -eq $false)
-        {
-            # This is not really an error, however the directories simply
-            #  does not exist -- nothing can be done.
-            return $true;
-        } # IF : Required Directories Exists
-
-
-        # Because the directories exists, lets try to thrash the logs.
-        # Program Logs
-        if (($io.DeleteFile("$($this.__logProgramPath)", $extLogs)) -eq $false)
-        {
-            # Failure to remove the requested files
-            return $false;
-        } # If : Failure to delete Program Logs
-
-
-        # ----
-
-
-        # Buffer History Logs
-        if ((($io.DeleteFile("$($this.__logBufferPath)", $extLogs))) -eq $false)
-        {
-            # Failure to remove the requested files
-            return $false;
-        } # If : Failure to delete Buffer History Logs
-
-
-
-        # If we made it here, then everything went okay!
-        return $true;
-    } # __ThrashLogs()
-     
 
 
 
@@ -633,6 +570,69 @@ class Logging
 
 
     #region Public Functions
+
+
+   <# Thrash Logs and Reports
+    # -------------------------------
+    # Documentation:
+    #  This function will expunge the log files that
+    #   are present in sub-directories that are
+    #   managed within the class.
+    # -------------------------------
+    # Output:
+    #  [bool] Exit code
+    #   $false = One or more operations failed
+    #   $true = Successfully expunged the files.
+    #           OR
+    #           Directories were not found
+    # -------------------------------
+    #>
+    [bool] ThrashLogs()
+    {
+        # Declarations and Initializations
+        # ----------------------------------------
+        [IOCommon] $io = [IOCommon]::new();     # Using functions from IO Common
+        [string[]] $extLogs = @('*.txt');       # Array of log extensions
+        # ----------------------------------------
+
+
+        # First, make sure that the directories exist.
+        #  If the directories are not available, than there
+        #  is nothing that can be done.
+        if (($this.__CheckRequiredDirectories()) -eq $false)
+        {
+            # This is not really an error, however the directories simply
+            #  does not exist -- nothing can be done.
+            return $true;
+        } # IF : Required Directories Exists
+
+
+        # Because the directories exists, lets try to thrash the logs.
+        # Program Logs
+        if (($io.DeleteFile("$($this.__logProgramPath)", $extLogs)) -eq $false)
+        {
+            # Failure to remove the requested files
+            return $false;
+        } # If : Failure to delete Program Logs
+
+
+        # ----
+
+
+        # Buffer History Logs
+        if ((($io.DeleteFile("$($this.__logBufferPath)", $extLogs))) -eq $false)
+        {
+            # Failure to remove the requested files
+            return $false;
+        } # If : Failure to delete Buffer History Logs
+
+
+
+        # If we made it here, then everything went okay!
+        return $true;
+    } # ThrashLogs()
+
+
 
 
    <# Capture Buffer
