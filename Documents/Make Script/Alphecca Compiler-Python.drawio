@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.1.1 Chrome/132.0.6834.210 Electron/34.3.3 Safari/537.36" version="26.1.1" pages="7">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Android 12; Mobile; rv:136.0) Gecko/136.0 Firefox/136.0" version="26.1.1" pages="7">
   <diagram name="High Level" id="-nhTlG4-kG9t7Pnq7_Eq">
     <mxGraphModel dx="4040" dy="1161" grid="1" gridSize="12" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="1">
       <root>
@@ -1109,15 +1109,38 @@
     </mxGraphModel>
   </diagram>
   <diagram id="TuhdtYjGmX9XzHzLUVEx" name="Flow Chart - Duplicate">
-    <mxGraphModel dx="2530" dy="663" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1197" dy="667" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="D6elsI4UW2OoIWQsI1GW-1" value="Duplicate" style="ellipse;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=24;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;fontStyle=1" vertex="1" parent="1">
+        <mxCell id="kre03ECuarrBbEq8wiaZ-3" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="D6elsI4UW2OoIWQsI1GW-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D6elsI4UW2OoIWQsI1GW-1" value="Duplicate" style="ellipse;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=24;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;fontStyle=1" parent="1" vertex="1">
           <mxGeometry x="365" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="p4U185AbBrZ-ydYAwdiW-1" value="This function is designed to duplicate the assets that were selected through the Make.Instruction configuration file, from the Source Location into the Temporary Location, where the files will be organized into the ZDoom&#39;s PK3 file hierarchy standard." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;align=left;verticalAlign=top;fontSize=24;fontStyle=1" vertex="1" parent="1">
+        <mxCell id="p4U185AbBrZ-ydYAwdiW-1" value="This function is designed to duplicate the assets that were selected through the Make.Instruction configuration file, from the Source Location into the Temporary Location, where the files will be organized into the ZDoom&#39;s PK3 file hierarchy standard." style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;align=left;verticalAlign=top;fontSize=24;fontStyle=1" parent="1" vertex="1">
           <mxGeometry x="-630" width="630" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="kre03ECuarrBbEq8wiaZ-2" value="&lt;div&gt;We have a populated dictionary.&lt;/div&gt;&lt;div&gt;We have the temporary directory.&lt;/div&gt;" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontSize=24;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="859.84" y="30.09" width="395.74" height="143" as="geometry" />
+        </mxCell>
+        <mxCell id="kre03ECuarrBbEq8wiaZ-6" value="Key Available" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=24;startSize=8;endSize=8;" edge="1" parent="1" source="kre03ECuarrBbEq8wiaZ-4" target="kre03ECuarrBbEq8wiaZ-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kre03ECuarrBbEq8wiaZ-4" value="&lt;div&gt;For Each Key&lt;/div&gt;&lt;div&gt;In Dictionary &lt;br&gt;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fontSize=24;" vertex="1" parent="1">
+          <mxGeometry x="296" y="180" width="258" height="187" as="geometry" />
+        </mxCell>
+        <mxCell id="kre03ECuarrBbEq8wiaZ-10" value="Created Directory" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=24;startSize=8;endSize=8;" edge="1" parent="1" source="kre03ECuarrBbEq8wiaZ-5" target="kre03ECuarrBbEq8wiaZ-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kre03ECuarrBbEq8wiaZ-5" value="Create Directory using Key Name" style="rounded=0;whiteSpace=wrap;html=1;fontSize=24;" vertex="1" parent="1">
+          <mxGeometry x="329" y="540" width="192" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="kre03ECuarrBbEq8wiaZ-9" value="Successfully Created Directory" style="rhombus;whiteSpace=wrap;html=1;fontSize=24;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="265" y="830" width="320" height="220" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
